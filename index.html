@@ -1,194 +1,76 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<h1>12345678</h1>
-
-<textarea id="userInput" placeholder="Type human text here..."></textarea>
-
-<div class="controls">
-    <button onclick="runTranslator()">Translate (Visual)</button>
-    <button onclick="runEncrypter()">Encrypt (Secure)</button>
-</div>
-<div class="gauntlet-wrapper">
-    <textarea id="yautjaOutput" readonly>MMMDCCCLXXXVIII</textarea>
-</div>
-<div id="outputContainer">
-    <div id="yautjaOutput" class="yautja-font"></div>
-</div>
-<script src="script.js"></script>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rav Crypto Dashboard</title>
+    <title>Predator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>RAV_PROCESSOR_v2</h2>
-    
-<label>MASTER PASSWORD:</label>
-<div style="display: flex; gap: 5px;">
-    <input type="password" id="passInput" placeholder="Enter secure key..." oninput="updateStrength()">
-    <button onclick="togglePassword()" style="margin-top:0; padding: 0 10px;">👁️</button>
-</div>
-<div id="strengthBar" class="strength-bar"></div>
-<div id="strengthLabel" class="label">Strength: Empty</div>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
 
-    <hr style="border: 0.5px solid #00ff41; margin: 20px 0;">
+    <div class="dashboard">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
 
-    <label>INPUT TEXT:</label>
-    <textarea id="mainInput" placeholder="Type message here..."></textarea>
+        <nav class="sidebar" id="sidebar">
+            <h2>RAV_v2</h2>
+            <ul>
+                <li onclick="rotateTo('encrypt')" class="nav-item active" id="nav-encrypt">ENCRYPTER</li>
+                <li onclick="rotateTo('decrypt')" class="nav-item" id="nav-decrypt">DECRYPTER</li>
+            </ul>
+        </nav>
 
-    <button onclick="handleEncrypt()">ENCRYPT</button>
-    <button onclick="handleDecrypt()">DECRYPT</button>
+        <main class="content-viewport">
+            <div class="carousel-3d" id="cube">
+                <section class="pane encrypt-face">
+                    <div class="panel-content">
+                        <h2>ENCRYPTER</h2>
+                        <label>MASTER KEY</label>
+                        <label>MASTER PASSWORD:</label>
+                        <div style="display: flex; gap: 5px; position: relative;">
+                            <input type="password" class="passInput" placeholder="Enter secure key..."
+                                oninput="updateStrength(this)">
+                            <button onclick="togglePassword(this)" class="eye-btn">👁️</button>
+                        </div>
+                        <div class="strength-container">
+                            <div class="strength-bar"></div>
+                            <div class="strength-label">Strength: Empty</div>
+                        </div>
+                        <label>PLAINTEXT</label>
+                        <textarea class="mainInput" placeholder="Message..."></textarea>
+                        <button onclick="handleEncrypt()">PROCESS</button>
+                        <div class="resultOutput output-box"></div>
+                    </div>
+                </section>
 
-    <h3>OUTPUT:</h3>
-    <div id="resultOutput" class="output-box"></div>
-</div>
+                <section class="pane decrypt-face">
+                    <div class="panel-content">
+                        <h2>DECRYPTER</h2>
+                        <label>MASTER PASSWORD:</label>
+                        <div style="display: flex; gap: 5px; position: relative;">
+                            <input type="password" class="passInput" placeholder="Enter secure key..."
+                                oninput="updateStrength(this)">
+                            <button onclick="togglePassword(this)" class="eye-btn">👁️</button>
+                        </div>
+                        <div class="strength-container">
+                            <div class="strength-bar"></div>
+                            <div class="strength-label">Strength: Empty</div>
+                        </div>
+                        <label>CIPHERTEXT</label>
+                        <textarea class="mainInput" placeholder="Cipher..."></textarea>
+                        <button onclick="handleDecrypt()">PROCESS</button>
+                        <div class="resultOutput output-box"></div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
 
-<script>
-  function togglePassword() {
-    const input = document.getElementById('passInput');
-    // If it's a password, make it text. If it's text, make it a password.
-    if (input.type === "password") {
-        input.type = "text";
-    } else {
-        input.type = "password";
-    }
-}
-    // --- MASKING CONFIGURATION ---
-    const B64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-    // const MASK_CHARS = "ΛΣΔΦΨΩαβγδεζηθικλμνξπρστυφχψω0123456789¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»";
-    const MASK_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-
-    function applyMask(str) {
-        return str.split('').map(char => {
-            const index = B64_CHARS.indexOf(char);
-            return index !== -1 ? MASK_CHARS[index] : char;
-        }).join('');
-    }
-
-    function removeMask(str) {
-        return str.split('').map(char => {
-            const index = MASK_CHARS.indexOf(char);
-            return index !== -1 ? B64_CHARS[index] : char;
-        }).join('');
-    }
-
-    // --- CORE CRYPTO FUNCTIONS ---
-    async function deriveKey(password, salt) {
-        const encoder = new TextEncoder();
-        const baseKey = await window.crypto.subtle.importKey(
-            "raw", encoder.encode(password), "PBKDF2", false, ["deriveKey"]
-        );
-        return window.crypto.subtle.deriveKey(
-            { name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" },
-            baseKey,
-            { name: "AES-GCM", length: 256 },
-            false, ["encrypt", "decrypt"]
-        );
-    }
-
-    async function encryptBatch(messages, password) {
-        const encoder = new TextEncoder();
-        const salt = window.crypto.getRandomValues(new Uint8Array(16));
-        const key = await deriveKey(password, salt);
-
-        return Promise.all(messages.map(async (msg) => {
-            const iv = window.crypto.getRandomValues(new Uint8Array(12));
-            const buffer = await window.crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, encoder.encode(msg));
-
-            const saltB64 = btoa(String.fromCharCode(...salt));
-            const ivB64 = btoa(String.fromCharCode(...iv));
-            const contentB64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-
-            return applyMask(`${saltB64}:${ivB64}:${contentB64}`);
-        }));
-    }
-
-    async function decryptBatch(encryptedMessages, password) {
-        const decoder = new TextDecoder();
-        const b64ToUint8 = (b64) => Uint8Array.from(atob(b64), c => c.charCodeAt(0));
-
-        return Promise.all(encryptedMessages.map(async (entry) => {
-            try {
-                const cleanEntry = removeMask(entry.trim());
-                const [sB64, iB64, cB64] = cleanEntry.split(':');
-                const salt = b64ToUint8(sB64);
-                const iv = b64ToUint8(iB64);
-                const data = b64ToUint8(cB64);
-
-                const key = await deriveKey(password, salt);
-                const buffer = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, data);
-                return decoder.decode(buffer);
-            } catch (e) { return "!!! DECRYPTION FAILED !!!"; }
-        }));
-    }
-
-    // --- UI HELPERS ---
-    function updateStrength() {
-        const pass = document.getElementById('passInput').value;
-        let score = 0;
-        if (pass.length > 8) score++;
-        if (pass.length > 12) score++;
-        if (/[A-Z]/.test(pass)) score++;
-        if (/[0-9]/.test(pass)) score++;
-        if (/[^A-Za-z0-9]/.test(pass)) score++;
-
-        const colors = ["#ff4c4c", "#ff4c4c", "#ffa500", "#ffd700", "#00ff41", "#00ffff"];
-        const labels = ["Dangerous", "Very Weak", "Weak", "Medium", "Strong", "God Mode"];
-        
-        const bar = document.getElementById('strengthBar');
-        bar.style.width = (score + 1) * 16.6 + "%";
-        bar.style.backgroundColor = colors[score];
-        document.getElementById('strengthLabel').innerText = "Strength: " + labels[score];
-    }
-
-    async function handleEncrypt() {
-        const pass = document.getElementById('passInput').value;
-        const text = document.getElementById('mainInput').value;
-        if(!pass || !text) return alert("Need password and text!");
-        
-        const res = await encryptBatch([text], pass);
-        document.getElementById('resultOutput').innerText = res[0];
-    }
-
-    async function handleDecrypt() {
-        const pass = document.getElementById('passInput').value;
-        const text = document.getElementById('mainInput').value;
-        if(!pass || !text) return alert("Need password and encrypted text!");
-
-        const res = await decryptBatch([text], pass);
-        document.getElementById('resultOutput').innerText = res[0];
-    }
-
-    async function copyToClipboard() {
-    const text = document.getElementById('resultOutput').innerText;
-    if (!text || text === "!!! DECRYPTION FAILED !!!") return;
-    
-    try {
-        await navigator.clipboard.writeText(text);
-        // Optional: Change button text temporarily to show success
-        const btn = event.target;
-        const originalText = btn.innerText;
-        btn.innerText = "COPIED!";
-        setTimeout(() => btn.innerText = originalText, 2000);
-    } catch (err) {
-        console.error('Failed to copy: ', err);
-    }
-}
-</script>
-
+    <script src="script.js"></script>
 </body>
+
 </html>

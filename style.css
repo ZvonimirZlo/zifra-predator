@@ -1,29 +1,319 @@
-
-        @font-face {
+/* --- FONTS & BASE --- */
+@font-face {
     font-family: 'yautja';
     src: url('yautja.ttf');
-        }
+}
 
-        body { font-family:'Courier New', monospace; background: #0d0d0d; color: #00ff41; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; border: 1px solid #00ff41; padding: 20px; box-shadow: 0 0 15px #00ff41; }
-        textarea { width: 100%; height: 100px; background: #000; color: #00ff41; border: 1px solid #00ff41; margin: 10px 0; padding: 10px; }
-        input { background: #000; color: #00ff41; border: 1px solid #00ff41; padding: 10px; width: calc(100% - 22px); }
-        button { background: #00ff41; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        button:hover { background: #008f11; }
-        .strength-bar { height: 10px; width: 0%; transition: 0.3s; margin-top: 5px; border-radius: 5px; }
-        .label { font-size: 0.8rem; margin-top: 5px; }
-         .output-box { word-wrap: break-word; white-space: pre-wrap; background: #1a1a1a; padding: 10px; border: 1px dashed #00ff41; margin-top: 10px; min-height: 50px; }
-   #resultOutput {
-    font-family: 'yautja', 'Courier New', monospace;
-    font-size: 1.5rem;
-    letter-spacing: 2px;
-    color: red; 
-    background-color: #050505;
+body {
+    font-family: 'Courier New', monospace;
+    background: #0d0d0d;
+    color: #00ff41;
+    margin: 0;
+    overflow: hidden; /* Critical for 3D rotation focus */
+}
+
+/* --- LAYOUT STRUCTURE --- */
+.dashboard {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* --- SIDEBAR NAVIGATION --- */
+.sidebar {
+    width: 250px;
+    border-right: 1px solid #00ff41;
+    background: #050505;
     padding: 20px;
-    border: 1px solid #004400; 
-    text-shadow: 0 0 5px #ff0000;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.sidebar h2 { 
+    border-bottom: 2px solid #00ff41; 
+    padding-bottom: 10px; 
+    letter-spacing: 2px;
+}
+
+.nav-item {
+    list-style: none;
+    padding: 15px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.2s;
+    font-weight: bold;
+}
+
+.nav-item:hover, .nav-item.active {
+    border: 1px solid #00ff41;
+    background: rgba(0, 255, 65, 0.1);
+    box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.2);
+}
+
+/* --- 3D VIEWPORT CONTAINER --- */
+.content-viewport {
+    flex-grow: 1;
+    perspective: 1500px; /* Depth of the 3D space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- THE 3D CUBE/CAROUSEL --- */
+.carousel-3d {
+    width: 90%;
+    max-width: 500px;
+    height: 600px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Individual Panel Styling */
+.pane {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    
+    /* The Glass Effect */
+    background: rgba(255, 255, 255, 0.03); /* Very slight white tint */
+    backdrop-filter: blur(10px);           /* The "frost" */
+    -webkit-backdrop-filter: blur(10px);    /* Safari support */
+    
+    border: 1px solid rgba(0, 255, 65, 0.3); /* Semi-transparent matrix green */
+    padding: 30px;
+    box-sizing: border-box;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+}
+
+.pane::before {
+    content: "";
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    background: linear-gradient(45deg, transparent, #00ff41, transparent);
+    z-index: -1;
+    border-radius: inherit;
+    filter: blur(10px);
+    opacity: 0.3;
+}
+
+/* Face Orientations */
+.encrypt-face {
+    transform: rotateX(0deg) translateZ(250px);
+}
+
+.decrypt-face {
+    /* Positioned at the "bottom" of the cube */
+    transform: rotateX(-90deg) translateZ(250px);
+}
+
+/* State: When showing the Decrypter */
+.show-decrypt {
+    transform: rotateX(90deg);
+}
+
+/* --- UI ELEMENTS --- */
+.panel-content h2 {
+    text-align: center;
+    letter-spacing: 5px;
+    text-shadow: 0 0 10px #00ff41;
+    margin-top: 0;
+}
+
+textarea, input {
+    width: 100%;
+    background: #000;
+    color: #00ff41;
+    border: 1px solid #00ff41;
+    padding: 12px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', monospace;
+}
+
+textarea {
+    height: 120px;
+    resize: none;
+}
+
+button {
+    background: #00ff41;
+    color: #000;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #000;
+    color: #00ff41;
+    outline: 1px solid #00ff41;
+}
+
+.output-box {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #004400;
+    background: #030303;
+    color: #ff0000;
+    font-family: 'yautja', 'Courier New', monospace;
+    font-size: 1.2rem;
     word-break: break-all;
-   }
-   
-   
-   
+    min-height: 80px;
+    text-shadow: 0 0 5px #ff0000;
+    overflow-y: auto;
+}
+
+/* --- RESPONSIVENESS & MOBILE --- */
+.menu-toggle {
+    display: none;
+    background: #00ff41;
+    color: #000;
+    border: none;
+    padding: 10px 15px;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1100;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+/* Tablet/Mobile Adjustments */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        transform: translateX(-100%); /* Hide off-screen */
+        height: 100%;
+    }
+
+    .sidebar.open {
+        transform: translateX(0); /* Slide in */
+    }
+}
+
+/* Phone Screen Adjustments */
+@media (max-width: 600px) {
+    .carousel-3d {
+        height: 520px;
+        width: 95%;
+    }
+
+    /* Pull faces closer to center on small screens to prevent clipping */
+    .encrypt-face { transform: rotateX(0deg) translateZ(180px); }
+    .decrypt-face { transform: rotateX(-90deg) translateZ(180px); }
+
+    .pane {
+        padding: 20px;
+    }
+
+    .panel-content h2 {
+        font-size: 1.2rem;
+    }
+}
+
+
+.glitch {
+    position: relative;
+    animation: glitch-skew 1s infinite linear alternate-reverse;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+}
+
+/* The Red/Green offset effect */
+.glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+    animation: glitch-anim2 1s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% { clip: rect(31px, 9999px, 94px, 0); }
+    20% { clip: rect(62px, 9999px, 42px, 0); }
+    /* ... add more steps for more chaos ... */
+    100% { clip: rect(89px, 9999px, 98px, 0); }
+}
+
+@keyframes glitch-skew {
+    0% { transform: skew(1deg); }
+    10% { transform: skew(-3deg); }
+    50% { transform: skew(0deg); }
+    100% { transform: skew(2deg); }
+}
+
+/* .eye-btn {
+    padding: 0 10px;
+    width: auto; /* Don't let it be full width 
+    background: rgba(0, 255, 65, 0.2);
+    color: #00ff41;
+    border: 1px solid #00ff41;
+} */
+
+.eye-btn {
+    font-size: 0.9rem; /* Shrink the emoji */
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 255, 65, 0.1);
+    border: 1px solid rgba(0, 255, 65, 0.5);
+    cursor: pointer;
+    height: 38px; /* Match your input height */
+    width: 40px;
+    margin-top: 10px;
+}
+
+.strength-container {
+    margin-bottom: 15px;
+}
+
+.strength-bar {
+    height: 4px;
+    width: 0%;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-top: 5px;
+    background: #ff4c4c;
+    box-shadow: 0 0 10px rgba(255, 76, 76, 0.5);
+}
+
+.strength-label {
+    font-size: 0.7rem;
+    color: #00ff41;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
