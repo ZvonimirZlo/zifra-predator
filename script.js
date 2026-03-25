@@ -127,25 +127,49 @@ async function encryptBatch(messages, password) {
 
 async function decryptBatch(encryptedMessages, password) {
     const decoder = new TextDecoder();
-    const b64ToUint8 = (b64) => Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+    const b64ToUint8 = (b64) => {
+        try {
+            return Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+        } catch (e) {
+            throw new Error("Invalid Base64");
+        }
+    };
 
     return Promise.all(encryptedMessages.map(async (entry) => {
         try {
             const cleanEntry = removeMask(entry.trim());
-            const [sB64, iB64, cB64] = cleanEntry.split(':');
+            const parts = cleanEntry.split(':');
+            
+            if (parts.length !== 3) throw new Error("Invalid format");
+
+            const [sB64, iB64, cB64] = parts;
             const salt = b64ToUint8(sB64);
             const iv = b64ToUint8(iB64);
             const data = b64ToUint8(cB64);
+
+            // Re-derive the key using the password and the salt from the message
             const key = await deriveKey(password, salt);
-            const buffer = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, data);
+
+            // AES-GCM will automatically throw an error here if the password/key is wrong
+            const buffer = await window.crypto.subtle.decrypt(
+                { name: "AES-GCM", iv: iv }, 
+                key, 
+                data
+            );
+
             return decoder.decode(buffer);
-        } catch (e) { return "!!! DECRYPTION FAILED !!!"; }
+        } catch (e) {
+            // This is the "Wrong Password" trigger
+            console.error("Decryption failed:", e);
+            return "!!! ACCESS DENIED: INVALID KEY !!!";
+        }
     }));
 }
 
 // --- UI HANDLERS ---
 
 async function handleEncrypt() {
+
     const face = document.querySelector('.encrypt-face');
     const pass = face.querySelector('.passInput').value;
     const text = face.querySelector('.mainInput').value;

@@ -81,18 +81,16 @@ body {
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    
-    /* The Glass Effect */
     background: rgba(255, 255, 255, 0.03); /* Very slight white tint */
     backdrop-filter: blur(10px);           /* The "frost" */
     -webkit-backdrop-filter: blur(10px);    /* Safari support */
-    
     border: 1px solid rgba(0, 255, 65, 0.3); /* Semi-transparent matrix green */
     padding: 30px;
     box-sizing: border-box;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .pane::before {
@@ -264,7 +262,6 @@ button:hover {
 @keyframes glitch-anim {
     0% { clip: rect(31px, 9999px, 94px, 0); }
     20% { clip: rect(62px, 9999px, 42px, 0); }
-    /* ... add more steps for more chaos ... */
     100% { clip: rect(89px, 9999px, 98px, 0); }
 }
 
@@ -275,13 +272,6 @@ button:hover {
     100% { transform: skew(2deg); }
 }
 
-/* .eye-btn {
-    padding: 0 10px;
-    width: auto; /* Don't let it be full width 
-    background: rgba(0, 255, 65, 0.2);
-    color: #00ff41;
-    border: 1px solid #00ff41;
-} */
 
 .eye-btn {
     font-size: 0.9rem; /* Shrink the emoji */
@@ -316,4 +306,67 @@ button:hover {
     margin-top: 4px;
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+/* .encrypt-face .resultOutput {
+    font-family: 'yautja', 'Courier New', monospace;
+    color: #00ff41;
+} */
+
+/* Make the Decrypter readable for humans */
+.decrypt-face .resultOutput {
+    font-family: 'Courier New', monospace; /* Latin/Readable */
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    color: #00ff41; 
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+.pane {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border: 1px solid #00ff41;
+    background: rgba(5, 5, 5, 0.9); /* Slight transparency for glass effect */
+    padding: 25px;
+    box-sizing: border-box;
+    display: flex;          /* Added: Make the pane a flexbox */
+    flex-direction: column; /* Added: Stack elements vertically */
+    overflow: hidden;       /* Prevents the panel itself from growing */
+}
+
+.panel-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;           /* Ensure content fills the pane */
+}
+
+.resultOutput {
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #004400;
+    background: #030303;
+    
+    flex: 1;                /* Added: Tell the box to take up remaining space */
+    overflow-y: auto;       /* Added: Enable vertical scrolling */
+    
+    word-break: break-all;
+    white-space: pre-wrap;  /* Preserves formatting if needed */
+    
+    /* Scrollbar styling for that Borg/Predator look */
+    scrollbar-width: thin;
+    scrollbar-color: #00ff41 #000;
+}
+
+/* Chrome/Safari Scrollbar styling */
+.resultOutput::-webkit-scrollbar {
+    width: 6px;
+}
+.resultOutput::-webkit-scrollbar-track {
+    background: #000;
+}
+.resultOutput::-webkit-scrollbar-thumb {
+    background-color: #00ff41;
+    border-radius: 10px;
 }
