@@ -6,70 +6,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predator</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
 </head>
 
 <body>
-
-    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-
-    <div class="dashboard">
+    <main>
         <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-
         <nav class="sidebar" id="sidebar">
-            <h2>RAV_v2</h2>
+            <h2>Title</h2>
             <ul>
-                <li onclick="rotateTo('encrypt')" class="nav-item active" id="nav-encrypt">ENCRYPTER</li>
-                <li onclick="rotateTo('decrypt')" class="nav-item" id="nav-decrypt">DECRYPTER</li>
+                <div class="menu df fd-c encrypt-face">
+                    <button class="btn" data-side="front">Encrypter</button>
+                    <button class="btn" data-side="right">Decrypter</button>
+                    <button class="btn" data-side="back">Something</button>
+                    <button class="btn" data-side="left">Something Else</button>
+                    <button class="btn" data-side="top">Something1</button>
+                    <button class="btn" data-side="bottom">Something2</button>
+                </div>
             </ul>
         </nav>
+        <section class="scene">
 
-        <main class="content-viewport">
-            <div class="carousel-3d" id="cube">
-                <section class="pane encrypt-face">
-                    <div class="panel-content">
-                        <h2>ENCRYPTER</h2>
-                        <label>MASTER KEY</label>
-                        <label>MASTER PASSWORD:</label>
-                        <div style="display: flex; gap: 5px; position: relative;">
-                            <input type="password" class="passInput" placeholder="Enter secure key..."
-                                oninput="updateStrength(this)">
-                            <button onclick="togglePassword(this)" class="eye-btn">👁️</button>
-                        </div>
-                        <div class="strength-container">
-                            <div class="strength-bar"></div>
-                            <div class="strength-label">Strength: Empty</div>
-                        </div>
-                        <label>PLAINTEXT</label>
-                        <textarea class="mainInput" placeholder="Message..."></textarea>
-                        <button onclick="handleEncrypt()">PROCESS</button>
-                        <div class="resultOutput output-box"></div>
-                    </div>
-                </section>
+            <div class="cube show-front" id="cube" data-side="front">
+                <div class="cube-face cube-face-front">
+                    <div class="intro-wrapper df fd-r">
+                        <div class="intro encrypt-face">
+                            <div class="panel-content">
+                                <h2>ENCRYPTER</h2>
+                                <label>MASTER PASSWORD:</label>
+                                <div class="input-eye">
+                                    <input type="password" class="passInput" placeholder="Enter secure key..."
+                                         oninput="updateStrength(this)"> 
+                                    <button onclick="togglePassword(this)" class="eye-btn">👁️</button>
+                                </div>
 
-                <section class="pane decrypt-face">
-                    <div class="panel-content">
-                        <h2>DECRYPTER</h2>
-                        <label>MASTER PASSWORD:</label>
-                        <div style="display: flex; gap: 5px; position: relative;">
-                            <input type="password" class="passInput" placeholder="Enter secure key..."
-                                oninput="updateStrength(this)">
-                            <button onclick="togglePassword(this)" class="eye-btn">👁️</button>
+                                <div class="strength-container">
+                                    <div class="strength-bar"></div>
+                                    <div class="strength-label">Strength: Empty</div>
+                                </div>
+
+                                <label>PLAINTEXT</label>
+                                <textarea class="mainInput" placeholder="Message..."></textarea>
+                                <button onclick="handleEncrypt()">PROCESS</button>
+                                <textarea readonly class="resultOutput output-box"></textarea>
+                            </div>
                         </div>
-                        <div class="strength-container">
-                            <div class="strength-bar"></div>
-                            <div class="strength-label">Strength: Empty</div>
-                        </div>
-                        <label>CIPHERTEXT</label>
-                        <textarea class="mainInput" placeholder="Cipher..."></textarea>
-                        <button onclick="handleDecrypt()">PROCESS</button>
-                        <div class="resultOutput output-box"></div>
                     </div>
-                </section>
+                </div>
+
+                <div class="cube-face cube-face-back">
+                    <p class="intro-heading">Abo<span>ut</span></p>
+                </div>
+
+
+                <div class="cube-face cube-face-right">
+                    <div class="work-edu-section df fd-r">
+
+                        <div class="work-edu-info">
+                        </div>
+                    </div>
+
+                    <div class="work-edu-section df fd-r">
+
+                        <div class="work-edu-info">
+                            <div class="panel-content">
+                                <h2>DECRYPTER</h2>
+                                <label>MASTER PASSWORD:</label>
+                                <div>
+                                    <input type="password" class="passInput" placeholder="Enter secure key..."
+                                        oninput="updateStrength(this)">
+                                    <button onclick="togglePassword(this)" class="eye-btn">👁️</button>
+                                </div>
+                                <div class="strength-container">
+                                    <div class="strength-bar"></div>
+                                    <div class="strength-label">Strength: Empty</div>
+                                </div>
+                                <label>CIPHERTEXT</label>
+                                <textarea class="mainInput" placeholder="Cipher..."></textarea>
+                                <button onclick="handleDecrypt()">PROCESS</button>
+                                <textarea class="resultOutput output-box"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cube-face cube-face-left">
+                    <p class="intro-heading">How<span>it</span>Works</p>
+                </div>
+                <div class="cube-face cube-face-top">
+                    <p class="intro-heading"><span>How</span>to use</p>
+                    <div class="cube-face cube-face-bottom">
+                        <p class="intro-heading">Con<span>tacts</span></p>
+                    </div>
+                </div>
             </div>
-        </main>
-    </div>
-
+        </section>
+    </main>
     <script src="script.js"></script>
 </body>
 
