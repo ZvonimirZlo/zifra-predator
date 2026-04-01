@@ -25,9 +25,62 @@
 //     }
 // });
 
+// document.addEventListener('mousemove', (e) => {
+//     const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+//     const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+    
+//     // Shifts the background image slightly based on mouse position
+//     document.body.style.backgroundPosition = `calc(50% + ${moveX}px) calc(50% + ${moveY}px)`;
+// });
+
+
+async function terminalPaste(selector) {
+    const target = document.querySelector(selector);
+    try {
+        const text = await navigator.clipboard.readText();
+        target.value = text;
+        
+        // Success Flash
+        anime({
+            targets: target,
+            backgroundColor: ['rgba(0, 255, 65, 0.2)', 'rgba(0, 0, 0, 0.4)'],
+            duration: 400
+        });
+    } catch (err) {
+        console.warn("Clipboard access denied or not available.");
+    }
+}
+
+function terminalPurge(selector) {
+    const target = document.querySelector(selector);
+    target.value = '';
+    
+    // Purge Shake
+    anime({
+        targets: target,
+        translateX: [-5, 5, -5, 5, 0],
+        duration: 250,
+        easing: 'linear'
+    });
+}
+
+function terminalCopy(selector) {
+    const target = document.querySelector(selector);
+    navigator.clipboard.writeText(target.value);
+    
+    // Brief "Copied" alert on the button text
+    const btn = event.target;
+    const originalText = btn.innerText;
+    btn.innerText = "DATA_CLONED";
+    setTimeout(() => btn.innerText = originalText, 1500);
+}
+
+//////////////////////////////////////////////////////////////////////
+
+
 const panelTitle = document.querySelector('.terminal-title'); // The one on your front face
 const finalHumanText = "ENCRYPTION_ACTIVE";
-const alienChars = "レ ヶ ヰ ヱ ヲ ﾝ 0 1 ｱ ｲ ｳ ｴ ｵ"; 
+const alienChars = "0123456789%&#$@"; 
 
 anime({
     targets: panelTitle,
@@ -231,7 +284,7 @@ async function handleEncrypt() {
 }
 
 async function handleDecrypt() {
-    const face = document.querySelector('.decrypt-face');
+    const face = document.querySelector('.cube-face-right');
     const pass = face.querySelector('.passInput').value;
     const text = face.querySelector('.mainInput').value;
     const output = face.querySelector('.resultOutput');
@@ -239,5 +292,51 @@ async function handleDecrypt() {
     if (!pass || !text) return alert("Need password and encrypted text!");
 
     const res = await decryptBatch([text], pass);
-    output.innerText = res[0];
+    output.value = res[0];
+
+    if (res[0].includes("ACCESS DENIED")) {
+        anime({
+            targets: output,
+            // Flash red and shake
+            backgroundColor: ['rgba(255,0,0,0)', 'rgba(255,0,0,0.4)', 'rgba(255,0,0,0)'],
+            translateX: [-10, 10, -10, 10, 0],
+            duration: 400,
+            easing: 'linear'
+        });
+        
+        output.style.color = "#ff4c4c";
+        setTimeout(() => { output.style.color = "#00ff41"; }, 1000);
+    }
+}
+async function pasteToInput(selector) {
+    try {
+        const text = await navigator.clipboard.readText();
+        const target = document.querySelector(selector);
+        target.value = text;
+        
+        // Add a little "Success" flicker
+        anime({
+            targets: target,
+            borderColor: ['#00ff41', '#ffffff', '#00ff41'],
+            duration: 300,
+            easing: 'linear'
+        });
+    } catch (err) {
+        console.error("Clipboard access denied", err);
+        alert("PLEASE ALLOW CLIPBOARD PERMISSIONS");
+    }
+}
+
+// Function to Clear (Delete) Input
+function clearInput(selector) {
+    const target = document.querySelector(selector);
+    target.value = '';
+    
+    // Predator-style "Purge" shake
+    anime({
+        targets: target,
+        translateX: [-3, 3, 0],
+        duration: 200,
+        easing: 'easeInOutQuad'
+    });
 }

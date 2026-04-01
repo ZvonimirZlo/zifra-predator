@@ -78,6 +78,11 @@
                             <div class="strength-bar"></div>
                             <div class="strength-label">Strength: Empty</div>
                         </div>
+                        <div class="input-controls">
+                            <button onclick="pasteToInput('.cube-face-right .mainInput')"
+                                class="btn-small">LINK_DATA</button>
+                            <button onclick="clearInput('.cube-face-right .mainInput')" class="btn-small">PURGE</button>
+                        </div>
                         <label>CIPHERTEXT</label>
                         <textarea class="mainInput" placeholder="Cipher..."></textarea>
                         <button onclick="handleDecrypt()">PROCESS</button>
