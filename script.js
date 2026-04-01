@@ -1,39 +1,7 @@
 
-// const titleEl = document.querySelector('.terminal-title');
-// const finalString = titleEl.innerText;
-// const glitchChars = "0123456789%&#$@<>[]+-/*";
+//Reusable functions for inputs and outputs handling
 
-// anime({
-//     targets: titleEl,
-//     duration: 2000,
-//     easing: 'easeInOutQuad',
-//     update: function(anim) {
-//         // As progress goes from 0 to 100, we slowly reveal the real letters
-//         const currentProgress = Math.floor(anim.progress / 100 * finalString.length);
-        
-//         const scrambled = finalString.split('').map((char, index) => {
-//             if (index < currentProgress) return char; // Confirmed letter
-//             return glitchChars[Math.floor(Math.random() * glitchChars.length)]; // Noise
-//         }).join('');
-        
-//         titleEl.innerText = scrambled;
-//     },
-//     complete: () => {
-//         titleEl.innerText = finalString; // Ensure it's perfect at the end
-//         // Trigger the cube's entry here!
-//         showCube(); 
-//     }
-// });
-
-// document.addEventListener('mousemove', (e) => {
-//     const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
-//     const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
-    
-//     // Shifts the background image slightly based on mouse position
-//     document.body.style.backgroundPosition = `calc(50% + ${moveX}px) calc(50% + ${moveY}px)`;
-// });
-
-
+//Paste
 async function terminalPaste(selector) {
     const target = document.querySelector(selector);
     try {
@@ -50,7 +18,7 @@ async function terminalPaste(selector) {
         console.warn("Clipboard access denied or not available.");
     }
 }
-
+ //Delete
 function terminalPurge(selector) {
     const target = document.querySelector(selector);
     target.value = '';
@@ -63,7 +31,7 @@ function terminalPurge(selector) {
         easing: 'linear'
     });
 }
-
+//Copy
 function terminalCopy(selector) {
     const target = document.querySelector(selector);
     navigator.clipboard.writeText(target.value);
@@ -75,10 +43,9 @@ function terminalCopy(selector) {
     setTimeout(() => btn.innerText = originalText, 1500);
 }
 
-//////////////////////////////////////////////////////////////////////
 
 
-const panelTitle = document.querySelector('.terminal-title'); // The one on your front face
+const panelTitle = document.querySelector('.terminal-title'); 
 const finalHumanText = "ENCRYPTION_ACTIVE";
 const alienChars = "0123456789%&#$@"; 
 
@@ -128,6 +95,7 @@ const clickOnSide = (side) => {
   cube.setAttribute("data-side", side);
 };
 
+//Cube rotator
 document.querySelectorAll(".btn").forEach(btn => {
   btn.addEventListener("click", (e) => {
     const sideToTurn = e.target.dataset.side;

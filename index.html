@@ -55,6 +55,12 @@
                         <label>PLAINTEXT</label>
                         <textarea class="mainInput" placeholder="Message..."></textarea>
                         <button onclick="handleEncrypt()">PROCESS</button>
+                        <div class="terminal-controls">
+                            <button onclick="terminalPaste('.cube-face-front .mainInput')"
+                                class="control-btn">LINK_DATA</button>
+                            <button onclick="terminalPurge('.cube-face-front .mainInput')"
+                                class="control-btn">PURGE</button>
+                        </div>
                         <textarea readonly class="resultOutput output-box"></textarea>
                     </div>
                 </div>
