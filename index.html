@@ -11,6 +11,8 @@
 
 <body>
     <main>
+
+        <!-- Navbar -->
         <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
         <nav class="sidebar" id="sidebar">
             <h2>Title</h2>
@@ -25,32 +27,33 @@
                 </div>
             </ul>
         </nav>
+
+        <!-- Scene wrapper -->
         <section class="scene">
 
+            <!-- Front view -->
             <div class="cube show-front" id="cube" data-side="front">
+
+                <!-- Front -->
                 <div class="cube-face cube-face-front">
-                    <div class="intro-wrapper df fd-r">
-                        <div class="intro encrypt-face">
-                            <div class="panel-content">
-                                <h2>ENCRYPTER</h2>
-                                <label>MASTER PASSWORD:</label>
-                                <div class="input-eye">
-                                    <input type="password" class="passInput" placeholder="Enter secure key..."
-                                         oninput="updateStrength(this)"> 
-                                    <button onclick="togglePassword(this)" class="eye-btn">👁️</button>
-                                </div>
-
-                                <div class="strength-container">
-                                    <div class="strength-bar"></div>
-                                    <div class="strength-label">Strength: Empty</div>
-                                </div>
-
-                                <label>PLAINTEXT</label>
-                                <textarea class="mainInput" placeholder="Message..."></textarea>
-                                <button onclick="handleEncrypt()">PROCESS</button>
-                                <textarea readonly class="resultOutput output-box"></textarea>
-                            </div>
+                    <div class="panel-content">
+                        <h2>ENCRYPTER</h2>
+                        <label>MASTER PASSWORD:</label>
+                        <div class="input-eye">
+                            <input type="password" class="passInput" placeholder="Enter secure key..."
+                                oninput="updateStrength(this)">
+                            <button onclick="togglePassword(this)" class="eye-btn">👁️</button>
                         </div>
+
+                        <div class="strength-container">
+                            <div class="strength-bar"></div>
+                            <div class="strength-label">Strength: Empty</div>
+                        </div>
+
+                        <label>PLAINTEXT</label>
+                        <textarea class="mainInput" placeholder="Message..."></textarea>
+                        <button onclick="handleEncrypt()">PROCESS</button>
+                        <textarea readonly class="resultOutput output-box"></textarea>
                     </div>
                 </div>
 
@@ -58,46 +61,45 @@
                     <p class="intro-heading">Abo<span>ut</span></p>
                 </div>
 
-
+                <!-- Right -->
                 <div class="cube-face cube-face-right">
-                    <div class="work-edu-section df fd-r">
 
-                        <div class="work-edu-info">
+                    <div class="panel-content">
+                        <h2>DECRYPTER</h2>
+                        <label>MASTER PASSWORD:</label>
+                        <div>
+                            <input type="password" class="passInput" placeholder="Enter secure key..."
+                                oninput="updateStrength(this)">
+                            <button onclick="togglePassword(this)" class="eye-btn">👁️</button>
                         </div>
-                    </div>
-
-                    <div class="work-edu-section df fd-r">
-
-                        <div class="work-edu-info">
-                            <div class="panel-content">
-                                <h2>DECRYPTER</h2>
-                                <label>MASTER PASSWORD:</label>
-                                <div>
-                                    <input type="password" class="passInput" placeholder="Enter secure key..."
-                                        oninput="updateStrength(this)">
-                                    <button onclick="togglePassword(this)" class="eye-btn">👁️</button>
-                                </div>
-                                <div class="strength-container">
-                                    <div class="strength-bar"></div>
-                                    <div class="strength-label">Strength: Empty</div>
-                                </div>
-                                <label>CIPHERTEXT</label>
-                                <textarea class="mainInput" placeholder="Cipher..."></textarea>
-                                <button onclick="handleDecrypt()">PROCESS</button>
-                                <textarea class="resultOutput output-box"></textarea>
-                            </div>
+                        <div class="strength-container">
+                            <div class="strength-bar"></div>
+                            <div class="strength-label">Strength: Empty</div>
                         </div>
+                        <label>CIPHERTEXT</label>
+                        <textarea class="mainInput" placeholder="Cipher..."></textarea>
+                        <button onclick="handleDecrypt()">PROCESS</button>
+                        <textarea class="resultOutput output-box"></textarea>
                     </div>
                 </div>
+
+                <!-- Left -->
                 <div class="cube-face cube-face-left">
                     <p class="intro-heading">How<span>it</span>Works</p>
                 </div>
+
+                <!-- Top -->
                 <div class="cube-face cube-face-top">
                     <p class="intro-heading"><span>How</span>to use</p>
-                    <div class="cube-face cube-face-bottom">
-                        <p class="intro-heading">Con<span>tacts</span></p>
-                    </div>
                 </div>
+
+
+                <!-- Bottom -->
+                <div class="cube-face cube-face-bottom">
+                    <p class="intro-heading">Con<span>tacts</span></p>
+                </div>
+
+
             </div>
         </section>
     </main>
