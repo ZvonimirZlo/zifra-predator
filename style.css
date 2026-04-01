@@ -70,7 +70,6 @@ main {
 .cube-face {
     width: var(--cube-size);
     height: var(--cube-size);
-    margin-left: 30px;
 }
 
 .panel-content {
