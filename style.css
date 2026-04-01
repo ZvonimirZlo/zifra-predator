@@ -257,7 +257,6 @@ button:not(.menu > button):not(.eye-btn):hover {
         justify-content: center;
         align-items: center;
         padding: 20px;
-        overflow: hidden;
     }
 
     .scene {
