@@ -1,3 +1,73 @@
+
+// const titleEl = document.querySelector('.terminal-title');
+// const finalString = titleEl.innerText;
+// const glitchChars = "0123456789%&#$@<>[]+-/*";
+
+// anime({
+//     targets: titleEl,
+//     duration: 2000,
+//     easing: 'easeInOutQuad',
+//     update: function(anim) {
+//         // As progress goes from 0 to 100, we slowly reveal the real letters
+//         const currentProgress = Math.floor(anim.progress / 100 * finalString.length);
+        
+//         const scrambled = finalString.split('').map((char, index) => {
+//             if (index < currentProgress) return char; // Confirmed letter
+//             return glitchChars[Math.floor(Math.random() * glitchChars.length)]; // Noise
+//         }).join('');
+        
+//         titleEl.innerText = scrambled;
+//     },
+//     complete: () => {
+//         titleEl.innerText = finalString; // Ensure it's perfect at the end
+//         // Trigger the cube's entry here!
+//         showCube(); 
+//     }
+// });
+
+const panelTitle = document.querySelector('.terminal-title'); // The one on your front face
+const finalHumanText = "ENCRYPTION_ACTIVE";
+const alienChars = "レ ヶ ヰ ヱ ヲ ﾝ 0 1 ｱ ｲ ｳ ｴ ｵ"; 
+
+anime({
+    targets: panelTitle,
+    duration: 3500,
+    easing: 'easeInOutQuad',
+    begin: () => {
+        // Force the alien look at the start
+        panelTitle.style.fontFamily = "yautja, sans-serif";
+        panelTitle.style.color = "#00ff0d";
+        // panelTitle.style.textShadow = "0 0 15px #00ff0d";
+    },
+    update: function(anim) {
+        // The scramble happens here
+        const currentProgress = Math.floor(anim.progress / 100 * finalHumanText.length);
+        
+        const content = finalHumanText.split('').map((char, index) => {
+            if (index < currentProgress) return char; 
+            return alienChars[Math.floor(Math.random() * alienChars.length)];
+        }).join('');
+        
+        panelTitle.innerText = content;
+
+        // Visual glitch: Occasionally swap font-family for a single frame
+        if (Math.random() > 0.95) {
+            panelTitle.style.fontFamily = "monospace";
+        } else {
+            panelTitle.style.fontFamily = "'Yautja', sans-serif";
+        }
+    },
+    complete: () => {
+        // Snap to human-readable state
+        panelTitle.innerText = finalHumanText;
+        panelTitle.style.fontFamily = "'IBM Plex Mono', monospace";
+        panelTitle.style.letterSpacing = "2px";
+    }
+});
+
+
+
+
 const cube = document.getElementById("cube");
 const clickOnSide = (side) => {
   const activeSide = cube.dataset.side;
