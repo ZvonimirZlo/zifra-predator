@@ -139,13 +139,13 @@ main {
     z-index: 10;
 }
 
-@keyframes flicker {
+/* @keyframes flicker {
     0% { opacity: 1; }
     3% { opacity: 0.94; }
     6% { opacity: 1; }
     7% { opacity: 0.98; }
     100% { opacity: 1; }
-}
+} */
 
 
 
@@ -453,12 +453,6 @@ padding: 10px 40px;
     backface-visibility: hidden;
 }
 
-/* Specifically for the blurry textareas */
-.cube-face-right textarea {
-    /* Sometimes a tiny scale reset forces the browser to re-sharpen */
-    transform: translateZ(1px) scale(1.0); 
-    -webkit-font-smoothing: subpixel-antialiased;
-}
 
 .terminal-header {
     display: flex;
@@ -491,4 +485,30 @@ padding: 10px 40px;
 .btn-purge:hover {
     background: rgba(255, 0, 0, 0.2);
     box-shadow: 0 0 10px #ff0000;
+}
+
+#encrypted_output {
+    font-family: 'yautja', monospace;
+}
+
+#decrypter_input {
+    font-family: 'yautja',monospace;
+}
+
+#decrypter_output {
+    font-family: 'Courier New', Courier, monospace;
+    color: #00ff41;
+    font-size: 16px;
+}
+
+.cube-face-right .mainInput::placeholder {
+    font-family: 'IBM Plex Mono', monospace; /* Human readable */
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+.cube-face-right .mainInput {
+    font-family: 'Yautja', sans-serif;
+    color: #ff0000;
+    font-size: 24px;
 }

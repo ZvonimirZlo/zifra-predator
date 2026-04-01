@@ -36,11 +36,11 @@
                 <!-- Front -->
                 <div class="cube-face cube-face-front">
                     <div class="hud-overlay">
-                        <h1 class="terminal-title">PREDATOR_SYSTEM_v1.0</h1>
+                        <h2 class="terminal-title">PREDATOR_SYSTEM_v1.0</h2>
                         <div class="scan-line-horizontal"></div>
                     </div>
                     <div class="panel-content">
-                        <label>MASTER PASSWORD:</label>
+                       
                         <div class="input-eye">
                             <input type="password" class="passInput" placeholder="Enter secure key..."
                                 oninput="updateStrength(this)">
@@ -59,11 +59,11 @@
                             <button onclick="terminalPaste('.cube-face-front .mainInput')"
                                 class="control-btn">LINK_DATA</button>
                             <button onclick="terminalPurge('.cube-face-front .mainInput')"
-                                class="control-btn">PURGE</button>
+                                class="control-btn btn-purge">PURGE</button>
                             <button onclick="terminalCopy('.cube-face-front .resultOutput')"
                                 class="control-btn">CLONE_EXTRACT</button>
                         </div>
-                        <textarea readonly class="resultOutput output-box"></textarea>
+                        <textarea readonly class="resultOutput output-box" id="encrypted_output"></textarea>
                     </div>
                 </div>
 
@@ -73,10 +73,12 @@
 
                 <!-- Right -->
                 <div class="cube-face cube-face-right">
-
+                  <div class="hud-overlay">
+                        <h2 class="terminal-title">DECRYPTER</h2>
+                        <div class="scan-line-horizontal"></div>
+                    </div>
                     <div class="panel-content">
-                        <h2>DECRYPTER</h2>
-                        <label>MASTER PASSWORD:</label>
+                        
                         <div>
                             <input type="password" class="passInput" placeholder="Enter secure key..."
                                 oninput="updateStrength(this)">
@@ -87,17 +89,17 @@
                             <div class="strength-label">Strength: Empty</div>
                         </div>
                         <label>CIPHERTEXT</label>
-                        <textarea class="mainInput" placeholder="Cipher..."></textarea>
+                        <textarea readonly class="mainInput" id="decrypter_input" placeholder="Cipher..."></textarea>
                         <button onclick="handleDecrypt()">PROCESS</button>
                         <div class="terminal-controls">
                             <button onclick="terminalPaste('.cube-face-right .mainInput')"
                                 class="control-btn">LINK_DATA</button>
                             <button onclick="terminalPurge('.cube-face-right .mainInput')"
-                                class="control-btn">PURGE</button>
+                                class="control-btn btn-purge">PURGE</button>
                             <button onclick="terminalCopy('.cube-face-right .resultOutput')"
                                 class="control-btn">CLONE_EXTRACT</button>
                         </div>
-                        <textarea class="resultOutput output-box"></textarea>
+                        <textarea class="resultOutput output-box" id="decrypter_output"></textarea>
                     </div>
                 </div>
 
