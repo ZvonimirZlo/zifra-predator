@@ -276,35 +276,38 @@ async function handleDecrypt() {
         setTimeout(() => { output.style.color = "#00ff41"; }, 1000);
     }
 }
-async function pasteToInput(selector) {
-    try {
-        const text = await navigator.clipboard.readText();
-        const target = document.querySelector(selector);
-        target.value = text;
-        
-        // Add a little "Success" flicker
-        anime({
-            targets: target,
-            borderColor: ['#00ff41', '#ffffff', '#00ff41'],
-            duration: 300,
-            easing: 'linear'
-        });
-    } catch (err) {
-        console.error("Clipboard access denied", err);
-        alert("PLEASE ALLOW CLIPBOARD PERMISSIONS");
-    }
-}
 
-// Function to Clear (Delete) Input
-function clearInput(selector) {
-    const target = document.querySelector(selector);
-    target.value = '';
+
+
+// async function pasteToInput(selector) {
+//     try {
+//         const text = await navigator.clipboard.readText();
+//         const target = document.querySelector(selector);
+//         target.value = text;
+        
+//         // Add a little "Success" flicker
+//         anime({
+//             targets: target,
+//             borderColor: ['#00ff41', '#ffffff', '#00ff41'],
+//             duration: 300,
+//             easing: 'linear'
+//         });
+//     } catch (err) {
+//         console.error("Clipboard access denied", err);
+//         alert("PLEASE ALLOW CLIPBOARD PERMISSIONS");
+//     }
+// }
+
+
+// function clearInput(selector) {
+//     const target = document.querySelector(selector);
+//     target.value = '';
     
-    // Predator-style "Purge" shake
-    anime({
-        targets: target,
-        translateX: [-3, 3, 0],
-        duration: 200,
-        easing: 'easeInOutQuad'
-    });
-}
+//     // Predator-style "Purge" shake
+//     anime({
+//         targets: target,
+//         translateX: [-3, 3, 0],
+//         duration: 200,
+//         easing: 'easeInOutQuad'
+//     });
+// }
