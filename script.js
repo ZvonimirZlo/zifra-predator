@@ -14,7 +14,7 @@ async function terminalPaste(selector) {
         anime({
             targets: target,
             backgroundColor: ['rgba(0, 255, 65, 0.2)', 'rgba(0, 0, 0, 0.4)'],
-            duration: 400
+            duration: 1000
         });
     } catch (err) {
         console.warn("Clipboard access denied or not available.");
@@ -53,13 +53,13 @@ const alienChars = "0123456789%&#$@";
 
 anime({
     targets: panelTitle,
-    duration: 3500,
+    duration: 2500,
     easing: 'easeInOutQuad',
     begin: () => {
         // Force the alien look at the start
         panelTitle.style.fontFamily = "yautja, sans-serif";
         panelTitle.style.color = "red";
-        panelTitle.style.textShadow = "0 0 15px red";
+        panelTitle.style.textShadow = "0 0 15 '#ff0000'";
     },
     update: function(anim) {
         // The scramble happens here
@@ -92,12 +92,12 @@ anime({
             ],
             textShadow: [
                 { value: '0 0 20px #39FF14' },
-                { value: '0 0 5px #39FF14' }
+                { value: '0 0 5px #25b40c' }
             ],
             duration: 300,
             direction: 'alternate',
-            easing: 'easeInOutQuad',
-            loop: 8, // 3 full blinks (on/off x4)
+            easing: 'linear',
+            loop: 6, // 3 full blinks (on/off x3)
             complete: () => {
                 // ends on the final blue state
                 panelTitle.style.color = "#38B6FF";
@@ -193,7 +193,7 @@ function updateStrength(inputEl) {
     label.innerText = "STRENGTH: " + labels[score];
     label.style.color = colors[score];
     if(pass.length === 0) label.innerText = 'STRENGTH: EMPTY', 
-    label.style.color = "#00ff0d",
+    label.style.color = "#38B6FF",
     bar.style.width = 0;
 }
 

@@ -464,7 +464,6 @@ textarea {
     font-family: 'IBM Plex Mono', monospace;
     color: var(--blue);
     letter-spacing: 5px;
-    text-shadow: 0 0 10px var(--neon);
 }
 
 .cube-face-right .panel-content {
@@ -479,27 +478,6 @@ textarea {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
-}
-
-.unit-btn {
-    background: transparent;
-    border: 1px solid #00ff41;
-    color: #00ff41;
-    font-size: 0.7rem;
-    padding: 2px 8px;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: all 0.2s;
-}
-
-.unit-btn:hover {
-    background: rgba(0, 255, 65, 0.2);
-    box-shadow: 0 0 10px #00ff41;
-}
-
-.btn-purge {
-    border-color: #ff0000;
-    color: #ff0000;
 }
 
 .btn-purge:hover {

@@ -29,7 +29,7 @@
 
         <!-- Scene wrapper -->
         <section class="scene">
-            
+
             <!-- Front view -->
             <div class="cube show-front" id="cube" data-side="front">
 
@@ -37,11 +37,11 @@
                 <div class="cube-face cube-face-front">
                     <div class="laser-scan"></div>
                     <div class="hud-overlay">
-                        <h2 class="terminal-title">PREDATOR_SYSTEM_v1.0</h2>
+                        <h2 class="terminal-title">PREDATOR</h2>
                         <div class="scan-line-horizontal"></div>
                     </div>
                     <div class="panel-content">
-                       
+
                         <div class="input-eye">
                             <input type="password" class="passInput" placeholder="Enter secure key..."
                                 oninput="updateStrength(this)">
@@ -53,8 +53,8 @@
                             <div class="strength-label">Strength: Empty</div>
                         </div>
 
-                        
-                        <textarea class="mainInput" placeholder="Message..."></textarea>
+
+                        <textarea class="mainInput" id="encrypterInput" placeholder="Message..."></textarea>
                         <button onclick="handleEncrypt()">PROCESS</button>
                         <div class="terminal-controls">
                             <button onclick="terminalPaste('.cube-face-front .mainInput')"
@@ -76,13 +76,13 @@
                 <!-- Right -->
                 <div class="cube-face cube-face-right">
                     <div class="laser-scan"></div>
-                  <div class="hud-overlay">
-                        <h2 class="terminal-title">DECRYPTER</h2>
+                    <div class="hud-overlay">
+                        <h2 class="terminal-title">DECRYPTION_ACTIVE</h2>
                         <div class="scan-line-horizontal"></div>
                     </div>
                     <div class="panel-content">
-                        
-                        <div>
+
+                        <div class="input-eye">
                             <input type="password" class="passInput" placeholder="Enter secure key..."
                                 oninput="updateStrength(this)">
                             <button onclick="togglePassword(this)" class="eye-btn">👁️</button>
@@ -91,7 +91,7 @@
                             <div class="strength-bar"></div>
                             <div class="strength-label">Strength: Empty</div>
                         </div>
-                
+
                         <textarea readonly class="mainInput" id="decrypter_input" placeholder="Cipher..."></textarea>
                         <button onclick="handleDecrypt()">PROCESS</button>
                         <div class="terminal-controls">
