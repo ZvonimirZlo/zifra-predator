@@ -58,8 +58,8 @@ anime({
     begin: () => {
         // Force the alien look at the start
         panelTitle.style.fontFamily = "yautja, sans-serif";
-        panelTitle.style.color = "#38B6FF";
-        // panelTitle.style.textShadow = "0 0 15px #00ff0d";
+        panelTitle.style.color = "red";
+        panelTitle.style.textShadow = "0 0 15px red";
     },
     update: function(anim) {
         // The scramble happens here
@@ -84,6 +84,7 @@ anime({
         panelTitle.innerText = finalHumanText;
         panelTitle.style.fontFamily = "'IBM Plex Mono', monospace";
         panelTitle.style.letterSpacing = "2px";
+        panelTitle.style.color = "#38B6FF"
     }
 });
 
