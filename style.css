@@ -13,6 +13,7 @@
     --neon: #00ff41;
     --neon-blue: #38B6FF;
     --deep-blue: rgba(0, 110, 255, 0.2);
+    --borderColor: #003366;
 }
 
 * {
@@ -299,7 +300,7 @@ input {
     width: 100%;
     background: #000;
     color: var(--neon);
-    border: 1px solid var(--neon);
+    border: 1px solid var(--borderColor);
     padding: 12px;
 }
 
@@ -391,7 +392,7 @@ textarea {
 
 .strength-label {
     font-size: 0.7rem;
-    color: #00ff41;
+    color: var(--neon-blue);
     margin-top: 4px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -534,7 +535,7 @@ textarea {
 }
 
 textarea,
-.output-box {
+.output-box, .passInput {
     color: red;
 
     /* text-shadow: 
@@ -544,6 +545,7 @@ textarea,
     background: rgba(0, 10, 20, 0.8);
     border: 1px solid #003366;
 }
+
 
 button:not(.menu > button):not(.eye-btn) {
     background: rgba(0, 110, 255, 0.1);
@@ -561,7 +563,7 @@ button:not(.menu > button):not(.eye-btn):hover {
 }
 
 .passInput,.eye-btn{
-    border:1px solid var(---blue);
+    border:1px solid var(--borderColor);
 }
 
 /* .cube-face {
