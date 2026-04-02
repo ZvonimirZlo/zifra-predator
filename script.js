@@ -84,9 +84,29 @@ anime({
         panelTitle.innerText = finalHumanText;
         panelTitle.style.fontFamily = "'IBM Plex Mono', monospace";
         panelTitle.style.letterSpacing = "2px";
-        panelTitle.style.color = "#38B6FF"
+        anime({
+            targets: panelTitle,
+            color: [
+                { value: '#39FF14' }, // Neon Green
+                { value: '' } 
+            ],
+            textShadow: [
+                { value: '0 0 20px #39FF14' },
+                { value: '0 0 5px #39FF14' }
+            ],
+            duration: 300,
+            direction: 'alternate',
+            easing: 'easeInOutQuad',
+            loop: 8, // 3 full blinks (on/off x4)
+            complete: () => {
+                // ends on the final blue state
+                panelTitle.style.color = "#38B6FF";
+                panelTitle.style.textShadow = "none"; 
+            }
+        });
     }
-});
+    }
+);
 
 
 
