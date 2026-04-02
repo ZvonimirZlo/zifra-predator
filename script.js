@@ -118,7 +118,7 @@ anime({
 
 
 
-
+//Laser animation
 const cube = document.getElementById("cube");
 const clickOnSide= (side) => {
     const activeSide = cube.dataset.side;
@@ -165,6 +165,8 @@ document.querySelectorAll(".btn").forEach(btn => {
   })
 });
 
+
+//Toggle pass visibility
 function togglePassword(btn) {
     // Find the input that is in the same div as this button
     const input = btn.parentElement.querySelector('.passInput');
@@ -177,6 +179,7 @@ function togglePassword(btn) {
     }
 }
 
+//Update pass strength
 function updateStrength(inputEl) {
     const pass = inputEl.value;
     // Find the container for THIS specific panel
@@ -206,7 +209,7 @@ function updateStrength(inputEl) {
 }
 
 
-
+//Toggle sidebar
 function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
 }
@@ -214,7 +217,7 @@ function toggleSidebar() {
 
 // --- MASKING CONFIGURATION ---
 const B64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-const MASK_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+const MASK_CHARS = B64_CHARS.split('').reverse().join('');
 
 function applyMask(str) {
     return str.split('').map(char => {
@@ -244,6 +247,7 @@ async function deriveKey(password, salt) {
     );
 }
 
+//Encryption logic
 async function encryptBatch(messages, password) {
     const encoder = new TextEncoder();
     const salt = window.crypto.getRandomValues(new Uint8Array(16));
@@ -259,6 +263,8 @@ async function encryptBatch(messages, password) {
     }));
 }
 
+
+//Decryption logic
 async function decryptBatch(encryptedMessages, password) {
     const decoder = new TextDecoder();
     const b64ToUint8 = (b64) => {
