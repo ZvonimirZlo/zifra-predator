@@ -10,7 +10,7 @@
     --cube-size: clamp(320px, 70vw, 800px);
     --cube-half: calc(var(--cube-size) / 2);
     --blue: #38B6FF;
-    --neon: #00ff0d;
+    --neon: #006eff;
 }
 
 * {
@@ -110,7 +110,7 @@ main {
     background-repeat: no-repeat;
     animation: flicker .15s infinite;
     background-image: 
-        radial-gradient(circle, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.7) 100%),
+        /* radial-gradient(circle, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.7) 100%), */
         url('1.png');
 }
 
@@ -509,4 +509,25 @@ padding: 10px 40px;
     font-family: 'Yautja', sans-serif;
     color: #ff0000;
     font-size: 24px;
+}
+
+/* Laser scan effect */
+.laser-scan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #ff0000;
+    box-shadow: 0 0 15px 2px #ff0000;
+    z-index: 20;
+    opacity: 0; 
+    pointer-events: none;
+}
+
+
+/* Add a slight red tint to the face while scanning */
+.scanning .cube-face {
+    box-shadow: inset 0 0 100px rgba(255, 0, 0, 0.2);
+    transition: box-shadow 0.3s;
 }

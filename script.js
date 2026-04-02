@@ -1,4 +1,7 @@
 
+
+
+
 //Reusable functions for inputs and outputs handling
 
 //Paste
@@ -89,11 +92,42 @@ anime({
 
 
 const cube = document.getElementById("cube");
-const clickOnSide = (side) => {
-  const activeSide = cube.dataset.side;
-  cube.classList.replace(`show-${activeSide}`, `show-${side}`);
-  cube.setAttribute("data-side", side);
+const clickOnSide= (side) => {
+    const activeSide = cube.dataset.side;
+    const newSideClass = `show-${side}`;
+    
+    // 1. Rotate the cube
+    cube.classList.replace(`show-${activeSide}`, newSideClass);
+    cube.setAttribute("data-side", side);
+
+    // 2. Trigger the Laser Scan on the target face after rotation
+    setTimeout(() => {
+        const targetFace = document.querySelector(`.cube-face-${side}`);
+        const laser = targetFace.querySelector('.laser-scan');
+        
+        if (laser) {
+            // Reset and Animate Laser
+            anime.timeline({
+                easing: 'easeInOutQuad',
+            })
+            .add({
+                targets: laser,
+                opacity: [0, 1, 0.8, 0],
+                top: ['0%', '100%'],
+                duration: 1200,
+            })
+            .add({
+                targets: targetFace.querySelectorAll('label, input, textarea, button'),
+                opacity: [0.5, 1],
+                translateY: [10, 0],
+                delay: anime.stagger(50),
+                duration: 400
+            }, '-=800') 
+            
+        }
+    }, 600)
 };
+
 
 //Cube rotator
 document.querySelectorAll(".btn").forEach(btn => {
