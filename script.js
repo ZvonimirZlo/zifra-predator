@@ -162,8 +162,8 @@ function updateStrength(inputEl) {
     if (/[0-9]/.test(pass)) score++;
     if (/[^A-Za-z0-9]/.test(pass)) score++;
 
-    const colors = ["#00ff0d","#ff4c4c", "#ff4c4c", "#ffa500", "#ffd700", "#00ff41", "#00ffff"];
-    const labels = ["EMPTY", "DANGEROUS", "VERY WEAK", "WEAK", "MEDIUM", "STRONG", "GOD MODE"];
+    const colors = ["#ff4c4c", "#ff4c4c", "#ffa500", "#ffd700", "#00ff41", "#00ffff"];
+    const labels = ["DANGEROUS", "VERY WEAK", "WEAK", "MEDIUM", "STRONG", "GOD MODE"];
 
     // Update the UI
     bar.style.width = (score + 1) * 16.6 + "%";
@@ -171,8 +171,9 @@ function updateStrength(inputEl) {
     bar.style.boxShadow = `0 0 10px ${colors[score]}`;
     label.innerText = "STRENGTH: " + labels[score];
     label.style.color = colors[score];
-    if(pass.length === 0) label.innerText = 'STRENGTH: EMPTY' 
-    bar.style.width = 0
+    if(pass.length === 0) label.innerText = 'STRENGTH: EMPTY', 
+    label.style.color = "#00ff0d",
+    bar.style.width = 0;
 }
 
 
