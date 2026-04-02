@@ -61,7 +61,7 @@
                                 class="control-btn">LINK_DATA</button>
                             <button onclick="terminalPurge('.cube-face-front .mainInput')"
                                 class="control-btn btn-purge">PURGE</button>
-                            <button onclick="terminalCopy('.cube-face-front .resultOutput')"
+                            <button onclick="terminalCopy(event, '.cube-face-front .resultOutput')"
                                 class="control-btn">CLONE_EXTRACT</button>
                         </div>
                         <textarea readonly class="resultOutput output-box" id="encrypted_output"></textarea>
@@ -99,7 +99,7 @@
                                 class="control-btn">LINK_DATA</button>
                             <button onclick="terminalPurge('.cube-face-right .mainInput')"
                                 class="control-btn btn-purge">PURGE</button>
-                            <button onclick="terminalCopy('.cube-face-right .resultOutput')"
+                            <button onclick="terminalCopy(event, '.cube-face-right .resultOutput')"
                                 class="control-btn">CLONE_EXTRACT</button>
                         </div>
                         <textarea class="resultOutput output-box" id="decrypter_output"></textarea>

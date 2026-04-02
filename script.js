@@ -34,14 +34,18 @@ function terminalPurge(selector) {
     });
 }
 //Copy
-function terminalCopy(selector) {
+function terminalCopy(event, selector) {
+    const btn = event.currentTarget;
+    const originalText = btn.innerText;
     const target = document.querySelector(selector);
+    
+    //Copy
     navigator.clipboard.writeText(target.value);
     
     // Brief "Copied" alert on the button text
-    const btn = event.target;
-    const originalText = btn.innerText;
     btn.innerText = "DATA_CLONED";
+    
+    //Resets to original text
     setTimeout(() => btn.innerText = originalText, 1500);
 }
 
