@@ -33,14 +33,18 @@ function terminalPurge(selector) {
         easing: 'linear'
     });
 }
-//Copy
+
+//Copy function
 function terminalCopy(event, selector) {
     const btn = event.currentTarget;
     const originalText = btn.innerText;
     const target = document.querySelector(selector);
     
     //Copy
-    navigator.clipboard.writeText(target.value);
+    navigator.clipboard.writeText(target.value).then(() => {
+    btn.innerText = "DATA_CLONED";
+    setTimeout(() => btn.innerText = originalText, 2000);
+});
     
     // Brief "Copied" alert on the button text
     btn.innerText = "DATA_CLONED";
