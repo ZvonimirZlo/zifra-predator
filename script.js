@@ -42,6 +42,8 @@ function terminalCopy(event, selector) {
     
     //Copy
     navigator.clipboard.writeText(target.value).then(() => {
+
+
     btn.innerText = "DATA_CLONED";
     setTimeout(() => btn.innerText = originalText, 2000);
 });
@@ -59,10 +61,12 @@ const panelTitle = document.querySelector('.terminal-title');
 const finalHumanText = "ENCRYPTION_ACTIVE";
 const alienChars = "0123456789%&#$@"; 
 
+
+
 function triggerTitleScramble() {
     anime({
     targets: panelTitle,
-    duration: 2500,
+    duration: 2000,
     easing: 'easeInOutQuad',
     begin: () => {
         // Force the alien look at the start

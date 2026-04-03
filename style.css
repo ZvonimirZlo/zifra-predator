@@ -140,7 +140,7 @@ main {
     z-index: 10;
 }
 
-/* @keyframes flicker {
+@keyframes flicker {
     0% {
         opacity: 1;
     }
@@ -160,7 +160,7 @@ main {
     100% {
         opacity: 1;
     }
-} */
+}
 
 
 
@@ -285,49 +285,6 @@ button:not(.menu > button):not(.eye-btn):hover {
 
 /* ---------------- SIDEBAR ---------------- */
 
-/* .sidebar {
-    width: 150px;
-    background: #000000;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s;
-    margin-right: 30px;
-    border: 1px solid grey;
-} */
-
-/* .sidebar {
-    width: 150px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s;
-    margin-right: 30px;
-    background: grey; 
-    position: relative;
-    clip-path: polygon(
-        20px 0%, calc(100% - 20px) 0%, 
-        100% 20px, 100% calc(100% - 20px), 
-        calc(100% - 20px) 100%, 20px 100%, 
-        0% calc(100% - 20px), 0% 20px
-    );
-}
-
-.sidebar::before {
-    content: "";
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    right: 1px;
-    bottom: 1px;
-    background: #000000;
-    clip-path: inherit;
-    z-index: -1;
-} */
 
 .sidebar {
     width: 200px;
@@ -339,11 +296,7 @@ button:not(.menu > button):not(.eye-btn):hover {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     margin-right: 30px;
     position: relative;
-    
-    /* Matches your cube-face depth */
-    background: var(--borderColor); 
-    
-    /* Aggressive "Gauntlet" Cut */
+    background: var(--neon-blue); 
     clip-path: polygon(
         0 15%, 15% 0, 
         100% 0, 100% 85%, 
@@ -365,7 +318,7 @@ button:not(.menu > button):not(.eye-btn):hover {
 
 /* Predator "Targeting" Mode on Hover */
 .sidebar:hover {
-    background: #ff0000;
+    background: var(--neon);
     transform: translateX(-5px) scale(1.05);
     filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.5));
 }
