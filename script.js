@@ -1,5 +1,5 @@
 
-
+const cube = document.getElementById("cube");
 
 //Reusable functions for inputs and outputs handling
 
@@ -121,7 +121,7 @@ function triggerTitleScramble() {
 
 
 //Laser animation
-const cube = document.getElementById("cube");
+
 const clickOnSide= (side) => {
     const activeSide = cube.dataset.side;
     const newSideClass = `show-${side}`;
@@ -353,47 +353,70 @@ async function handleDecrypt() {
 }
 
 function startBootSequence() {
+
     const sequencer = document.getElementById('boot-sequencer');
     const glyph = sequencer.querySelector('.countdown-glyph');
-    const sidebarContent = document.querySelector('.menu'); // Your actual buttons
-
+    const sidebarContent = document.querySelector('.menu');
+    
+    const symbols = "0123456789aswert";
+    let currentLength = 5; // Starting with "##:##"
 
     sidebarContent.style.opacity = "0";
 
     anime({
         targets: glyph,
-        duration: 2000,
+        duration: 5000, // Slower 5-second burn
+        easing: 'linear',
         update: function(anim) {
-         if (Math.round(anim.progress) % 5 === 0) { 
-        const symbols = "0123456789";
-        let rand = "";
-        for(let i=0; i<4; i++) {
-            rand += symbols[Math.floor(Math.random() * symbols.length)];
-        }
-        glyph.innerText = rand.slice(0,2) + ":" + rand.slice(2,4);
-    }
+            const progress = anim.progress; 
+            
+            const newLength = Math.ceil(5 * (1 - (progress / 100)));
+
+            // 2. Slow down the flicker (only change symbols every 8 frames)
+            if (Math.round(progress * 10) % 8 === 0) {
+                let rand = "";
+                for (let i = 0; i < newLength; i++) {
+                    // Keep the colon logic if we have enough chars
+                    if (i === 2 && newLength > 2) rand += ":";
+                    else rand += symbols[Math.floor(Math.random() * symbols.length)];
+                }
+                glyph.innerText = rand;
+
+                // 3. Heavy Flicker: Occasional deep dimming
+                const flicker = Math.random();
+                if (flicker > 0.8) glyph.style.opacity = "0.1";
+                else if (flicker > 0.4) glyph.style.opacity = "1";
+                else glyph.style.opacity = "0.7";
+                
+                // 4. Slight scale "thump" when a character drops
+                if (newLength < currentLength) {
+                    currentLength = newLength;
+                    glyph.style.transform = 'scale(1.2)';
+                    setTimeout(() => glyph.style.transform = 'scale(1)', 100);
+                }
+            }
         },
         complete: () => {
-            // Flash red and vanish
+            // Flash and Reveal
             anime({
                 targets: sequencer,
                 opacity: 0,
-                scale: 1.5,
-                duration: 500,
-                easing: 'easeInExpo',
+                scale: 2, // "Explosion" feel
+                duration: 600,
+                easing: 'easeInQuart',
                 complete: () => {
                     sequencer.remove();
-                    // Reveal the real menu
                     anime({
                         targets: sidebarContent,
                         opacity: 1,
-                        translateY: [20, 0],
-                        duration: 800
+                        translateY: [30, 0],
+                        duration: 1000
                     });
                 }
             });
         }
     });
+
 }
 
 startBootSequence();

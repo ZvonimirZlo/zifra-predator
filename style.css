@@ -730,6 +730,16 @@ button:not(.menu > button):not(.eye-btn):hover {
     opacity: 0.8;
 }
 
+.countdown-glyph {
+    font-family: 'yautja', sans-serif;
+    font-size: 4rem;
+    color: #ff0000;
+    text-shadow: 0 0 20px #ff0000;
+    width: 300px; /* Fixed width prevents jumping */
+    text-align: center;
+    transition: transform 0.1s ease-out; /* For the scale 'thump' */
+}
+
 
 
 /* .cube-face {
