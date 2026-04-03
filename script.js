@@ -59,7 +59,8 @@ const panelTitle = document.querySelector('.terminal-title');
 const finalHumanText = "ENCRYPTION_ACTIVE";
 const alienChars = "0123456789%&#$@"; 
 
-anime({
+function triggerTitleScramble() {
+    anime({
     targets: panelTitle,
     duration: 2500,
     easing: 'easeInOutQuad',
@@ -67,7 +68,7 @@ anime({
         // Force the alien look at the start
         panelTitle.style.fontFamily = "yautja, sans-serif";
         panelTitle.style.color = "red";
-        panelTitle.style.textShadow = "0 0 15 '#ff0000'";
+        panelTitle.style.textShadow = "0 0 15 #ff0000'";
     },
     update: function(anim) {
         // The scramble happens here
@@ -115,6 +116,7 @@ anime({
     }
     }
 );
+}
 
 
 
@@ -152,6 +154,9 @@ const clickOnSide= (side) => {
                 duration: 400
             }, '-=800') 
             
+        }
+        if(side === 'front'){
+            triggerTitleScramble();
         }
     }, 600)
 };
@@ -346,6 +351,52 @@ async function handleDecrypt() {
         setTimeout(() => { output.style.color = "#00ff41"; }, 1000);
     }
 }
+
+function startBootSequence() {
+    const sequencer = document.getElementById('boot-sequencer');
+    const glyph = sequencer.querySelector('.countdown-glyph');
+    const sidebarContent = document.querySelector('.menu'); // Your actual buttons
+
+
+    sidebarContent.style.opacity = "0";
+
+    anime({
+        targets: glyph,
+        duration: 2000,
+        update: function(anim) {
+         if (Math.round(anim.progress) % 5 === 0) { 
+        const symbols = "0123456789";
+        let rand = "";
+        for(let i=0; i<4; i++) {
+            rand += symbols[Math.floor(Math.random() * symbols.length)];
+        }
+        glyph.innerText = rand.slice(0,2) + ":" + rand.slice(2,4);
+    }
+        },
+        complete: () => {
+            // Flash red and vanish
+            anime({
+                targets: sequencer,
+                opacity: 0,
+                scale: 1.5,
+                duration: 500,
+                easing: 'easeInExpo',
+                complete: () => {
+                    sequencer.remove();
+                    // Reveal the real menu
+                    anime({
+                        targets: sidebarContent,
+                        opacity: 1,
+                        translateY: [20, 0],
+                        duration: 800
+                    });
+                }
+            });
+        }
+    });
+}
+
+startBootSequence();
 
 
 
