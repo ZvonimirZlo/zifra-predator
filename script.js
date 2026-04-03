@@ -1,3 +1,38 @@
+const btn1 = document.getElementById('btn1');
+const btn2 = document.getElementById('btn2');
+const btn3 = document.getElementById('btn3');
+const btn4 = document.getElementById('btn4');
+const btn5 = document.getElementById('btn5');
+const btn6 = document.getElementById('btn6');
+
+
+const sidebar = document.getElementById('sidebar');
+sidebar.addEventListener('mouseover', () => {
+    btn1.innerText = 'Encrypter'
+    btn1.style.fontFamily = 'Monospace'
+    btn1.style.fontSize = '14px'
+
+    btn2.innerText = 'Decrypter'
+    btn2.style.fontFamily = 'Monospace'
+    btn2.style.fontSize = '14px'
+
+    btn3.innerText = 'crypter'
+    btn3.style.fontFamily = 'Monospace'
+    btn3.style.fontSize = '14px'
+
+    btn4.innerText = 'Encr'
+    btn4.style.fontFamily = 'Monospace'
+    btn4.style.fontSize = '14px'
+
+    btn5.innerText = 'Enter'
+    btn5.style.fontFamily = 'Monospace'
+    btn5.style.fontSize = '14px'
+
+    btn6.innerText = 'Enpter'
+    btn6.style.fontFamily = 'Monospace'
+    btn6.style.fontSize = '14px'
+})
+
 
 const cube = document.getElementById("cube");
 

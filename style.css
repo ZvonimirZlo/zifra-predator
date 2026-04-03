@@ -140,7 +140,7 @@ main {
     z-index: 10;
 }
 
-@keyframes flicker {
+/* @keyframes flicker {
     0% {
         opacity: 1;
     }
@@ -160,7 +160,7 @@ main {
     100% {
         opacity: 1;
     }
-}
+} */
 
 
 /* ---------------- SIDEBAR ---------------- */
@@ -233,11 +233,12 @@ main {
 
 .menu>button:hover {
     width: 114px;
-    color: var(--blue);
+    color: var(--neon);
     cursor: pointer;
     box-shadow:
-        0 0 10px rgba(255, 0, 0, 0.5),
+        0 0 10px rgba(46, 14, 14, 0.5),
         inset 0 0 15px rgba(255, 0, 0, 0.2);
+        text-shadow: 1px 1px 2px var(--neon);
 }
 
 .menu {
@@ -262,9 +263,10 @@ main {
         inset 2px 2px 0px rgba(151, 89, 89, 0.05),
         inset -2px -2px 5px rgba(0, 0, 0, 0.8),
         5px 5px 8px rgba(22, 21, 21, 0.9);
-
-    text-shadow: 1px 2px 2px rgb(112, 13, 13);
     text-transform: uppercase;
+    text-shadow: 1px 1px 2px red;
+    font-family: 'yautja';
+    font-size: 44px;
 }
 
 .menu button::before {
@@ -705,7 +707,7 @@ button:not(.menu > button):not(.eye-btn):hover {
     align-items: center;
     z-index: 9999;
     pointer-events: all;
-    opacity: 0.9;
+    /* opacity: 0.9; */
 }
 
 /* .countdown-glyph {
@@ -721,7 +723,7 @@ button:not(.menu > button):not(.eye-btn):hover {
     font-size: 0.7rem;
     color: #ff0000;
     margin-top: 10px;
-    opacity: 0.8;
+    /* opacity: 0.8; */
 }
 
 .countdown-glyph {
