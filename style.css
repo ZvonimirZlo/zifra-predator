@@ -34,6 +34,27 @@ body {
 }
 
 
+/* GREEN THEME */
+#theme-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #ffff00;
+    pointer-events: none; 
+    z-index: 1000;
+    opacity: 0;
+    mix-blend-mode: multiply;
+    transition: opacity 0.5s ease;
+}
+
+body.green-theme #theme-overlay {
+    opacity: 0.5; 
+}
+
+
+
 /* body {
     margin: 0;
     height: 100vh;
@@ -184,6 +205,7 @@ main {
     ); */
     border: 1px solid rgb(37, 37, 37);
     border-radius: 4px;
+    z-index: 2000 !important;
 }
 
 .sidebar::before {

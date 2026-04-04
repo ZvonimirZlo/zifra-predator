@@ -1,4 +1,30 @@
+function setTheme(theme) {
+    const overlay = document.getElementById('theme-overlay');
+    const body = document.body;
 
+    if (theme === 'green') {
+        body.classList.add('green-theme');
+        overlay.style.background = "#ffff00"; // Yellow filter -> Green result
+        overlay.style.mixBlendMode = "multiply";
+    } else {
+        body.classList.remove('green-theme');
+    }
+}
+
+function toggleStealth() {
+    const overlay = document.getElementById('theme-overlay');
+    const isStealth = document.body.classList.toggle('stealth-active');
+    
+    if (isStealth) {
+        // Dark blue/grey filter for stealth
+        overlay.style.background = "#000b1a"; 
+        overlay.style.mixBlendMode = "hard-light";
+        overlay.style.opacity = "0.7";
+    } else {
+        // Reset to theme default
+        overlay.style.opacity = document.body.classList.contains('green-theme') ? "0.5" : "0";
+    }
+}
 
 
 
