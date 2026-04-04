@@ -1,37 +1,74 @@
-const btn1 = document.getElementById('btn1');
-const btn2 = document.getElementById('btn2');
-const btn3 = document.getElementById('btn3');
-const btn4 = document.getElementById('btn4');
-const btn5 = document.getElementById('btn5');
-const btn6 = document.getElementById('btn6');
-
-
 const sidebar = document.getElementById('sidebar');
-sidebar.addEventListener('mouseover', () => {
-    btn1.innerText = 'Encrypter'
-    btn1.style.fontFamily = 'Monospace'
-    btn1.style.fontSize = '14px'
+const buttons = document.querySelectorAll('.btn'); // Grabs all 6 buttons
 
-    btn2.innerText = 'Decrypter'
-    btn2.style.fontFamily = 'Monospace'
-    btn2.style.fontSize = '14px'
+const humanLabels = {
+    'front':  'Encrypter',
+    'right':  'Decrypter',
+    'back':   'Manual',
+    'left':   'About',
+    'top':    'Top',
+    'bottom': 'Bottom'
+};
 
-    btn3.innerText = 'crypter'
-    btn3.style.fontFamily = 'Monospace'
-    btn3.style.fontSize = '14px'
+sidebar.addEventListener('mouseenter', () => {
+    // 2. Use forEach (the loop version of map for side-effects)
+    buttons.forEach((btn, index) => {
+        const side = btn.dataset.side; // Gets 'front', 'right', etc.
+        const translation = humanLabels[side];
 
-    btn4.innerText = 'Encr'
-    btn4.style.fontFamily = 'Monospace'
-    btn4.style.fontSize = '14px'
+        if (translation) {
+            setTimeout(() => {
+                btn.innerText = translation;
+                btn.style.fontFamily = 'IBM Plex Mono';
+                btn.style.fontSize = '14px';
+                
+                anime({
+                    targets: btn,
+                    // filter: ['brightness(5)', 'brightness(1)'],
+                    textShadow: ['0 0 20px red', '1px 1px 2px red'],
+                    duration: 1000,
+                    easing: 'easeOutExpo'
+                });
+            }, index * 100); 
+        }
+    });
+}, { once: true });
 
-    btn5.innerText = 'Enter'
-    btn5.style.fontFamily = 'Monospace'
-    btn5.style.fontSize = '14px'
 
-    btn6.innerText = 'Enpter'
-    btn6.style.fontFamily = 'Monospace'
-    btn6.style.fontSize = '14px'
-})
+// const btn1 = document.getElementById('btn1');
+// const btn2 = document.getElementById('btn2');
+// const btn3 = document.getElementById('btn3');
+// const btn4 = document.getElementById('btn4');
+// const btn5 = document.getElementById('btn5');
+// const btn6 = document.getElementById('btn6');
+
+
+// // const sidebar = document.getElementById('sidebar');
+// // sidebar.addEventListener('mouseover', () => {
+// //     btn1.innerText = 'Encrypter'
+// //     btn1.style.fontFamily = 'IBM Plex Mono','Monospace'
+// //     btn1.style.fontSize = '14px'
+
+// //     btn2.innerText = 'Decrypter'
+// //     btn2.style.fontFamily = 'IBM Plex Mono','Monospace'
+// //     btn2.style.fontSize = '14px'
+
+// //     btn3.innerText = 'crypter'
+// //     btn3.style.fontFamily = 'IBM Plex Mono','Monospace'
+// //     btn3.style.fontSize = '14px'
+
+// //     btn4.innerText = 'Encr'
+// //     btn4.style.fontFamily = 'IBM Plex Mono','Monospace'
+// //     btn4.style.fontSize = '14px'
+
+// //     btn5.innerText = 'Enter'
+// //     btn5.style.fontFamily = 'IBM Plex Mono','Monospace'
+// //     btn5.style.fontSize = '14px'
+
+// //     btn6.innerText = 'Enpter'
+// //     btn6.style.fontFamily = 'IBM Plex Mono','Monospace'
+// //     btn6.style.fontSize = '14px'
+// // })
 
 
 const cube = document.getElementById("cube");
@@ -397,7 +434,7 @@ function startBootSequence() {
     const glyph = sequencer.querySelector('.countdown-glyph');
     const sidebarContent = document.querySelector('.menu');
     
-    const symbols = "0123456789aswert";
+    const symbols = "0123456789PREDATOR";
     let currentLength = 5; // Starting with "##:##"
 
     sidebarContent.style.opacity = "0";
@@ -416,7 +453,7 @@ function startBootSequence() {
                 let rand = "";
                 for (let i = 0; i < newLength; i++) {
                     // Keep the colon logic if we have enough chars
-                    if (i === 2 && newLength > 2) rand += ":";
+                    if (i === 2 && newLength > 2) rand += "x";
                     else rand += symbols[Math.floor(Math.random() * symbols.length)];
                 }
                 glyph.innerText = rand;
@@ -430,7 +467,7 @@ function startBootSequence() {
                 // 4. Slight scale "thump" when a character drops
                 if (newLength < currentLength) {
                     currentLength = newLength;
-                    glyph.style.transform = 'scale(1.2)';
+                    glyph.style.transform = 'scale(1.1)';
                     setTimeout(() => glyph.style.transform = 'scale(1)', 100);
                 }
             }
@@ -449,7 +486,7 @@ function startBootSequence() {
                         targets: sidebarContent,
                         opacity: 1,
                         translateY: [30, 0],
-                        duration: 1000
+                        duration: 2000
                     });
                 }
             });
