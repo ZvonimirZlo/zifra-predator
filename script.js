@@ -24,7 +24,7 @@ sidebar.addEventListener('mouseenter', () => {
                 
                 anime({
                     targets: btn,
-                    // filter: ['brightness(5)', 'brightness(1)'],
+                    filter: ['brightness(5)', 'brightness(1)'],
                     textShadow: ['0 0 20px red', '1px 1px 2px red'],
                     duration: 1000,
                     easing: 'easeOutExpo'

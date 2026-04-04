@@ -734,6 +734,15 @@ button:not(.menu > button):not(.eye-btn):hover {
     /* transition: transform 0.1s ease-out; */
 }
 
+.first-line{
+ margin-bottom: 40px;
+}
+
+.intro-lines{
+  display: block;
+  font-weight: bolder;
+}
+
 @media (max-width: 767px) {
 
     main {
