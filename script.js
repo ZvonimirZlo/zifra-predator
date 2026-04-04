@@ -35,6 +35,27 @@ sidebar.addEventListener('mouseenter', () => {
 }, { once: true });
 
 
+//Intro lines animation
+anime({
+  targets: '.status-text.first-line,.line',
+  opacity: [0, 1],
+  clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'],
+  translateY: [-10, 0],
+  easing: 'easeOutExpo',
+  duration: 800,
+  delay: anime.stagger(500), // Time between each line appearing
+  begin: function(anim) {
+  },
+  changeComplete: function(el) {
+
+  },
+ 
+  keyframes: [
+    {opacity: 1, duration: 100},
+    {opacity: 0.5, duration: 100}, 
+    {opacity: 1, duration: 100},  
+  ]
+});
 // const btn1 = document.getElementById('btn1');
 // const btn2 = document.getElementById('btn2');
 // const btn3 = document.getElementById('btn3');
@@ -496,6 +517,8 @@ function startBootSequence() {
 }
 
 startBootSequence();
+
+
 
 
 
