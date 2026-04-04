@@ -1,3 +1,8 @@
+
+
+
+
+//Font 'translator' at the beggining
 const sidebar = document.getElementById('sidebar');
 const buttons = document.querySelectorAll('.btn'); // Grabs all 6 buttons
 
@@ -11,9 +16,8 @@ const humanLabels = {
 };
 
 sidebar.addEventListener('mouseenter', () => {
-    // 2. Use forEach (the loop version of map for side-effects)
     buttons.forEach((btn, index) => {
-        const side = btn.dataset.side; // Gets 'front', 'right', etc.
+        const side = btn.dataset.side; 
         const translation = humanLabels[side];
 
         if (translation) {

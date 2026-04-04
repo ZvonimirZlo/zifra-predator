@@ -14,20 +14,21 @@
 
 <body>
     <main>
-        <div id="boot-sequencer">
+        <!-- <div id="boot-sequencer">
             <div class="countdown-glyph">88:88</div>
             <div class="status-text first-line">INITIALIZING_YAUTJA_CORE</div>
             <div id="intro-lines">
-                <div class="line">SCANNING FOR BIOMETRIC DATA...</div>
+                <div class="line">BIOMETRIC_SCAN_IN_PROGRESS....</div>
                 <div class="line">PREPROCESSING_ACTIVE..........</div>
-                <div class="line">AES_ACTIVE....................</div>
-                <div class="line">SCANNING FOR BIOMETRIC DATA...</div>
+                <div class="line">AES_256_CIPHER_LOCK_ACTIVE....</div>
+                <div class="line">CLOAKING_PROTOCOL_STANDBY.....</div>
                 <div class="line">THERMAL UPLINK ESTABLISHED....</div>
-                <div class="line">PREPROCESSING_ACTIVE..........</div>
-                <div class="line">SCANNING FOR BIOMETRIC DATA...</div>
-                <div class="line">THERMAL UPLINK ESTABLISHED....</div>
+                <div class="line">PREY_SIGNATURE_DETECTED.......</div>
+                <div class="line">TRIANGULATING_COORDINATES.....</div>
+                <div class="line">THERMAL_UPLINK_STABLE.........</div>
+                <div class="line">HUNT_PARAMETERS_ESTABLISHED...</div>
             </div>
-        </div>
+        </div> -->
         <!-- Navbar -->
         <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
         <nav class="sidebar" id="sidebar">
@@ -41,6 +42,10 @@
                     <button class="btn" id="btn6" data-side="bottom">6</button>
                 </div>
             </ul>
+            <div class="theme-switches">
+                <button class="theme-btn blue-glyph" onclick="setTheme('blue')">A</button>
+                <button class="theme-btn green-glyph" onclick="setTheme('green')">B</button>
+            </div>
         </nav>
 
         <!-- Scene wrapper -->
