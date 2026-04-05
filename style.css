@@ -103,12 +103,6 @@ body.green-theme #theme-overlay {
 
 }
 
-/* ********************************************************* */
-
-
-
-
-
 /* body {
     margin: 0;
     height: 100vh;
@@ -375,7 +369,46 @@ main {
     opacity: 0.5;
 }
 
-button:not(.menu > button):not(.eye-btn) {
+#theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    padding: 10px;
+    margin: auto;
+}
+
+#theme .theme-btn{
+    margin:1px;
+    border: 8px solid transparent;
+    border-image-source: url(raphael-renter-raphi_rawr-kjyOhVXpnFE-unsplash.jpg);
+    border-image-slice: 60;
+    border-image-repeat: round;
+    image-rendering: crisp-edges;
+    /* For Firefox */
+    image-rendering: pixelated;
+    border-radius: 4px;
+    box-shadow:
+        inset 2px 2px 0px rgba(151, 89, 89, 0.05),
+        inset -2px -2px 5px rgba(0, 0, 0, 0.8),
+        5px 5px 8px rgba(22, 21, 21, 0.9);
+    text-transform: uppercase;
+    /* text-shadow: 1px 1px 2px red; */
+    font-family: 'yautja';
+    font-size: 44px;
+    background-color: #000000;
+}
+
+ #blue{
+    color:var(--neon-blue);
+    text-shadow: 2px 2px 10px var(--neon-blue);
+}
+
+#green {
+    color: var(--neon);
+}
+
+button:not(.menu > button):not(.eye-btn):not(.theme-btn) {
     background: var(--neon);
     color: #000;
     border: none;
@@ -656,10 +689,10 @@ textarea {
     margin-bottom: 5px;
 }
 
-.btn-purge:hover {
+/* .btn-purge:hover {
     background: rgba(255, 0, 0, 0.2);
     box-shadow: 0 0 10px #ff0000;
-}
+} */
 
 #encrypted_output {
     font-family: 'yautja', monospace;
@@ -733,7 +766,6 @@ button:not(.menu > button):not(.eye-btn) {
 button:not(.menu > button):not(.eye-btn):hover {
     background: #38B6FF;
     color: #000;
-    /* Glow effect makes the button look "hotter" */
     box-shadow: 0 0 25px #38B6FF;
     transform: scale(1.02);
 }
@@ -936,6 +968,7 @@ button:not(.menu > button):not(.eye-btn):hover {
 
 
 }
+
 
 /* .cube-face {
     border: 1px solid rgba(56, 182, 255, 0.3);

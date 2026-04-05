@@ -39,6 +39,8 @@ function showTerminalAlert(message) {
 
 //Toggle blue or green theme
 function setTheme(theme) {
+    const blue = document.getElementById('blue');
+    const green = document.getElementById('green');
     const overlay = document.getElementById('theme-overlay');
     const body = document.body;
 
@@ -46,8 +48,12 @@ function setTheme(theme) {
         body.classList.add('green-theme');
         overlay.style.background = "rgb(255, 255, 0)"; // Yellow filter -> Green result
         overlay.style.mixBlendMode = "multiply";
+        green.style.textShadow = '2px 2px 10px #00ff41'
+        blue.style.textShadow = 'none';
     } else {
         body.classList.remove('green-theme');
+        blue.style.textShadow = '2px 2px 10px #38B6FF';
+        green.style.textShadow = 'none';
     }
 }
 
