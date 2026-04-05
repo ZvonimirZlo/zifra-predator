@@ -6,6 +6,8 @@ const click = new Audio('Sounds/click.ogg');
 const change = new Audio('Sounds/change.ogg')
 const beam = new Audio('Sounds/beam.ogg');
 const alert = new Audio('Sounds/alert.ogg');
+const error = new Audio('Sounds/error.ogg');
+const success = new Audio('Sounds/success.ogg');
 
 
 
@@ -303,7 +305,8 @@ const clickOnSide= (side) => {
     setTimeout(() => {
         const targetFace = document.querySelector(`.cube-face-${side}`);
         const laser = targetFace.querySelector('.laser-scan');
-        beam.play()
+        beam.volume = 0.5;
+        beam.play();
         if (laser) {
             // Reset and Animate Laser
             anime.timeline({
@@ -492,7 +495,7 @@ async function handleEncrypt() {
     const text = face.querySelector('.mainInput').value;
     const output = face.querySelector('.resultOutput');
 click.play()
-    if (!pass || !text) return showTerminalAlert("Need password and text!");
+    if (!pass || !text) return showTerminalAlert("Need password and text!"),alert.play();
 
     const res = await encryptBatch([text], pass);
     output.innerText = res[0];
@@ -503,13 +506,15 @@ async function handleDecrypt() {
     const pass = face.querySelector('.passInput').value;
     const text = face.querySelector('.mainInput').value;
     const output = face.querySelector('.resultOutput');
-click.play()
-    if (!pass || !text) return alert("Need password and encrypted text!");
+    click.play()
+    if (!pass || !text) return showTerminalAlert("Need password and encrypted text!"),alert.play();
 
     const res = await decryptBatch([text], pass);
     output.value = res[0];
+    
 
     if (res[0].includes("ACCESS DENIED")) {
+        error.play()
         anime({
             targets: output,
             // Flash red and shake
@@ -521,6 +526,8 @@ click.play()
         
         output.style.color = "#ff4c4c";
         setTimeout(() => { output.style.color = "#00ff41"; }, 1000);
+    }else{
+        success.play()
     }
 }
 
