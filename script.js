@@ -1,3 +1,43 @@
+
+//Custom alert box
+function showTerminalAlert(message) {
+    const alertBox = document.getElementById('terminal-alert');
+    const messageEl = document.getElementById('alert-message');
+    
+    messageEl.innerText = message;
+
+    // Anime.js Timeline for the Entrance and Exit
+    const tl = anime.timeline({
+        easing: 'easeOutExpo'
+    });
+
+    tl.add({
+        targets: alertBox,
+        right: 20,
+        opacity: [0, 1, 0.5, 1, 0.8, 1], // Slide in
+        duration: 500
+    })
+    .add({
+        targets: '.alert-scanner',
+        left: ['0%', '100%'], // Scan across
+        duration: 1000,
+        easing: 'linear'
+    })
+    .add({
+        targets: alertBox,
+        opacity: 0,
+        right: -300, // Slide out
+        delay: 2000, // Stay visible for 2 seconds
+        duration: 500,
+        complete: () => {
+            alertBox.style.opacity = 1; // Reset for next time
+        }
+    });
+}
+
+
+
+
 function setTheme(theme) {
     const overlay = document.getElementById('theme-overlay');
     const body = document.body;
@@ -450,7 +490,7 @@ async function handleEncrypt() {
     const text = face.querySelector('.mainInput').value;
     const output = face.querySelector('.resultOutput');
 
-    if (!pass || !text) return alert("Need password and text!");
+    if (!pass || !text) return showTerminalAlert("Need password and text!");
 
     const res = await encryptBatch([text], pass);
     output.innerText = res[0];

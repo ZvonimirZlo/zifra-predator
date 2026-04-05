@@ -17,6 +17,43 @@
     --headlineBlue: #00ffff;
 }
 
+.terminal-alert {
+    position: fixed;
+    top: 20px;
+    right: -300px; /* Start off-screen */
+    width: 250px;
+    background: #000;
+    border: 4px solid transparent;
+    border-image-source: url(raphael-renter-raphi_rawr-kjyOhVXpnFE-unsplash.jpg);
+    border-image-slice: 60;
+    color: #ff0000;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    padding: 15px;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.alert-prefix {
+    font-weight: bold;
+    margin-right: 8px;
+    text-shadow: 0 0 5px red;
+}
+
+/* The "Scanning" line that moves across the alert */
+.alert-scanner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 10px red;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
