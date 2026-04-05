@@ -4,7 +4,8 @@ const cube = document.getElementById("cube");
 //Sounds
 const click = new Audio('Sounds/click.ogg');
 const change = new Audio('Sounds/change.ogg')
-const beam = new Audio('beam.ogg');
+const beam = new Audio('Sounds/beam.ogg');
+const alert = new Audio('Sounds/alert.ogg');
 
 
 
@@ -278,6 +279,7 @@ function triggerTitleScramble() {
                 // ends on the final blue state
                 panelTitle.style.color = "#38B6FF";
                 panelTitle.style.textShadow = "none"; 
+                
             }
         });
     }
@@ -310,9 +312,9 @@ const clickOnSide= (side) => {
             })
             .add({
                 targets: laser,
-                opacity: [0, 1, 0.8, 0],
+                opacity: [0.5, 1, 0.8, 0],
                 top: ['0%', '100%'],
-                duration: 2000,
+                duration: 1500,
             })
             .add({
                 targets: targetFace.querySelectorAll('label, input, textarea, button'),
