@@ -1,6 +1,11 @@
 const blue = document.getElementById('blue');//blue theme button
 const cube = document.getElementById("cube");
 
+//Sounds
+const click = new Audio('Sounds/click.ogg');
+const change = new Audio('Sounds/change.ogg')
+const beam = new Audio('beam.ogg');
+
 
 
 //Custom alert box
@@ -43,12 +48,14 @@ function showTerminalAlert(message) {
 
 //Toggle blue or green theme
 function setTheme(theme) {
+
     const blue = document.getElementById('blue');
     const green = document.getElementById('green');
     const overlay = document.getElementById('theme-overlay');
     const body = document.body;
 
     if (theme === 'green') {
+        change.play()
         body.classList.add('green-theme');
         overlay.style.background = "rgb(255, 255, 0)"; // Yellow filter -> Green result
         overlay.style.mixBlendMode = "multiply";
@@ -56,12 +63,15 @@ function setTheme(theme) {
         green.style.boxShadow = '0 0 10px #00ff41';
         blue.style.textShadow = 'none';
         blue.style.boxShadow = 'none';
+        
     } else {
+        change.play()
         body.classList.remove('green-theme');
         blue.style.textShadow = '2px 2px 10px #38B6FF';
         blue.style.boxShadow = '0 0 10px #38B6FF';
         green.style.textShadow = 'none';
         green.style.boxShadow = 'none';
+        
     }
 }
 
@@ -150,6 +160,7 @@ anime({
 
 //Paste
 async function terminalPaste(selector) {
+    click.play()
     const target = document.querySelector(selector);
     try {
         const text = await navigator.clipboard.readText();
@@ -167,6 +178,7 @@ async function terminalPaste(selector) {
 }
  //Delete
 function terminalPurge(selector) {
+    click.play()
     const target = document.querySelector(selector);
     target.value = '';
     
@@ -181,6 +193,7 @@ function terminalPurge(selector) {
 
 //Copy function
 function terminalCopy(event, selector) {
+    click.play()
     const btn = event.currentTarget;
     const originalText = btn.innerText;
     const target = document.querySelector(selector);
@@ -209,17 +222,20 @@ const alienChars = "0123456789%&#$@";
 
 let hasScrambled = false;
 function triggerTitleScramble() {
+    const audioP = new Audio('predator-aiming.ogg')
     if (hasScrambled) return; // 2. If true, exit immediately
     hasScrambled = true; //Make sure to run title scramble only once
     anime({
     targets: panelTitle,
-    duration: 4000,
+    duration: 5000,
     easing: 'easeInOutQuad',
     begin: () => {
         // Force the alien look at the start
         panelTitle.style.fontFamily = "yautja, sans-serif";
         panelTitle.style.color = "red";
         panelTitle.style.textShadow = "0 0 15 #ff0000'";
+        audioP.currentTime = 0; // Reset to start
+        audioP.play()
     },
     update: function(anim) {
         // The scramble happens here
@@ -285,17 +301,18 @@ const clickOnSide= (side) => {
     setTimeout(() => {
         const targetFace = document.querySelector(`.cube-face-${side}`);
         const laser = targetFace.querySelector('.laser-scan');
-        
+        beam.play()
         if (laser) {
             // Reset and Animate Laser
             anime.timeline({
                 easing: 'easeInOutQuad',
+                
             })
             .add({
                 targets: laser,
                 opacity: [0, 1, 0.8, 0],
                 top: ['0%', '100%'],
-                duration: 1200,
+                duration: 2000,
             })
             .add({
                 targets: targetFace.querySelectorAll('label, input, textarea, button'),
@@ -318,6 +335,7 @@ document.querySelectorAll(".btn").forEach(btn => {
   btn.addEventListener("click", (e) => {
     const sideToTurn = e.target.dataset.side;
     clickOnSide(sideToTurn);
+    click.play()
   })
 });
 
@@ -368,6 +386,7 @@ function updateStrength(inputEl) {
 //Toggle sidebar
 function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
+
 }
 
 
@@ -470,7 +489,7 @@ async function handleEncrypt() {
     const pass = face.querySelector('.passInput').value;
     const text = face.querySelector('.mainInput').value;
     const output = face.querySelector('.resultOutput');
-
+click.play()
     if (!pass || !text) return showTerminalAlert("Need password and text!");
 
     const res = await encryptBatch([text], pass);
@@ -482,7 +501,7 @@ async function handleDecrypt() {
     const pass = face.querySelector('.passInput').value;
     const text = face.querySelector('.mainInput').value;
     const output = face.querySelector('.resultOutput');
-
+click.play()
     if (!pass || !text) return alert("Need password and encrypted text!");
 
     const res = await decryptBatch([text], pass);
