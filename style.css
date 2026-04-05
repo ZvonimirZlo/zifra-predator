@@ -17,15 +17,18 @@
     --headlineBlue: #00ffff;
 }
 
+
+/* Alert box */
 .terminal-alert {
     position: fixed;
     top: 20px;
-    right: -300px; /* Start off-screen */
+    left: -300px; /* Start off-screen */
     width: 250px;
+    height: 100px;
     background: #000;
-    border: 4px solid transparent;
+    border: 14px solid transparent;
     border-image-source: url(raphael-renter-raphi_rawr-kjyOhVXpnFE-unsplash.jpg);
-    border-image-slice: 60;
+    border-image-slice: 20;
     color: #ff0000;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 12px;
@@ -35,6 +38,9 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    font-size: .8em;
 }
 
 .alert-prefix {

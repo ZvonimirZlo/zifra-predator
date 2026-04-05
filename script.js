@@ -13,7 +13,7 @@ function showTerminalAlert(message) {
 
     tl.add({
         targets: alertBox,
-        right: 20,
+        left: 20,
         opacity: [0, 1, 0.5, 1, 0.8, 1], // Slide in
         duration: 500
     })
@@ -26,7 +26,7 @@ function showTerminalAlert(message) {
     .add({
         targets: alertBox,
         opacity: 0,
-        right: -300, // Slide out
+        left: -300, // Slide out
         delay: 2000, // Stay visible for 2 seconds
         duration: 500,
         complete: () => {
@@ -37,7 +37,7 @@ function showTerminalAlert(message) {
 
 
 
-
+//Toggle blue or green theme
 function setTheme(theme) {
     const overlay = document.getElementById('theme-overlay');
     const body = document.body;
