@@ -969,7 +969,12 @@ button:not(.menu > button):not(.eye-btn):hover {
 
 
 }
-
+.btn {
+    /* Transitions will FIGHT with Anime.js. Remove them! */
+    transition: none !important; 
+    display: inline-block;
+    white-space: nowrap; /* Prevents the word from jumping to two lines */
+}
 
 /* .cube-face {
     border: 1px solid rgba(56, 182, 255, 0.3);
@@ -982,3 +987,100 @@ button:not(.menu > button):not(.eye-btn):hover {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 } */
+
+/* --- PREDATOR CURSOR INTEGRATION --- */
+
+/* body, .scene, .cube-face { cursor: none; } */
+
+/* #predator-cursor {
+    /* Centering the base bar */
+    /* transform: translate(-50%, -50%); */
+    /* box-shadow: 0 0 15px #ff0000;
+    transition: transform 0.2s ease;
+}
+
+#predator-cursor::before,
+#predator-cursor::after {
+    content: "";
+    position: absolute;
+    width: 35px;
+    height: 3px;
+    background-color: #ff0000;
+    box-shadow: 0 0 8px #ff0000;
+    bottom: 40px;
+}
+
+#predator-cursor::before {
+    left: -20px;
+    transform: rotate(-60deg);
+    transform-origin: right center;
+}
+
+#predator-cursor::after {
+    right: -20px;
+    transform: rotate(60deg);
+    transform-origin: left center;
+}
+
+#predator-cursor.locked {
+    transform: translate(-50%, -50%) scale(1.3);
+    filter: brightness(2);
+}  */
+
+#predator-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 3px; 
+    background-color: #ff0000;
+    box-shadow: 0 0 10px #ff0000;
+    pointer-events: none;
+    z-index: 100000;
+    
+    /* Extreme Glow */
+    filter: brightness(2) drop-shadow(1px 0px 1px rgb(255, 0, 0));
+    
+    /* Centering logic */
+    transform: translate3d(-50%, -50%, 0); 
+    
+    /* Performance: ONLY transition the scale, not the movement */
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.2s ease;
+    will-change: left, top;
+}
+
+#predator-cursor::before,
+#predator-cursor::after {
+    content: "";
+    position: absolute;
+    width: 35px;
+    height: 3px;
+    background-color: #ff0000;
+    box-shadow: 0 0 8px #ff0000;
+    bottom: 40px; /* The hollow gap */
+}
+
+#predator-cursor::before {
+    left: -20px;
+    transform: rotate(-60deg);
+    transform-origin: right center;
+}
+
+#predator-cursor::after {
+    right: -20px;
+    transform: rotate(60deg);
+    transform-origin: left center;
+}
+
+#predator-cursor.locked {
+    transform: translate3d(-50%, -50%, 0) scale(1.2);
+    filter: brightness(2.5);
+}
+
+
+
+
+
+
+
+

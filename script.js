@@ -1,6 +1,7 @@
 const blue = document.getElementById('blue');//blue theme button
 const cube = document.getElementById("cube");
 
+
 //Sounds
 const click = new Audio('Sounds/click.ogg');
 const change = new Audio('Sounds/change.ogg')
@@ -530,6 +531,23 @@ async function handleDecrypt() {
         success.play()
     }
 }
+
+(function() {
+    // Inject directly into body to avoid "Missing Div" crashes
+    const predator = document.createElement('div');
+    predator.id = 'predator-cursor';
+    document.body.appendChild(predator);
+
+    document.addEventListener('mousemove', (e) => {
+        // Fast positioning
+        predator.style.left = e.clientX + 'px';
+        predator.style.top = e.clientY + 'px';
+        
+        // Lock-on check
+        const isTarget = e.target.closest('button, a, .eye-btn, .theme-btn');
+        predator.classList.toggle('locked', !!isTarget);
+    });
+})();
 
 function startBootSequence() {
 
