@@ -1,3 +1,7 @@
+const blue = document.getElementById('blue');//blue theme button
+const cube = document.getElementById("cube");
+
+
 
 //Custom alert box
 function showTerminalAlert(message) {
@@ -49,11 +53,15 @@ function setTheme(theme) {
         overlay.style.background = "rgb(255, 255, 0)"; // Yellow filter -> Green result
         overlay.style.mixBlendMode = "multiply";
         green.style.textShadow = '2px 2px 10px #00ff41'
+        green.style.boxShadow = '0 0 10px #00ff41';
         blue.style.textShadow = 'none';
+        blue.style.boxShadow = 'none';
     } else {
         body.classList.remove('green-theme');
         blue.style.textShadow = '2px 2px 10px #38B6FF';
+        blue.style.boxShadow = '0 0 10px #38B6FF';
         green.style.textShadow = 'none';
+        green.style.boxShadow = 'none';
     }
 }
 
@@ -110,6 +118,7 @@ sidebar.addEventListener('mouseenter', () => {
                 });
             }, index * 100); 
         }
+        blue.style.boxShadow = '0 0 10px #38B6FF';
     });
 }, { once: true });
 
@@ -135,43 +144,7 @@ anime({
     {opacity: 1, duration: 100},  
   ]
 });
-// const btn1 = document.getElementById('btn1');
-// const btn2 = document.getElementById('btn2');
-// const btn3 = document.getElementById('btn3');
-// const btn4 = document.getElementById('btn4');
-// const btn5 = document.getElementById('btn5');
-// const btn6 = document.getElementById('btn6');
 
-
-// // const sidebar = document.getElementById('sidebar');
-// // sidebar.addEventListener('mouseover', () => {
-// //     btn1.innerText = 'Encrypter'
-// //     btn1.style.fontFamily = 'IBM Plex Mono','Monospace'
-// //     btn1.style.fontSize = '14px'
-
-// //     btn2.innerText = 'Decrypter'
-// //     btn2.style.fontFamily = 'IBM Plex Mono','Monospace'
-// //     btn2.style.fontSize = '14px'
-
-// //     btn3.innerText = 'crypter'
-// //     btn3.style.fontFamily = 'IBM Plex Mono','Monospace'
-// //     btn3.style.fontSize = '14px'
-
-// //     btn4.innerText = 'Encr'
-// //     btn4.style.fontFamily = 'IBM Plex Mono','Monospace'
-// //     btn4.style.fontSize = '14px'
-
-// //     btn5.innerText = 'Enter'
-// //     btn5.style.fontFamily = 'IBM Plex Mono','Monospace'
-// //     btn5.style.fontSize = '14px'
-
-// //     btn6.innerText = 'Enpter'
-// //     btn6.style.fontFamily = 'IBM Plex Mono','Monospace'
-// //     btn6.style.fontSize = '14px'
-// // })
-
-
-const cube = document.getElementById("cube");
 
 //Reusable functions for inputs and outputs handling
 
@@ -234,11 +207,13 @@ const finalHumanText = "ENCRYPTION_ACTIVE";
 const alienChars = "0123456789%&#$@"; 
 
 
-
+let hasScrambled = false;
 function triggerTitleScramble() {
+    if (hasScrambled) return; // 2. If true, exit immediately
+    hasScrambled = true; //Make sure to run title scramble only once
     anime({
     targets: panelTitle,
-    duration: 2000,
+    duration: 4000,
     easing: 'easeInOutQuad',
     begin: () => {
         // Force the alien look at the start
@@ -291,7 +266,7 @@ function triggerTitleScramble() {
         });
     }
     }
-);
+    );
 }
 
 
