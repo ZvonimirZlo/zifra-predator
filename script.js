@@ -9,6 +9,7 @@ const beam = new Audio('Sounds/beam.ogg');
 const alert = new Audio('Sounds/alert.ogg');
 const error = new Audio('Sounds/error.ogg');
 const success = new Audio('Sounds/success.ogg');
+const laser = new Audio('Sounds/u_xg7ssi08yr-laser-381976.ogg')
 
 
 
@@ -82,26 +83,13 @@ function setTheme(theme) {
 
 
 
-// function toggleStealth() {
-//     const overlay = document.getElementById('theme-overlay');
-//     const isStealth = document.body.classList.toggle('stealth-active');
-    
-//     if (isStealth) {
-//         // Dark blue/grey filter for stealth
-//         overlay.style.background = "#000b1a"; 
-//         overlay.style.mixBlendMode = "hard-light";
-//         overlay.style.opacity = "0.7";
-//     } else {
-//         // Reset to theme default
-//         overlay.style.opacity = document.body.classList.contains('green-theme') ? "0.5" : "0";
-//     }
-// }
-
-
-
 //Font 'translator' at the beggining
 const sidebar = document.getElementById('sidebar');
 const buttons = document.querySelectorAll('.btn'); // Grabs all 6 buttons
+
+
+const translator = () => {
+
 
 const humanLabels = {
     'front':  'Encrypter',
@@ -111,8 +99,6 @@ const humanLabels = {
     'top':    'Top',
     'bottom': 'Bottom'
 };
-
-sidebar.addEventListener('mouseenter', () => {
     buttons.forEach((btn, index) => {
         const side = btn.dataset.side; 
         const translation = humanLabels[side];
@@ -134,7 +120,12 @@ sidebar.addEventListener('mouseenter', () => {
         }
         blue.style.boxShadow = '0 0 10px #38B6FF';
     });
-}, { once: true });
+
+
+}
+
+
+sidebar.addEventListener('mouseenter', translator, { once: true });
 
 
 //Intro lines animation
@@ -533,7 +524,6 @@ async function handleDecrypt() {
 }
 
 (function() {
-    // Inject directly into body to avoid "Missing Div" crashes
     const predator = document.createElement('div');
     predator.id = 'predator-cursor';
     document.body.appendChild(predator);
@@ -548,6 +538,8 @@ async function handleDecrypt() {
         predator.classList.toggle('locked', !!isTarget);
     });
 })();
+
+
 
 function startBootSequence() {
 
@@ -616,10 +608,81 @@ function startBootSequence() {
 
 }
 
-startBootSequence();
+// startBootSequence();
+
+let currentPulse = 0;
+const totalButtons = 6;
 
 
 
+
+//System purge
+function startDecayCountdown() {
+    nukeSfx=click
+    const allBtns = Array.from(document.querySelectorAll('.sidebar .btn'));
+
+    nukeInterval = setInterval(() => {
+        if (currentPulse < totalButtons) {
+            nukeSfx.playbackRate = 1.0 + (currentPulse * 0.2);
+            nukeSfx.play();
+            const activeButtons = allBtns.slice(0, totalButtons - currentPulse);
+            const dyingButton = allBtns[totalButtons - 1 - currentPulse];
+
+            // 3. The Global Pulse
+            anime({
+    targets: activeButtons,
+    color: ['#ff0000', '#ff0000', ],
+    // textShadow: [
+    //     '0 0 5px #ff0000',
+    //     '0 0 20px #ff0000',
+    //     '0 0 0px transparent'
+    // ],
+    duration: 400,
+    easing: 'steps(5)',
+    begin: () => {
+    allBtns.map(x => {
+        x.style.fontFamily = 'yautja' 
+        x.style.fontSize = '40px'
+    })
+        activeButtons.forEach(btn => {
+            btn.innerText = Math.floor(Math.random() * 9);
+        });
+    },
+    complete: () => {
+        // The dying button is officially 'fried'
+        dyingButton.innerText = "";
+        dyingButton.style.borderColor = "#220000";
+        dyingButton.style.boxShadow = "none";
+        
+        // Ensure survivors stay transparent until the NEXT pulse
+        activeButtons.forEach(btn => {
+            if (btn !== dyingButton) {
+                btn.style.color = "transparent";
+            }
+        });
+    }
+});
+
+            currentPulse++;
+        } else {
+            clearInterval(nukeInterval);
+            executeFinalPurge();
+        }
+    }, 1000); 
+}
+
+
+//Reset the system purge
+function resetGauntlet() {
+
+    clearInterval(nukeInterval);
+    isNuking = false;
+    currentPulse = 0;
+
+    translator(); 
+    // 4. Reset the Killswitch button text
+    document.querySelector('.kill-btn').innerText = "PURGE_SYSTEM";
+}
 
 
 // async function pasteToInput(selector) {

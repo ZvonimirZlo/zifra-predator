@@ -236,7 +236,7 @@ main {
 
 .sidebar {
     width: 220px;
-    height: 65vh;
+    height: 100%;
     padding: 20px;
     display: flex;
     flex-direction: column;
