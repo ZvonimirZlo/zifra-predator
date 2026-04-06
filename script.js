@@ -1,6 +1,7 @@
 const blue = document.getElementById('blue');//blue theme button
 const cube = document.getElementById("cube");
 const killBtn = document.getElementById('kill-button');
+const allBtns = document.querySelectorAll('.sidebar .btn');
 
 
 //Sounds
@@ -619,12 +620,13 @@ let nukeInterval = null;
 
 //System purge
 function startDecayCountdown() {
+
+    const allBtns = Array.from(document.querySelectorAll('.sidebar .btn'));
     //Disables the kill button
     killBtn.disabled = true
     killBtn.style.pointerEvents = 'none'; // Physical lock
     killBtn.style.filter = 'grayscale(1) brightness(0.5)';
     nukeSfx=click
-    const allBtns = Array.from(document.querySelectorAll('.sidebar .btn'));
 
     nukeInterval = setInterval(() => {
         if (currentPulse < totalButtons) {
@@ -679,13 +681,30 @@ function resetGauntlet() {
     killBtn.disabled = false;
     killBtn.style.pointerEvents = 'auto';
     killBtn.style.filter = 'none';
+    
+    anime.remove('.sidebar .btn');
+    
     clearInterval(nukeInterval);
     isNuking = false;
     currentPulse = 0;
 
     translator(); 
-    // 4. Reset the Killswitch button text
+    //Reset the Killswitch button text
     document.querySelector('.kill-btn').innerText = "PURGE_SYSTEM";
+
+    allBtns.forEach(btn => {
+        btn.style.color = "#ff0000";
+        btn.style.textShadow = "#ff0000"
+        btn.style.fontFamily = "inherit";
+        btn.style.fontSize = "14px";
+        btn.style.opacity = "1";
+        btn.style.removeProperty('color');
+        btn.style.removeProperty('text-shadow');
+        btn.style.removeProperty('font-family');
+        btn.style.removeProperty('font-size');
+        btn.style.removeProperty('opacity');
+        btn.style.removeProperty('filter');
+    });
 }
 
 
