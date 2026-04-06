@@ -1,5 +1,6 @@
 const blue = document.getElementById('blue');//blue theme button
 const cube = document.getElementById("cube");
+const killBtn = document.getElementById('kill-button');
 
 
 //Sounds
@@ -612,12 +613,16 @@ function startBootSequence() {
 
 let currentPulse = 0;
 const totalButtons = 6;
-
+let nukeInterval = null;
 
 
 
 //System purge
 function startDecayCountdown() {
+    //Disables the kill button
+    killBtn.disabled = true
+    killBtn.style.pointerEvents = 'none'; // Physical lock
+    killBtn.style.filter = 'grayscale(1) brightness(0.5)';
     nukeSfx=click
     const allBtns = Array.from(document.querySelectorAll('.sidebar .btn'));
 
@@ -632,11 +637,6 @@ function startDecayCountdown() {
             anime({
     targets: activeButtons,
     color: ['#ff0000', '#ff0000', ],
-    // textShadow: [
-    //     '0 0 5px #ff0000',
-    //     '0 0 20px #ff0000',
-    //     '0 0 0px transparent'
-    // ],
     duration: 400,
     easing: 'steps(5)',
     begin: () => {
@@ -675,6 +675,10 @@ function startDecayCountdown() {
 //Reset the system purge
 function resetGauntlet() {
 
+    //Enables the kill button
+    killBtn.disabled = false;
+    killBtn.style.pointerEvents = 'auto';
+    killBtn.style.filter = 'none';
     clearInterval(nukeInterval);
     isNuking = false;
     currentPulse = 0;
@@ -683,6 +687,8 @@ function resetGauntlet() {
     // 4. Reset the Killswitch button text
     document.querySelector('.kill-btn').innerText = "PURGE_SYSTEM";
 }
+
+
 
 
 // async function pasteToInput(selector) {
