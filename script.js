@@ -26,7 +26,7 @@ const stealth = document.querySelector('.stealth');
  const sounds = [click, change, beam, alert, error, success, laser, audioP, predator, countdown]
 const isMuted = sounds[0].muted
  sounds.forEach(x => x.muted = !isMuted);
- return isMuted ? stealth.innerText = 'STEALTH_OFF' : stealth.innerText = 'STEALTH_ON';
+ return isMuted ? stealth.innerText = `STEALTH_OFF 🔊`: stealth.innerText = `STEALTH_ON 🔇`;
 }
 
 
