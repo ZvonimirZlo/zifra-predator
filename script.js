@@ -19,8 +19,21 @@ const predator = new Audio('Sounds/freesound_community-predator-40909.ogg');
 const countdown = new Audio('Sounds/countdown-boom.ogg');
 
 
+
+//'Stealth' mode function, kills the sounds 
+const mute = () => {
+const stealth = document.querySelector('.stealth');
+ const sounds = [click, change, beam, alert, error, success, laser, audioP, predator, countdown]
+const isMuted = sounds[0].muted
+ sounds.forEach(x => x.muted = !isMuted);
+ return isMuted ? stealth.innerText = 'STEALTH_OFF' : stealth.innerText = 'STEALTH_ON';
+}
+
+
 //Intro boot sequence
 function startBootSequence() {
+    audioP.play()
+    audioP.currentTime = 0;
 
     const sequencer = document.getElementById('boot-sequencer');
     const glyph = sequencer.querySelector('.countdown-glyph');
@@ -179,7 +192,32 @@ function setTheme(theme) {
         green.style.textShadow = 'none';
         green.style.boxShadow = 'none';
         
-    }
+    }    const tl = anime.timeline({
+        easing: 'easeOutExpo'
+    });
+
+    tl.add({
+        targets: alertBox,
+        left: 20,
+        opacity: [0, 1, 0.5, 1, 0.8, 1], // Slide in
+        duration: 500
+    })
+    .add({
+        targets: '.alert-scanner',
+        left: ['0%', '100%'], // Scan across
+        duration: 1000,
+        easing: 'linear'
+    })
+    .add({
+        targets: alertBox,
+        opacity: 0,
+        left: -300, // Slide out
+        delay: 2000, // Stay visible for 2 seconds
+        duration: 500,
+        complete: () => {
+            alertBox.style.opacity = 1; // Reset for next time
+        }
+    });
 }
 
 
@@ -255,6 +293,7 @@ function terminalPurge(selector) {
         duration: 250,
         easing: 'linear'
     });
+    alert.play()
 }
 
 //Copy function
@@ -277,6 +316,7 @@ function terminalCopy(event, selector) {
     
     //Resets to original text
     setTimeout(() => btn.innerText = originalText, 1500);
+    success.play()
 }
 
 
@@ -299,8 +339,6 @@ function triggerTitleScramble() {
         panelTitle.style.fontFamily = "yautja, sans-serif";
         panelTitle.style.color = "red";
         panelTitle.style.textShadow = "0 0 15 #ff0000'";
-        audioP.currentTime = 0; // Reset to start
-        audioP.play()
     },
     update: function(anim) {
         // The scramble happens here
@@ -561,6 +599,7 @@ click.play()
 
     const res = await encryptBatch([text], pass);
     output.innerText = res[0];
+    success.play()
 }
 
 async function handleDecrypt() {
@@ -671,7 +710,7 @@ function startDecayCountdown() {
         }
     }, 1000); 
 
-    
+
     setTimeout(() => {
      window.location.reload();
     },6500)
