@@ -53,8 +53,9 @@
                 <button class="theme-btn blue-glyph" id="blue" onclick="setTheme('blue')">1</button>
                 <button class="theme-btn green-glyph" id="green" onclick="setTheme('green')">2</button>
             </div>
-            <button class=" kill-btn" id="kill-button" onclick="startDecayCountdown() ">REBOOT_SYSTEM</button>
+            <button class=" kill-btn" id="kill-button" onclick="startDecayCountdown() ">REBOOT_SYSTEM ⚠️</button>
             <button class="stealth" onclick="mute()">STEALTH_OFF &#128266;</button>
+            <button class="stealth" onclick="triggerTitleScramble()">CALIBRATE_ENCRYPTER</button>
         </nav>
         <div id="theme-overlay"></div>
         <!-- Scene wrapper -->
@@ -89,7 +90,7 @@
                             <button onclick="terminalPaste('.cube-face-front .mainInput')"
                                 class="control-btn">LINK_DATA</button>
                             <button onclick="terminalPurge('.cube-face-front .mainInput')"
-                                class="control-btn btn-purge">PURGE</button>
+                                class="control-btn btn-purge">⚠️PURGE</button>
                             <button onclick="terminalCopy(event, '.cube-face-front .resultOutput')"
                                 class="control-btn">CLONE_EXTRACT</button>
                         </div>

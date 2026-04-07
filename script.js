@@ -17,13 +17,15 @@ const laser = new Audio('Sounds/u_xg7ssi08yr-laser-381976.ogg');
 const audioP = new Audio('predator-aiming.ogg');
 const predator = new Audio('Sounds/freesound_community-predator-40909.ogg');
 const countdown = new Audio('Sounds/countdown-boom.ogg');
+const beep = new Audio('Sounds/beepP.ogg');
 
 
 
 //'Stealth' mode function, kills the sounds 
 const mute = () => {
+    beep.play()
 const stealth = document.querySelector('.stealth');
- const sounds = [click, change, beam, alert, error, success, laser, audioP, predator, countdown]
+ const sounds = [click, change, beam, alert, error, success, laser, audioP, predator, countdown, beep]
 const isMuted = sounds[0].muted
  sounds.forEach(x => x.muted = !isMuted);
  return isMuted ? stealth.innerText = `STEALTH_OFF 🔊`: stealth.innerText = `STEALTH_ON 🔇`;
@@ -328,8 +330,10 @@ const alienChars = "0123456789%&#$@";
 
 let hasScrambled = false;
 function triggerTitleScramble() {
-    if (hasScrambled) return; // 2. If true, exit immediately
-    hasScrambled = true; //Make sure to run title scramble only once
+    clickOnSide(cube.side = "front")//Make sure that we are on the front side when the function triggers
+    // if (hasScrambled) return; // 2. If true, exit immediately
+    // hasScrambled = true; //Make sure to run title scramble only once
+    
     anime({
     targets: panelTitle,
     duration: 5000,
@@ -428,9 +432,9 @@ const clickOnSide= (side) => {
             }, '-=800') 
             
         }
-        if(side === 'front'){
-            triggerTitleScramble();
-        }
+        // if(side === 'front'){
+        //     triggerTitleScramble();
+        // }
     }, 600)
 };
 
@@ -440,7 +444,7 @@ document.querySelectorAll(".btn").forEach(btn => {
   btn.addEventListener("click", (e) => {
     const sideToTurn = e.target.dataset.side;
     clickOnSide(sideToTurn);
-    click.play()
+    beep.play()
   })
 });
 
@@ -658,7 +662,7 @@ let nukeInterval = null;
 
 //System purge
 function startDecayCountdown() {
-
+    beep.play()
     const allBtns = Array.from(document.querySelectorAll('.sidebar .btn'));
     //Disables the kill button
     killBtn.disabled = true
