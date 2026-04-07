@@ -3,6 +3,8 @@ const cube = document.getElementById("cube");
 const killBtn = document.getElementById('kill-button');
 const allBtns = document.querySelectorAll('.sidebar .btn');
 const sidebar = document.getElementById('sidebar');
+const startBtn = document.querySelector('.start');
+const startingPoint = document.querySelector('.starting-point');
 // const buttons = document.querySelectorAll('.btn'); // Grabs all 6 buttons
 
 
@@ -18,8 +20,21 @@ const audioP = new Audio('predator-aiming.ogg');
 const predator = new Audio('Sounds/freesound_community-predator-40909.ogg');
 const countdown = new Audio('Sounds/countdown-boom.ogg');
 const beep = new Audio('Sounds/beepP.ogg');
-const calibrating = new Audio('Sounds/calibrating.ogg')
+const calibrating = new Audio('Sounds/calibrating.ogg');
+const unlock = new Audio('Sounds/unlockingGauntlet.ogg');
 
+
+
+startBtn.addEventListener('click', () => {
+   startingPoint.style.display = 'block';
+   startBtn.style.display = 'none';
+   // Gives the browser a split second to render the 'block' 
+   // change before firing the heavy logic
+   setTimeout(() => {
+       startBootSequence();
+   }, 10);
+    
+})
 
 
 //'Stealth' mode function, kills the sounds 
@@ -100,13 +115,7 @@ function startBootSequence() {
             });
         }
     });
-
-}
-
-// startBootSequence();
-
-
-//Intro lines animation
+    //Intro lines animation
 anime({
   targets: '.status-text.first-line,.line',
   opacity: [0, 1],
@@ -127,6 +136,12 @@ anime({
     {opacity: 1, duration: 100},  
   ]
 });
+
+}
+
+// startBootSequence();
+
+
 
 
 //Gauntlet activator
@@ -163,7 +178,7 @@ const humanLabels = {
         // active.style.color = '#f00000';
     });
 
-beep.play()
+unlock.play()
 }
 
 sidebar.addEventListener('mouseenter', translator, { once: true });
@@ -331,6 +346,8 @@ const alienChars = "0123456789%&#$@";
 
 let hasScrambled = false;
 function triggerTitleScramble() {
+
+    beep.play();
     calibrating.play()
     clickOnSide(cube.side = "front")//Make sure that we are on the front side when the function triggers
     // if (hasScrambled) return; // 2. If true, exit immediately
