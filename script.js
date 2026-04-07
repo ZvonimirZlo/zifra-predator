@@ -2,6 +2,8 @@ const blue = document.getElementById('blue');//blue theme button
 const cube = document.getElementById("cube");
 const killBtn = document.getElementById('kill-button');
 const allBtns = document.querySelectorAll('.sidebar .btn');
+const sidebar = document.getElementById('sidebar');
+// const buttons = document.querySelectorAll('.btn'); // Grabs all 6 buttons
 
 
 //Sounds
@@ -11,7 +13,175 @@ const beam = new Audio('Sounds/beam.ogg');
 const alert = new Audio('Sounds/alert.ogg');
 const error = new Audio('Sounds/error.ogg');
 const success = new Audio('Sounds/success.ogg');
-const laser = new Audio('Sounds/u_xg7ssi08yr-laser-381976.ogg')
+const laser = new Audio('Sounds/u_xg7ssi08yr-laser-381976.ogg');
+const audioP = new Audio('predator-aiming.ogg');
+const predator = new Audio('Sounds/freesound_community-predator-40909.ogg');
+const countdown = new Audio('Sounds/countdown-boom.ogg');
+
+
+//Intro boot sequence
+function startBootSequence() {
+
+    const sequencer = document.getElementById('boot-sequencer');
+    const glyph = sequencer.querySelector('.countdown-glyph');
+    const sidebarContent = document.querySelector('.menu');
+    
+    const symbols = "0123456789PREDATOR";
+    let currentLength = 5; // Starting with "##:##"
+
+    sidebarContent.style.opacity = "0";
+
+    anime({
+        targets: glyph,
+        duration: 5000, // Slower 5-second burn
+        easing: 'linear',
+        update: function(anim) {
+            const progress = anim.progress; 
+            
+            const newLength = Math.ceil(5 * (1 - (progress / 100)));
+
+            // 2. Slow down the flicker (only change symbols every 8 frames)
+            if (Math.round(progress * 10) % 8 === 0) {
+                let rand = "";
+                for (let i = 0; i < newLength; i++) {
+                    // Keep the colon logic if we have enough chars
+                    if (i === 2 && newLength > 2) rand += "x";
+                    else rand += symbols[Math.floor(Math.random() * symbols.length)];
+                }
+                glyph.innerText = rand;
+
+                // 3. Heavy Flicker: Occasional deep dimming
+                const flicker = Math.random();
+                if (flicker > 0.8) glyph.style.opacity = "0.1";
+                else if (flicker > 0.4) glyph.style.opacity = "1";
+                else glyph.style.opacity = "0.7";
+                
+                // 4. Slight scale "thump" when a character drops
+                if (newLength < currentLength) {
+                    currentLength = newLength;
+                    glyph.style.transform = 'scale(1.1)';
+                    setTimeout(() => glyph.style.transform = 'scale(1)', 100);
+                }
+            }
+        },
+        complete: () => {
+            // Flash and Reveal
+            anime({
+                targets: sequencer,
+                opacity: 0,
+                scale: 2, // "Explosion" feel
+                duration: 600,
+                easing: 'easeInQuart',
+                complete: () => {
+                    sequencer.remove();
+                    anime({
+                        targets: sidebarContent,
+                        opacity: 1,
+                        translateY: [30, 0],
+                        duration: 2000
+                    });
+                }
+            });
+        }
+    });
+
+}
+
+// startBootSequence();
+
+
+//Intro lines animation
+anime({
+  targets: '.status-text.first-line,.line',
+  opacity: [0, 1],
+  clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'],
+  translateY: [-10, 0],
+  easing: 'easeOutExpo',
+  duration: 800,
+  delay: anime.stagger(500), // Time between each line appearing
+  begin: function(anim) {
+  },
+  changeComplete: function(el) {
+
+  },
+ 
+  keyframes: [
+    {opacity: 1, duration: 100},
+    {opacity: 0.5, duration: 100}, 
+    {opacity: 1, duration: 100},  
+  ]
+});
+
+
+//Gauntlet activator
+const translator = () => {
+    const active = document.querySelector('.status')
+const humanLabels = {
+    'front':  'Encrypter',
+    'right':  'Decrypter',
+    'back':   'Manual',
+    'left':   'About',
+    'top':    'Top',
+    'bottom': 'Bottom'
+};
+    allBtns.forEach((btn, index) => {
+        const side = btn.dataset.side; 
+        const translation = humanLabels[side];
+
+        if (translation) {
+            setTimeout(() => {
+                btn.innerText = translation;
+                btn.style.fontFamily = 'IBM Plex Mono';
+                btn.style.fontSize = '14px';
+                
+                anime({
+                    targets: btn,
+                    filter: ['brightness(5)', 'brightness(1)'],
+                    textShadow: ['0 0 20px red', '1px 1px 2px red'],
+                    duration: 1000,
+                    easing: 'easeOutExpo'
+                });
+            }, index * 100); 
+        }
+        blue.style.boxShadow = '0 0 10px #38B6FF';
+        // active.style.color = '#f00000';
+    });
+
+success.play()
+}
+
+sidebar.addEventListener('mouseenter', translator, { once: true });
+
+
+//Toggle blue or green theme
+function setTheme(theme) {
+
+    const blue = document.getElementById('blue');
+    const green = document.getElementById('green');
+    const overlay = document.getElementById('theme-overlay');
+    const body = document.body;
+
+    if (theme === 'green') {
+        change.play()
+        body.classList.add('green-theme');
+        overlay.style.background = "rgb(255, 255, 0)"; // Yellow filter -> Green result
+        overlay.style.mixBlendMode = "multiply";
+        green.style.textShadow = '2px 2px 10px #00ff41'
+        green.style.boxShadow = '0 0 10px #00ff41';
+        blue.style.textShadow = 'none';
+        blue.style.boxShadow = 'none';
+        
+    } else {
+        change.play()
+        body.classList.remove('green-theme');
+        blue.style.textShadow = '2px 2px 10px #38B6FF';
+        blue.style.boxShadow = '0 0 10px #38B6FF';
+        green.style.textShadow = 'none';
+        green.style.boxShadow = 'none';
+        
+    }
+}
+
 
 
 
@@ -50,107 +220,6 @@ function showTerminalAlert(message) {
         }
     });
 }
-
-
-
-//Toggle blue or green theme
-function setTheme(theme) {
-
-    const blue = document.getElementById('blue');
-    const green = document.getElementById('green');
-    const overlay = document.getElementById('theme-overlay');
-    const body = document.body;
-
-    if (theme === 'green') {
-        change.play()
-        body.classList.add('green-theme');
-        overlay.style.background = "rgb(255, 255, 0)"; // Yellow filter -> Green result
-        overlay.style.mixBlendMode = "multiply";
-        green.style.textShadow = '2px 2px 10px #00ff41'
-        green.style.boxShadow = '0 0 10px #00ff41';
-        blue.style.textShadow = 'none';
-        blue.style.boxShadow = 'none';
-        
-    } else {
-        change.play()
-        body.classList.remove('green-theme');
-        blue.style.textShadow = '2px 2px 10px #38B6FF';
-        blue.style.boxShadow = '0 0 10px #38B6FF';
-        green.style.textShadow = 'none';
-        green.style.boxShadow = 'none';
-        
-    }
-}
-
-
-
-
-//Font 'translator' at the beggining
-const sidebar = document.getElementById('sidebar');
-const buttons = document.querySelectorAll('.btn'); // Grabs all 6 buttons
-
-
-const translator = () => {
-
-
-const humanLabels = {
-    'front':  'Encrypter',
-    'right':  'Decrypter',
-    'back':   'Manual',
-    'left':   'About',
-    'top':    'Top',
-    'bottom': 'Bottom'
-};
-    buttons.forEach((btn, index) => {
-        const side = btn.dataset.side; 
-        const translation = humanLabels[side];
-
-        if (translation) {
-            setTimeout(() => {
-                btn.innerText = translation;
-                btn.style.fontFamily = 'IBM Plex Mono';
-                btn.style.fontSize = '14px';
-                
-                anime({
-                    targets: btn,
-                    filter: ['brightness(5)', 'brightness(1)'],
-                    textShadow: ['0 0 20px red', '1px 1px 2px red'],
-                    duration: 1000,
-                    easing: 'easeOutExpo'
-                });
-            }, index * 100); 
-        }
-        blue.style.boxShadow = '0 0 10px #38B6FF';
-    });
-
-
-}
-
-
-sidebar.addEventListener('mouseenter', translator, { once: true });
-
-
-//Intro lines animation
-anime({
-  targets: '.status-text.first-line,.line',
-  opacity: [0, 1],
-  clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'],
-  translateY: [-10, 0],
-  easing: 'easeOutExpo',
-  duration: 800,
-  delay: anime.stagger(500), // Time between each line appearing
-  begin: function(anim) {
-  },
-  changeComplete: function(el) {
-
-  },
- 
-  keyframes: [
-    {opacity: 1, duration: 100},
-    {opacity: 0.5, duration: 100}, 
-    {opacity: 1, duration: 100},  
-  ]
-});
 
 
 //Reusable functions for inputs and outputs handling
@@ -219,7 +288,6 @@ const alienChars = "0123456789%&#$@";
 
 let hasScrambled = false;
 function triggerTitleScramble() {
-    const audioP = new Audio('predator-aiming.ogg')
     if (hasScrambled) return; // 2. If true, exit immediately
     hasScrambled = true; //Make sure to run title scramble only once
     anime({
@@ -543,75 +611,6 @@ async function handleDecrypt() {
 
 
 
-function startBootSequence() {
-
-    const sequencer = document.getElementById('boot-sequencer');
-    const glyph = sequencer.querySelector('.countdown-glyph');
-    const sidebarContent = document.querySelector('.menu');
-    
-    const symbols = "0123456789PREDATOR";
-    let currentLength = 5; // Starting with "##:##"
-
-    sidebarContent.style.opacity = "0";
-
-    anime({
-        targets: glyph,
-        duration: 5000, // Slower 5-second burn
-        easing: 'linear',
-        update: function(anim) {
-            const progress = anim.progress; 
-            
-            const newLength = Math.ceil(5 * (1 - (progress / 100)));
-
-            // 2. Slow down the flicker (only change symbols every 8 frames)
-            if (Math.round(progress * 10) % 8 === 0) {
-                let rand = "";
-                for (let i = 0; i < newLength; i++) {
-                    // Keep the colon logic if we have enough chars
-                    if (i === 2 && newLength > 2) rand += "x";
-                    else rand += symbols[Math.floor(Math.random() * symbols.length)];
-                }
-                glyph.innerText = rand;
-
-                // 3. Heavy Flicker: Occasional deep dimming
-                const flicker = Math.random();
-                if (flicker > 0.8) glyph.style.opacity = "0.1";
-                else if (flicker > 0.4) glyph.style.opacity = "1";
-                else glyph.style.opacity = "0.7";
-                
-                // 4. Slight scale "thump" when a character drops
-                if (newLength < currentLength) {
-                    currentLength = newLength;
-                    glyph.style.transform = 'scale(1.1)';
-                    setTimeout(() => glyph.style.transform = 'scale(1)', 100);
-                }
-            }
-        },
-        complete: () => {
-            // Flash and Reveal
-            anime({
-                targets: sequencer,
-                opacity: 0,
-                scale: 2, // "Explosion" feel
-                duration: 600,
-                easing: 'easeInQuart',
-                complete: () => {
-                    sequencer.remove();
-                    anime({
-                        targets: sidebarContent,
-                        opacity: 1,
-                        translateY: [30, 0],
-                        duration: 2000
-                    });
-                }
-            });
-        }
-    });
-
-}
-
-// startBootSequence();
-
 let currentPulse = 0;
 const totalButtons = 6;
 let nukeInterval = null;
@@ -626,11 +625,11 @@ function startDecayCountdown() {
     killBtn.disabled = true
     killBtn.style.pointerEvents = 'none'; // Physical lock
     killBtn.style.filter = 'grayscale(1) brightness(0.5)';
-    nukeSfx=click
+    nukeSfx=countdown
 
     nukeInterval = setInterval(() => {
         if (currentPulse < totalButtons) {
-            nukeSfx.playbackRate = 1.0 + (currentPulse * 0.2);
+            nukeSfx.volume = 0.5;
             nukeSfx.play();
             const activeButtons = allBtns.slice(0, totalButtons - currentPulse);
             const dyingButton = allBtns[totalButtons - 1 - currentPulse];
@@ -668,9 +667,15 @@ function startDecayCountdown() {
             currentPulse++;
         } else {
             clearInterval(nukeInterval);
-            executeFinalPurge();
+            
         }
     }, 1000); 
+
+    
+    setTimeout(() => {
+     window.location.reload();
+    },6500)
+    
 }
 
 
@@ -690,7 +695,7 @@ function resetGauntlet() {
 
     translator(); 
     //Reset the Killswitch button text
-    document.querySelector('.kill-btn').innerText = "PURGE_SYSTEM";
+    document.querySelector('.kill-btn').innerText = "REBOOT_SYSTEM";
 
     allBtns.forEach(btn => {
         btn.style.color = "#ff0000";
