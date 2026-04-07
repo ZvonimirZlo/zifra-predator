@@ -18,6 +18,7 @@ const audioP = new Audio('predator-aiming.ogg');
 const predator = new Audio('Sounds/freesound_community-predator-40909.ogg');
 const countdown = new Audio('Sounds/countdown-boom.ogg');
 const beep = new Audio('Sounds/beepP.ogg');
+const calibrating = new Audio('Sounds/calibrating.ogg')
 
 
 
@@ -162,7 +163,7 @@ const humanLabels = {
         // active.style.color = '#f00000';
     });
 
-success.play()
+beep.play()
 }
 
 sidebar.addEventListener('mouseenter', translator, { once: true });
@@ -330,6 +331,7 @@ const alienChars = "0123456789%&#$@";
 
 let hasScrambled = false;
 function triggerTitleScramble() {
+    calibrating.play()
     clickOnSide(cube.side = "front")//Make sure that we are on the front side when the function triggers
     // if (hasScrambled) return; // 2. If true, exit immediately
     // hasScrambled = true; //Make sure to run title scramble only once
