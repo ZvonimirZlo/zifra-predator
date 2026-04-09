@@ -1087,6 +1087,19 @@ img{
 
 /* --------------------------------------------------------------------------------------------- */
 
+.start {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.start .intro-headline {
+    margin-bottom: 100px;
+    color: var(--neon);
+    filter: drop-shadow(0 0 5px #00ff00);
+}
+
 .fingerprint-container {
   width: 100px;
   height: 100px;
