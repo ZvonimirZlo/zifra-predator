@@ -25,16 +25,16 @@ const unlock = new Audio('Sounds/unlockingGauntlet.ogg');
 
 
 
-startBtn.addEventListener('click', () => {
-   startingPoint.style.display = 'block';
-   startBtn.style.display = 'none';
-   // Gives the browser a split second to render the 'block' 
-   // change before firing the heavy logic
-   setTimeout(() => {
-       startBootSequence();
-   }, 10);
+// startBtn.addEventListener('click', () => {
+//    startingPoint.style.display = 'block';
+//    startBtn.style.display = 'none';
+//    // Gives the browser a split second to render the 'block' 
+//    // change before firing the heavy logic
+//    setTimeout(() => {
+//        startBootSequence();
+//    }, 100);
     
-})
+// })
 
 
 //'Stealth' mode function, kills the sounds 
@@ -433,13 +433,14 @@ const clickOnSide= (side) => {
         if (laser) {
             // Reset and Animate Laser
             anime.timeline({
-                easing: 'easeInOutQuad',
+                easing: 'linear',
                 
             })
             .add({
                 targets: laser,
                 opacity: [0.5, 1, 0.8, 0],
                 top: ['0%', '100%'],
+
                 duration: 1500,
             })
             .add({
@@ -687,12 +688,11 @@ function startDecayCountdown() {
     killBtn.disabled = true
     killBtn.style.pointerEvents = 'none'; // Physical lock
     killBtn.style.filter = 'grayscale(1) brightness(0.5)';
-    nukeSfx=countdown
 
     nukeInterval = setInterval(() => {
         if (currentPulse < totalButtons) {
-            nukeSfx.volume = 0.5;
-            nukeSfx.play();
+            countdown.volume = 0.5;
+            countdown.play();
             const activeButtons = allBtns.slice(0, totalButtons - currentPulse);
             const dyingButton = allBtns[totalButtons - 1 - currentPulse];
 
