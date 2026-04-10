@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'yautja';
-    src: url('yautja.ttf') format('truetype');
+    src: url('Yautja.woff2') format('woff2');
     /* font-display: swap; */
 }
 
@@ -723,6 +723,10 @@ textarea {
     pointer-events: none;
 }
 
+.scan-line, .laser-scan {
+    will-change: transform, opacity;
+}
+
 
 /* Add a slight red tint to the face while scanning */
 .scanning .cube-face {
@@ -1092,24 +1096,28 @@ img{
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    gap: 150px;
 }
 
-.start .intro-headline {
-    margin-bottom: 100px;
-    color: var(--neon);
-    filter: drop-shadow(0 0 5px #00ff00);
-}
+/* .start .intro-headline {
+    color:#39ff14
+} */
 
 .fingerprint-container {
   width: 100px;
   height: 100px;
-  /* color: #39ff00; */
-  filter: drop-shadow(0 0 5px #00ff00);
+  filter: drop-shadow(0 0 5px #39FF14);
   transition:
     transform 0.2s ease,
     filter 0.3s ease;
     font-family: 'yutjya',sans-serif;
 }
+
+.intro-headline{
+    filter: drop-shadow(0 0 5px #39FF14);
+}
+
+
 
 
 /* Scan effect */
@@ -1174,7 +1182,7 @@ img{
 
 .status {
   position: absolute;
-  bottom: -30px;
+  bottom: -50px;
   width: 100%;
   text-align: center;
   color: #00ff00;

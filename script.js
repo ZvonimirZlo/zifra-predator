@@ -23,18 +23,19 @@ const beep = new Audio('Sounds/beepP.ogg');
 const calibrating = new Audio('Sounds/calibrating.ogg');
 const unlock = new Audio('Sounds/unlockingGauntlet.ogg');
 
+// Call the function
+// document.addEventListener('DOMContentLoaded', triggerTitleScramble);
 
-
-// startBtn.addEventListener('click', () => {
-//    startingPoint.style.display = 'block';
-//    startBtn.style.display = 'none';
-//    // Gives the browser a split second to render the 'block' 
-//    // change before firing the heavy logic
-//    setTimeout(() => {
-//        startBootSequence();
-//    }, 100);
+startBtn.addEventListener('click', () => {
+   startingPoint.style.display = 'block';
+   startBtn.style.display = 'none';
+   // Gives the browser a split second to render the 'block' 
+   // change before firing the heavy logic
+   setTimeout(() => {
+       startBootSequence();
+   }, 100);
     
-// })
+})
 
 
 //'Stealth' mode function, kills the sounds 
@@ -338,79 +339,124 @@ function terminalCopy(event, selector) {
 }
 
 
+//Intro text animation
 
-const panelTitle = document.querySelector('.terminal-title'); 
-const finalHumanText = "ENCRYPTION_ACTIVE";
-const alienChars = "0123456789%&#$@"; 
+const headline = document.querySelector('.intro-headline');
+const finalHumanText = "ZIFR@_PREDATOR";
+const alienChars = "0123456789%&#$@";
 
-
-let hasScrambled = false;
 function triggerTitleScramble() {
-
-    beep.play();
-    calibrating.play()
-    clickOnSide(cube.side = "front")//Make sure that we are on the front side when the function triggers
-    // if (hasScrambled) return; // 2. If true, exit immediately
-    // hasScrambled = true; //Make sure to run title scramble only once
-    
     anime({
-    targets: panelTitle,
-    duration: 5000,
-    easing: 'easeInOutQuad',
-    begin: () => {
-        // Force the alien look at the start
-        panelTitle.style.fontFamily = "yautja, sans-serif";
-        panelTitle.style.color = "red";
-        panelTitle.style.textShadow = "0 0 15 #ff0000'";
-    },
-    update: function(anim) {
-        // The scramble happens here
-        const currentProgress = Math.floor(anim.progress / 100 * finalHumanText.length);
-        
-        const content = finalHumanText.split('').map((char, index) => {
-            if (index < currentProgress) return char; 
-            return alienChars[Math.floor(Math.random() * alienChars.length)];
-        }).join('');
-        
-        panelTitle.innerText = content;
+        targets: headline,
+        duration: 3000,
+        easing: 'easeInOutQuad',
+        begin: () => {
+            headline.style.fontFamily = "yautja, sans-serif";
+            headline.style.color = "#39ff14";
+            // headline.style.textShadow = "0 0 5px #ff0000";
+        },
+        update: function(anim) {
+            const currentProgress = Math.floor(anim.progress / 100 * finalHumanText.length);
+            
+            const content = finalHumanText.split('').map((char, index) => {
+                if (index < currentProgress) return char; 
+                return alienChars[Math.floor(Math.random() * alienChars.length)];
+            }).join('');
+            
+            headline.textContent = content;
 
-        // Visual glitch: Occasionally swap font-family for a single frame
-        if (Math.random() > 0.95) {
-            panelTitle.style.fontFamily = "monospace";
-        } else {
-            panelTitle.style.fontFamily = "'Yautja', sans-serif";
-        }
-    },
-    complete: () => {
-        // Snap to human-readable state
-        panelTitle.innerText = finalHumanText;
-        panelTitle.style.fontFamily = "'IBM Plex Mono', monospace";
-        panelTitle.style.letterSpacing = "2px";
-        anime({
-            targets: panelTitle,
-            color: [
-                { value: '#39FF14' }, // Neon Green
-                { value: '' } 
-            ],
-            textShadow: [
-                { value: '0 0 20px #39FF14' },
-                { value: '0 0 5px #25b40c' }
-            ],
-            duration: 300,
-            direction: 'alternate',
-            easing: 'linear',
-            loop: 6, // 3 full blinks (on/off x3)
-            complete: () => {
-                // ends on the final blue state
-                panelTitle.style.color = "#38B6FF";
-                panelTitle.style.textShadow = "none"; 
-                
+            if (Math.random() > 0.95) {
+                headline.style.fontFamily = "monospace";
+            } else {
+                headline.style.fontFamily = "'Yautja', sans-serif";
             }
-        });
-    }
-    }
-    );
+        },
+     
+        complete: () => {
+            headline.textContent = finalHumanText;
+            headline.style.fontFamily = "'IBM Plex Mono', monospace";
+            headline.style.letterSpacing = "2px";
+           anime({
+                targets: headline,
+                opacity: [0, 1],
+                translateY: [5, 0], // Subtle "lift" effect
+                duration: 1100,
+                easing: 'easeOutCubic'
+            });
+        }
+    }); 
 }
+
+// Call the function
+document.addEventListener('DOMContentLoaded', triggerTitleScramble);
+
+// const headline = document.querySelector('.intro-headline')
+// const finalHumanText = "ENCRYPTION_ACTIVE";
+// const alienChars = "0123456789%&#$@"; 
+
+
+// let hasScrambled = false;
+// function triggerTitleScramble() {
+    
+//     anime({
+//     targets: headline,
+//     duration: 5000,
+//     easing: 'easeInOutQuad',
+//     begin: () => {
+//         // Force the alien look at the start
+//         headline.style.fontFamily = "yautja, sans-serif";
+//         headline.style.color = "red";
+//         headline.style.textShadow = "0 0 15 #ff0000'";
+//     },
+//     update: function(anim) {
+//         // The scramble happens here
+//         const currentProgress = Math.floor(anim.progress / 100 * finalHumanText.length);
+        
+//         const content = finalHumanText.split('').map((char, index) => {
+//             if (index < currentProgress) return char; 
+//             return alienChars[Math.floor(Math.random() * alienChars.length)];
+//         }).join('');
+        
+//         headline.innerText = content;
+
+//         // Visual glitch: Occasionally swap font-family for a single frame
+//         if (Math.random() > 0.95) {
+//             headline.style.fontFamily = "monospace";
+//         } else {
+//             headline.style.fontFamily = "'Yautja', sans-serif";
+//         }
+//     },
+//     complete: () => {
+//         // Snap to human-readable state
+//         headline.innerText = finalHumanText;
+//         headline.style.fontFamily = "'IBM Plex Mono', monospace";
+//         headline.style.letterSpacing = "2px";
+//         anime({
+//             targets: headline,
+//             color: [
+//                 { value: '#39FF14' }, // Neon Green
+//                 { value: '' } 
+//             ],
+//             textShadow: [
+//                 { value: '0 0 20px #39FF14' },
+//                 { value: '0 0 5px #25b40c' }
+//             ],
+//             duration: 300,
+//             direction: 'alternate',
+//             easing: 'linear',
+//             loop: 6, // 3 full blinks (on/off x3)
+//             complete: () => {
+//                 // ends on the final blue state
+//                 headline.style.color = "#38B6FF";
+//             headline.style.textShadow = "none"; 
+                
+//             }
+//         });
+//     }
+//     }
+//     )();
+// }
+
 
 
 
