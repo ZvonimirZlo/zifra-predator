@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predator</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preload" href="fonts/yautja.woff2" as="font" type="font/woff2" crossorigin>
+    <link href="fonts/yautja.woff2" as="font" type="font/woff2" crossorigin>
     <!-- <link
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Tilt+Prism&display=swap"
         rel="stylesheet"> -->
@@ -27,7 +27,7 @@
             <div class="start">
                 <h1 class="intro-headline">Zifr@ Predator</h1>
                 <div class="fingerprint-container">
-                    <img src="fingerprint-5661868.webp" width="400" height="400" alt="Biometric Scan">
+                    <img src="/Images/fingerprint-5661868.webp" width="400" height="400" alt="Biometric Scan">
 
                     <div class="scan-line"></div>
                     <div class="matrix-rain"></div>
@@ -73,9 +73,9 @@
                 <button class="theme-btn blue-glyph" id="blue" onclick="setTheme('blue')">1</button>
                 <button class="theme-btn green-glyph" id="green" onclick="setTheme('green')">2</button>
             </div>
-            <button class=" kill-btn" id="kill-button" onclick="startDecayCountdown() ">REBOOT_SYSTEM ⚠️</button>
+            <button class=" kill-btn" id="kill-button" onclick="startDecayCountdown()">REBOOT_SYSTEM ⚠️</button>
             <button class="stealth" onclick="mute()">STEALTH_OFF &#128266;</button>
-            <button class="stealth" onclick="triggerTitleScramble()">CALIBRATE_ENCRYPTER</button>
+            <button class="stealth">CALIBRATE_ENCRYPTER</button>
         </nav>
         <div id="theme-overlay"></div>
         <!-- Scene wrapper -->
@@ -180,8 +180,8 @@
 
         </section>
     </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
-    <script src="script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script type="module" src='src/core.js' defer></script>
 </body>
 
 </html>

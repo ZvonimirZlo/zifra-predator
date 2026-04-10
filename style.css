@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'yautja';
-    src: url('Yautja.woff2') format('woff2');
+    src: url('/Yautja.woff2') format('woff2');
     /* font-display: swap; */
 }
 
@@ -172,7 +172,7 @@ main {
     will-change: opacity;
     background-image:
         radial-gradient(circle, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.7) 100%),
-        url('frameBlue.webp');
+        url('/Images/frameBlue.webp');
 
 }
 
@@ -212,8 +212,8 @@ main {
     background-size: 100% 3px;
 
     /*Mask the lines to the shape of border image */
-    -webkit-mask-image: url('frameBlue.webp');
-    mask-image: url('frameBlue.webp');
+    -webkit-mask-image: url('/Images/frameBlue.webp');
+    mask-image: url('/Images/frameBlue.webp');
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
     -webkit-mask-repeat: no-repeat;
@@ -246,7 +246,7 @@ main {
         85% 100%, 0 100%
     ); */
     border: 8px solid transparent;
-    border-image: url('Black-Frame-PNG.png') 60;
+    border-image: url('/Images/Black-Frame-PNG.png') 60;
     border-radius: 4px;
     z-index: 2000 !important;
     transform-origin: top center;
@@ -264,7 +264,7 @@ main {
     width: 100%;
     height: 100%;
     z-index: -1;
-    background-image: url('raphael-renter-raphi_rawr-kjyOhVXpnFE-unsplash.webp');
+    background-image: url('/Images/raphael-renter-raphi_rawr-kjyOhVXpnFE-unsplash.webp');
     background-size: cover;
     background-position: center;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -309,7 +309,7 @@ main {
     background: #000000;
     transition: 0.3s;
     border: 4px solid transparent !important;
-    border-image: url('frame2.png') 30 round !important;
+    border-image: url('/Images/frame2.png') 30 round !important;
     border-image-outset: 0;
     border-radius: 4px;
     box-shadow:
