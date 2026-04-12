@@ -6,11 +6,13 @@ import {
     handleDecrypt, 
     terminalCopy, 
     terminalPaste, 
-    terminalPurge
+    terminalPurge,
+    initCursor
 } from './Modules/utils.js';
 import { toggleMute } from "./Modules/soundControl.js";
 import { initCubeListeners } from './Modules/cubeControllers.js';
 initCubeListeners()
+initCursor()
 
 // --- DOM ELEMENTS ---
 
@@ -66,16 +68,5 @@ document.querySelectorAll('.control-btn').forEach(btn => {
     });
 });
 
-// --- PREDATOR CURSOR ---
-(function() {
-    const predator = document.createElement('div');
-    predator.id = 'predator-cursor';
-    document.body.appendChild(predator);
-    document.addEventListener('mousemove', (e) => {
-        predator.style.left = e.clientX + 'px';
-        predator.style.top = e.clientY + 'px';
-        const isTarget = e.target.closest('button, a, .eye-btn, .theme-btn');
-        predator.classList.toggle('locked', !!isTarget);
-    });
-})();
+
 

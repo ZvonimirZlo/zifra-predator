@@ -1,7 +1,18 @@
 import { showTerminalAlert } from './animations.js';
 import {sfx} from './soundControl.js';
 
-
+// --- PREDATOR CURSOR ---
+export function initCursor() {
+    const predator = document.createElement('div');
+    predator.id = 'predator-cursor';
+    document.body.appendChild(predator);
+    document.addEventListener('mousemove', (e) => {
+        predator.style.left = e.clientX + 'px';
+        predator.style.top = e.clientY + 'px';
+        const isTarget = e.target.closest('button, a, .eye-btn, .theme-btn');
+        predator.classList.toggle('locked', !!isTarget);
+    });
+};
 
 
 
