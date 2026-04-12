@@ -2,8 +2,6 @@ import { setTheme, toggleSidebar, translator, startDecayCountdown } from "./Modu
 import { 
     togglePassword, 
     updateStrength, 
-    handleEncrypt, 
-    handleDecrypt, 
     terminalCopy, 
     terminalPaste, 
     terminalPurge,
@@ -11,6 +9,12 @@ import {
 } from './Modules/utils.js';
 import { toggleMute } from "./Modules/soundControl.js";
 import { initCubeListeners } from './Modules/cubeControllers.js';
+import { handleDecrypt, handleEncrypt } from "./Modules/cryptoEngine.js";
+
+
+
+
+
 initCubeListeners()
 initCursor()
 
