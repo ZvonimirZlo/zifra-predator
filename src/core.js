@@ -8,10 +8,12 @@ import {
     terminalPaste, 
     terminalPurge
 } from './Modules/utils.js';
-import { sfx, toggleMute } from "./Modules/soundControl.js";
+import { toggleMute } from "./Modules/soundControl.js";
+import { initCubeListeners } from './Modules/cubeControllers.js';
+initCubeListeners()
 
 // --- DOM ELEMENTS ---
-const cube = document.getElementById("cube");
+
 const sidebar = document.getElementById('sidebar');
 const toggleMenu = document.querySelector('.menu-toggle');
 const stealthBtn = document.querySelector('.stealth');
@@ -77,39 +79,3 @@ document.querySelectorAll('.control-btn').forEach(btn => {
     });
 })();
 
-
-const clickOnSide = (side) => {
-    const activeSide = cube.dataset.side;
-    cube.classList.replace(`show-${activeSide}`, `show-${side}`);
-    cube.setAttribute("data-side", side);
-
-    setTimeout(() => {
-        const targetFace = document.querySelector(`.cube-face-${side}`);
-        const laser = targetFace.querySelector('.laser-scan');
-        beam.volume = 0.5;
-        beam.play();
-        if (laser) {
-            anime.timeline({ easing: 'linear' })
-            .add({
-                targets: laser,
-                opacity: [0.5, 1, 0.8, 0],
-                top: ['0%', '100%'],
-                duration: 1500,
-            })
-            .add({
-                targets: targetFace.querySelectorAll('label, input, textarea, button'),
-                opacity: [0.5, 1],
-                translateY: [10, 0],
-                delay: anime.stagger(50),
-                duration: 400
-            }, '-=800');
-        }
-    }, 600);
-};
-
-document.querySelectorAll(".btn").forEach(btn => {
-  btn.addEventListener("click", (e) => {
-    clickOnSide(e.target.dataset.side);
-    beep.play();
-  });
-});
