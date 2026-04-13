@@ -1,4 +1,5 @@
 import {sfx} from './soundControl.js'
+import { showTerminalAlert } from './animations';
 
 
 // --- MASKING CONFIGURATION ---
@@ -94,18 +95,53 @@ async function decryptBatch(encryptedMessages, password) {
 
 // --- UI HANDLERS ---
 
+// export async function handleEncrypt() {
+
+//     const face = document.querySelector('.cube-face-front');
+//     const pass = face.querySelector('.passInput').value;
+//     const text = face.querySelector('.mainInput').value;
+//     const output = face.querySelector('.resultOutput');
+// sfx.click.play()
+//     if (!pass || !text) return showTerminalAlert("Need password and text!"),sfx.alert.play();
+
+//     const res = await encryptBatch([text], pass);
+//     output.innerText = res[0];
+//     sfx.success.play()
+// }
 export async function handleEncrypt() {
 
     const face = document.querySelector('.cube-face-front');
-    const pass = face.querySelector('.passInput').value;
-    const text = face.querySelector('.mainInput').value;
+    const passInput = face.querySelector('.passInput');
+    const mainInput = face.querySelector('.mainInput');
     const output = face.querySelector('.resultOutput');
-sfx.click.play()
-    if (!pass || !text) return showTerminalAlert("Need password and text!"),sfx.alert.play();
 
-    const res = await encryptBatch([text], pass);
-    output.innerText = res[0];
-    sfx.success.play()
+    console.log("2. Inputs found:", { 
+        passLength: passInput.value.length, 
+        textLength: mainInput.value.length,
+        hasOutputElement: !!output 
+    });
+
+    if (!passInput.value || !mainInput.value) {
+        console.log("3. Validation Failed - Stopping");
+        return showTerminalAlert("Need password and text!"),sfx.alert.play();
+    }
+
+    try {
+        console.log("4. Starting Encryption...");
+        const res = await encryptBatch([mainInput.value], passInput.value);
+        console.log("5. Encryption Success:", res[0]);
+
+        if (output.tagName === 'TEXTAREA' || output.tagName === 'INPUT') {
+            output.value = res[0];
+        } else {
+            output.innerText = res[0];
+        }
+        
+        sfx.success.play();
+        console.log("6. UI Updated");
+    } catch (err) {
+        console.error("CRITICAL ERROR:", err);
+    }
 }
 
 export async function handleDecrypt() {
@@ -118,6 +154,15 @@ export async function handleDecrypt() {
 
     const res = await decryptBatch([text], pass);
     output.value = res[0];
+
+    if (output.tagName === 'TEXTAREA' || output.tagName === 'INPUT') {
+        output.value = res[0];
+    } else {
+        output.innerText = res[0];
+    }
+    
+    // Debugging: If you see this in the console, the crypto works!
+    console.log("SUCCESS: Encrypted data is: ", res[0]);
     
 
     if (res[0].includes("ACCESS DENIED")) {

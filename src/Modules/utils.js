@@ -83,18 +83,41 @@ export async function terminalPaste(selector) {
 }
  //Delete
 export function terminalPurge(selector) {
-    sfx.click.play()
-    const target = document.querySelector(selector);
-    target.value = '';
-    
-    // Purge Shake
-    anime({
-        targets: target,
-        translateX: [-5, 5, -5, 5, 0],
-        duration: 250,
-        easing: 'linear'
+ sfx.click.play();
+    sfx.alert.play();
+
+    // 1. Find the face container
+    const face = document.querySelector(selector).closest('.cube-face');
+    if (!face) return;
+
+    // 2. Clear Inputs and Textareas
+    face.querySelectorAll('input, textarea').forEach(el => {
+        el.value = '';
+        // Manually trigger the strength update so the bar resets to "EMPTY"
+        if (el.classList.contains('passInput')) {
+            updateStrength(el); 
+        }
     });
-    sfx.alert.play()
+
+    // 3. Clear Output Display
+    const output = face.querySelector('.resultOutput');
+    if (output) {
+        // If it's a textarea use .value, if it's a div/span use .innerText
+        if (output.tagName === 'TEXTAREA' || output.tagName === 'INPUT') {
+            output.value = '';
+        } else {
+            output.innerText = '';
+        }
+    }
+
+    // 4. Visual Feedback (The "Wipe" effect)
+    window.anime({
+        targets: face.querySelectorAll('.panel-content > *'), // Shake everything
+        translateX: [-5, 5, -5, 5, 0],
+        opacity: [0.7, 1],
+        duration: 400,
+        easing: 'easeInOutQuad'
+    });
 }
 
 //Copy function
@@ -103,6 +126,12 @@ export function terminalCopy(event, selector) {
     const btn = event.currentTarget;
     const originalText = btn.innerText;
     const target = document.querySelector(selector);
+    const text = target.value || target.innerText;
+
+    if (!text || text.trim() === "") {
+        sfx.alert.play(); // No data to clone!
+        return;
+    }
     
     //Copy
     navigator.clipboard.writeText(target.value).then(() => {

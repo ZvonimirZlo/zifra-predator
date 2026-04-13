@@ -17,7 +17,7 @@
     --headlineBlue: #00ffff;
 }
 
-.starting-point{
+.starting-point {
     display: none;
 }
 
@@ -26,7 +26,8 @@
 .terminal-alert {
     position: fixed;
     top: 20px;
-    left: -300px; /* Start off-screen */
+    left: -300px;
+    /* Start off-screen */
     width: 250px;
     height: 100px;
     background: #000;
@@ -177,8 +178,15 @@ main {
 }
 
 /* @keyframes flicker {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.99; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.99;
+    }
 } */
 
 /* @keyframes flicker {
@@ -230,7 +238,7 @@ main {
 
 .sidebar {
     width: 250px;
-    height:100%;
+    height: 100%;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -252,9 +260,9 @@ main {
     transform-origin: top center;
 }
 
- .sidebar:hover {
- background-color: red;
-} 
+.sidebar:hover {
+    background-color: red;
+}
 
 .sidebar::before {
     content: "";
@@ -365,8 +373,8 @@ main {
     margin: auto;
 }
 
-#theme .theme-btn{
-    margin:1px;
+#theme .theme-btn {
+    margin: 1px;
     border: 8px solid transparent;
     border-image-source: url(raphael-renter-raphi_rawr-kjyOhVXpnFE-unsplash.webp);
     border-image-slice: 60;
@@ -386,11 +394,11 @@ main {
     background-color: #000000;
 }
 
- #blue{
-    color:var(--neon-blue);
+#blue {
+    color: var(--neon-blue);
     text-shadow: 2px 2px 10px var(--neon-blue);
     box-shadow: 2px 2px 10px var(--neon-blue);
- }
+}
 
 #green {
     color: var(--neon);
@@ -723,7 +731,8 @@ textarea {
     pointer-events: none;
 }
 
-.scan-line, .laser-scan {
+.scan-line,
+.laser-scan {
     will-change: transform, opacity;
 }
 
@@ -961,11 +970,13 @@ button:not(.menu > button):not(.eye-btn):hover {
 
 
 }
+
 .btn {
     /* Transitions will FIGHT with Anime.js. Remove them! */
-    transition: none !important; 
+    transition: none !important;
     display: inline-block;
-    white-space: nowrap; /* Prevents the word from jumping to two lines */
+    white-space: nowrap;
+    /* Prevents the word from jumping to two lines */
 }
 
 /* .cube-face {
@@ -986,8 +997,8 @@ button:not(.menu > button):not(.eye-btn):hover {
 
 /* #predator-cursor {
     /* Centering the base bar */
-    /* transform: translate(-50%, -50%); */
-    /* box-shadow: 0 0 15px #ff0000;
+/* transform: translate(-50%, -50%); */
+/* box-shadow: 0 0 15px #ff0000;
     transition: transform 0.2s ease;
 }
 
@@ -1024,18 +1035,18 @@ button:not(.menu > button):not(.eye-btn):hover {
     top: 0;
     left: 0;
     width: 40px;
-    height: 3px; 
+    height: 3px;
     background-color: #ff0000;
     box-shadow: 0 0 10px #ff0000;
     pointer-events: none;
     z-index: 100000;
-    
+
     /* Extreme Glow */
     filter: brightness(2) drop-shadow(1px 0px 1px rgb(255, 0, 0));
-    
+
     /* Centering logic */
-    transform: translate3d(-50%, -50%, 0); 
-    
+    transform: translate3d(-50%, -50%, 0);
+
     /* Performance: ONLY transition the scale, not the movement */
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.2s ease;
     will-change: left, top;
@@ -1049,7 +1060,8 @@ button:not(.menu > button):not(.eye-btn):hover {
     height: 3px;
     background-color: #ff0000;
     box-shadow: 0 0 8px #ff0000;
-    bottom: 40px; /* The hollow gap */
+    bottom: 40px;
+    /* The hollow gap */
 }
 
 #predator-cursor::before {
@@ -1069,21 +1081,22 @@ button:not(.menu > button):not(.eye-btn):hover {
     filter: brightness(2.5);
 }
 
-img{
+img {
     width: 200px;
     height: 160px;
 }
+
 /* START fingerprint button */
 #boot-sequencer .fingerprint-container {
-  position: relative;
-  width: 160px;
-  height: 160px;
-  cursor: pointer;
-  /* animation: flicker 3s infinite ease-in-out; */
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: relative;
+    width: 160px;
+    height: 160px;
+    cursor: pointer;
+    /* animation: flicker 3s infinite ease-in-out; */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -1104,16 +1117,16 @@ img{
 } */
 
 .fingerprint-container {
-  width: 100px;
-  height: 100px;
-  filter: drop-shadow(0 0 5px #39FF14);
-  transition:
-    transform 0.2s ease,
-    filter 0.3s ease;
-    font-family: 'yutjya',sans-serif;
+    width: 100px;
+    height: 100px;
+    filter: drop-shadow(0 0 5px #39FF14);
+    transition:
+        transform 0.2s ease,
+        filter 0.3s ease;
+    font-family: 'yutjya', sans-serif;
 }
 
-.intro-headline{
+.intro-headline {
     filter: drop-shadow(0 0 5px #39FF14);
 }
 
@@ -1122,91 +1135,91 @@ img{
 
 /* Scan effect */
 .scan-line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(to right, transparent, #00ff00, transparent);
-  opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #00ff00, transparent);
+    opacity: 0;
 }
 
 /* Matrix rain */
 .matrix-rain {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  background: linear-gradient(to bottom, rgba(0, 255, 0, 0.1), transparent);
-  overflow: hidden;
-  border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    background: linear-gradient(to bottom, rgba(0, 255, 0, 0.1), transparent);
+    overflow: hidden;
+    border-radius: 50%;
 }
 
 .matrix-rain::before {
-  content: "101010 1100 0011 0101 1001 1110 0010 1101";
-  position: absolute;
-  color: #00ff00;
-  font-size: 14px;
-  opacity: 0.2;
-  animation: rain 1.5s infinite linear;
+    content: "101010 1100 0011 0101 1001 1110 0010 1101";
+    position: absolute;
+    color: #00ff00;
+    font-size: 14px;
+    opacity: 0.2;
+    animation: rain 1.5s infinite linear;
 }
 
 /* Ripples */
 .ripple1,
 .ripple2,
 .ripple3 {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-  border: 2px solid #00ff00;
-  opacity: 0;
-  transform: scale(0);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    border: 2px solid #00ff00;
+    opacity: 0;
+    transform: scale(0);
 }
 
 /* Glow */
 .glow {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-  box-shadow: 0 0 20px #00ff00;
-  opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 20px #00ff00;
+    opacity: 0;
 }
 
 .status {
-  position: absolute;
-  bottom: -50px;
-  width: 100%;
-  text-align: center;
-  color: #00ff00;
-  font-size: 16px;
-  opacity: 0.7;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  animation: glitch-text 2s infinite;
+    position: absolute;
+    bottom: -50px;
+    width: 100%;
+    text-align: center;
+    color: #00ff00;
+    font-size: 16px;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: glitch-text 2s infinite;
 }
 
 /* Hover effects */
- .fingerprint-container:hover .fingerprint {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 100px #00ff00);
+.fingerprint-container:hover .fingerprint {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 100px #00ff00);
 }
 
 
 .fingerprint-container:hover .scan-line {
-  animation: scan 1s infinite linear;
-  opacity: 0.7;
+    animation: scan 1s infinite linear;
+    opacity: 0.7;
 }
 
 .fingerprint-container:hover .matrix-rain {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 
 /* Click effects */
@@ -1233,106 +1246,128 @@ img{
 } */
 
 .fingerprint-container:active .ripple1 {
-  animation: ripple-effect 0.6s ease-out;
+    animation: ripple-effect 0.6s ease-out;
 }
 
 .fingerprint-container:active .ripple2 {
-  animation: ripple-effect 0.8s ease-out 0.2s;
+    animation: ripple-effect 0.8s ease-out 0.2s;
 }
 
 .fingerprint-container:active .ripple3 {
-  animation: ripple-effect 1s ease-out 0.4s;
+    animation: ripple-effect 1s ease-out 0.4s;
 }
 
 .fingerprint-container:active .glow {
-  box-shadow: 0 0 40px #00ff00;
-  animation: glow-hack 0.8s ease-out;
+    box-shadow: 0 0 40px #00ff00;
+    animation: glow-hack 0.8s ease-out;
 }
 
 .fingerprint-container:active .status {
-  opacity: 1;
-  animation: glitch-text 0.3s infinite;
-} 
+    opacity: 1;
+    animation: glitch-text 0.3s infinite;
+}
 
 /* Animations  */
 
 
 
 @keyframes draw-fast {
-  0% {
-    stroke-dashoffset: 500;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
+    0% {
+        stroke-dashoffset: 500;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
 }
 
 @keyframes scan {
-  0% {
-    transform: translateY(0);
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(200px);
-    opacity: 0.7;
-  }
+    0% {
+        transform: translateY(0);
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(200px);
+        opacity: 0.7;
+    }
 }
 
 @keyframes rain {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
 }
 
 @keyframes ripple-effect {
-  0% {
-    transform: scale(0);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
+    0% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
 }
 
 @keyframes glow-hack {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
-  }
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 
 
 .cursor {
-  display: inline-block;
-  animation: blink 0.6s infinite;
-  margin-left: -2px; 
+    display: inline-block;
+    animation: blink 0.6s infinite;
+    margin-left: -2px;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
+
 .fingerprint-container:hover .status svg {
-  animation: bar-throb 0.5s infinite alternate ease-in-out;
+    animation: bar-throb 0.5s infinite alternate ease-in-out;
 }
 
 @keyframes bar-throb {
-  from { opacity: 0.5; filter: brightness(1); }
-  to { opacity: 1; filter: brightness(1.5) drop-shadow(0 0 8px #39ff14); }
-} 
+    from {
+        opacity: 0.5;
+        filter: brightness(1);
+    }
+
+    to {
+        opacity: 1;
+        filter: brightness(1.5) drop-shadow(0 0 8px #39ff14);
+    }
+}
 
 
 
@@ -1340,6 +1375,3 @@ img{
 
 
 /* ------------------------------------------- */
-
-
-
