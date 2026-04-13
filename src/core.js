@@ -29,7 +29,7 @@ const toggleMenu = document.querySelector('.menu-toggle')
 const stealthBtn = document.querySelector('.stealth')
 const killBtn = document.getElementById('kill-button')
 const sequencer = document.getElementById('boot-sequencer')
-const glyph = sequencer.querySelector('.countdown-glyph')
+// const glyph = sequencer.querySelector('.countdown-glyph')
 const startBtn = document.querySelector('.start')
 const startingPoint = document.querySelector('.starting-point')
 
