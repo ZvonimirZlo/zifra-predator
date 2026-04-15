@@ -55,7 +55,7 @@ const alienChars = "ZIFRA_PREDATOR";
             loop: 3, // 3 full blinks (on/off x3)
             complete: () => {
                 // ends on the final blue state
-                headline.style.color = "#39FF14";
+            headline.style.color = "#39FF14";
             headline.style.textShadow = "none"; 
                 
             }

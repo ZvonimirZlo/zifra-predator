@@ -15,7 +15,7 @@ import {
 import { toggleMute } from './Modules/soundControl.js'
 import { initCubeListeners } from './Modules/cubeControllers.js'
 import { handleDecrypt, handleEncrypt } from './Modules/cryptoEngine.js'
-import { triggerTitleScramble, startBootSequence } from './Modules/bootSequence'
+// import { triggerTitleScramble, startBootSequence } from './Modules/bootSequence'
 
 const audioP = new Audio('/Sounds/predator-aiming.ogg')
 
@@ -33,18 +33,18 @@ const sequencer = document.getElementById('boot-sequencer')
 const startBtn = document.querySelector('.start')
 const startingPoint = document.querySelector('.starting-point')
 
-startBtn.addEventListener('click', () => {
-  startingPoint.style.display = 'block'
-  startBtn.style.display = 'none'
-  // Gives the browser a split second to render the 'block'
-  // change before firing the heavy logic
-  setTimeout(() => {
-    startBootSequence()
-  }, 100)
-})
+// startBtn.addEventListener('click', () => {
+//   startingPoint.style.display = 'block'
+//   startBtn.style.display = 'none'
+//   // Gives the browser a split second to render the 'block'
+//   // change before firing the heavy logic
+//   setTimeout(() => {
+//     startBootSequence()
+//   }, 100)
+// })
 
-// Call the function
-document.addEventListener('DOMContentLoaded', triggerTitleScramble)
+// // Call the function
+// document.addEventListener('DOMContentLoaded', triggerTitleScramble)
 
 // --- INITIALIZATION ---
 sidebar.addEventListener('mouseenter', translator, { once: true })
