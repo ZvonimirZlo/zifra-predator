@@ -47,8 +47,8 @@ export const clickOnSide = side => {
           '-=800'
         )
         .add({
-          targets: targetFace.querySelectorAll('.cube-line'),
-          opacity: [0, 1],
+          targets: targetFace.querySelectorAll('.cube-line, img'),
+          opacity: [0,1],
           clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'],
           translateY: [-10, 0],
           color: ['#00ffea', '#00ff00'],
