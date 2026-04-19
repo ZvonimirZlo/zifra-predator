@@ -15,7 +15,7 @@ import {
 import { toggleMute } from './Modules/soundControl.js'
 import { initCubeListeners } from './Modules/cubeControllers.js'
 import { handleDecrypt, handleEncrypt } from './Modules/cryptoEngine.js'
-// import { triggerTitleScramble, startBootSequence } from './Modules/bootSequence'
+import { triggerTitleScramble, startBootSequence } from './Modules/bootSequence'
 
 const audioP = new Audio('/Sounds/predator-aiming.ogg')
 
@@ -33,15 +33,16 @@ const sequencer = document.getElementById('boot-sequencer')
 const startBtn = document.querySelector('.start')
 const startingPoint = document.querySelector('.starting-point')
 
-// startBtn.addEventListener('click', () => {
-//   startingPoint.style.display = 'block'
-//   startBtn.style.display = 'none'
-//   // Gives the browser a split second to render the 'block'
-//   // change before firing the heavy logic
-//   setTimeout(() => {
-//     startBootSequence()
-//   }, 100)
-// })
+startBtn.addEventListener('click', () => {
+  startingPoint.style.display = 'block'
+  startBtn.style.display = 'none'
+  // Gives the browser a split second to render the 'block'
+  // change before firing the heavy logic
+  document.getElementById('btn1').focus();
+  setTimeout(() => {
+    startBootSequence()
+  }, 100)
+})
 
 // // Call the function
 // document.addEventListener('DOMContentLoaded', triggerTitleScramble)
@@ -102,3 +103,37 @@ document.querySelectorAll('.control-btn').forEach(btn => {
     }
   })
 })
+
+// ------------------------------------------
+
+//
+window.addEventListener('keydown', (e) => {
+    // 1. Get Sidebar items
+    const sidebarItems = Array.from(document.querySelectorAll('#sidebar button, .theme-btn, .stealth, .kill-btn'));
+    
+    // 2. Get ONLY the visible cube face's inputs/buttons
+    // We look for the face that DOES NOT have a 'hidden' state or is currently 'show-X'
+    const activeFace = document.querySelector('.cube-face:not([style*="display: none"])'); 
+    const faceItems = activeFace ? Array.from(activeFace.querySelectorAll('input, textarea, button')) : [];
+
+    // 3. Combine them into one master list for this specific view
+    const allItems = [...sidebarItems, ...faceItems];
+    
+    const active = document.activeElement;
+    const currentIndex = allItems.indexOf(active);
+
+    if (currentIndex > -1) {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            
+            let nextIndex = (e.key === 'ArrowDown') 
+                ? (currentIndex + 1) % allItems.length 
+                : (currentIndex - 1 + allItems.length) % allItems.length;
+            
+            allItems[nextIndex].focus();
+            
+            // Optional: Add a subtle sound or log for feedback
+            console.log(`Navigating to: ${allItems[nextIndex].className || allItems[nextIndex].id}`);
+        }
+    }
+}, { capture: true });

@@ -93,21 +93,6 @@ async function decryptBatch(encryptedMessages, password) {
     }));
 }
 
-// --- UI HANDLERS ---
-
-// export async function handleEncrypt() {
-
-//     const face = document.querySelector('.cube-face-front');
-//     const pass = face.querySelector('.passInput').value;
-//     const text = face.querySelector('.mainInput').value;
-//     const output = face.querySelector('.resultOutput');
-// sfx.click.play()
-//     if (!pass || !text) return showTerminalAlert("Need password and text!"),sfx.alert.play();
-
-//     const res = await encryptBatch([text], pass);
-//     output.innerText = res[0];
-//     sfx.success.play()
-// }
 export async function handleEncrypt() {
 
     const face = document.querySelector('.cube-face-front');

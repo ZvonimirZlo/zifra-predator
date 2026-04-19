@@ -197,7 +197,7 @@ main {
     /* background-image: url(frameBlue.png); */
     background-size: contain;
     background-repeat: no-repeat;
-    animation: flicker .05s steps(1) infinite;
+    animation: flicker .15s steps(1) infinite;
     will-change: opacity;
     background-image:
         radial-gradient(circle, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.7) 100%),
@@ -205,7 +205,7 @@ main {
 
 }
 
-/* @keyframes flicker {
+@keyframes flicker {
 
     0%,
     100% {
@@ -215,7 +215,7 @@ main {
     50% {
         opacity: 0.99;
     }
-} */
+}
 
 /* @keyframes flicker {
     0% {
