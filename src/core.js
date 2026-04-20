@@ -10,7 +10,8 @@ import {
   terminalCopy,
   terminalPaste,
   terminalPurge,
-  initCursor
+  initCursor,
+  arrowKeyNavigator
 } from './Modules/utils.js'
 import { toggleMute } from './Modules/soundControl.js'
 import { initCubeListeners } from './Modules/cubeControllers.js'
@@ -20,9 +21,11 @@ import { generateQR, copyQR, scanQRData, initDecrypterScanner, downloadQR, initQ
 
 const audioP = new Audio('/Sounds/predator-aiming.ogg')
 
-initCubeListeners()
-initCursor()
+initCubeListeners()//Triggers cube listeners
+initCursor()//Triggers 'predator' aiming cursor
 initQRDropZone('#decrypter_input'); //Allows dropping the QR code directly
+initDecrypterScanner(); //Decrypt scanner initialization
+arrowKeyNavigator(); //Arrow key trigger
 
 // --- DOM ELEMENTS ---
 
@@ -50,20 +53,28 @@ const startingPoint = document.querySelector('.starting-point')
 // document.addEventListener('DOMContentLoaded', triggerTitleScramble)
 
 // --- INITIALIZATION ---
-sidebar.addEventListener('mouseenter', translator, { once: true })
+sidebar.addEventListener('mouseenter', translator, { once: true }) //Unlocks the sidebar
 
 // --- UI CONTROLS ---
+
+//Change themes
 document
   .getElementById('green')
   .addEventListener('click', () => setTheme('green'))
 document
   .getElementById('blue')
   .addEventListener('click', () => setTheme('blue'))
+
+//Toggle sidebar visibility
 toggleMenu.addEventListener('click', toggleSidebar)
-stealthBtn.addEventListener('click', toggleMute)
-killBtn.addEventListener('click', startDecayCountdown)
-// Wiring the stealth button
+
+// Toggle mute/unmute sounds
 document.querySelector('.stealth').addEventListener('click', toggleMute)
+
+
+//Triggers countdown and browser reload
+killBtn.addEventListener('click', startDecayCountdown)
+
 
 // --- PASSWORD & STRENGTH ---
 document.querySelectorAll('.toggle-visibility').forEach(btn => {
@@ -109,7 +120,7 @@ document.querySelectorAll('.control-btn').forEach(btn => {
 // ------------------------------------------
 
 // --- THE EXECUTIONER LOGIC ---
-async function handleBioExtract() {
+async function handleQRExtract() {
     console.log("INTERNAL: handleBioExtract sequence started"); // Log 1
     const outputArea = document.getElementById('encrypted_output');
     const encryptedText = outputArea.value || outputArea.innerText;
@@ -132,19 +143,17 @@ async function handleBioExtract() {
     });
 }
 
-// --- THE ONLY CLICK LISTENER YOU NEED ---
-document.addEventListener('click', async (e) => {
-    // This log MUST fire if the click hits the document
-    console.log("GLOBAL CLICK:", e.target.tagName, e.target.className, e.target.id);
 
-    // Use e.target.closest for better accuracy with icons/styled buttons
+document.addEventListener('click', async (e) => {
+
+    
     const bioBtn = e.target.closest('.btn-bio-key');
     const copyBtn = e.target.closest('#copy_qr_btn');
     const closeBtn = e.target.closest('#close_qr');
 
     if (bioBtn) {
         console.log("MATCH: Bio-Key detected.");
-        await handleBioExtract();
+        await handleQRExtract();
     }
 
     if (copyBtn) {
@@ -167,45 +176,3 @@ document.addEventListener('click', async (e) => {
     }
 });
 
-initDecrypterScanner();
-
-
-
-
-
-
-
-
-
-
-//Arrow key navigator
-window.addEventListener('keydown', (e) => {
-    // 1. Get Sidebar items
-    const sidebarItems = Array.from(document.querySelectorAll('#sidebar button, .theme-btn, .stealth, .kill-btn'));
-    
-    // 2. Get ONLY the visible cube face's inputs/buttons
-    // We look for the face that DOES NOT have a 'hidden' state or is currently 'show-X'
-    const activeFace = document.querySelector('.cube-face:not([style*="display: none"])'); 
-    const faceItems = activeFace ? Array.from(activeFace.querySelectorAll('input, textarea, button')) : [];
-
-    // 3. Combine them into one master list for this specific view
-    const allItems = [...sidebarItems, ...faceItems];
-    
-    const active = document.activeElement;
-    const currentIndex = allItems.indexOf(active);
-
-    if (currentIndex > -1) {
-        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-            e.preventDefault();
-            
-            let nextIndex = (e.key === 'ArrowDown') 
-                ? (currentIndex + 1) % allItems.length 
-                : (currentIndex - 1 + allItems.length) % allItems.length;
-            
-            allItems[nextIndex].focus();
-            
-            // Optional: Add a subtle sound or log for feedback
-            console.log(`Navigating to: ${allItems[nextIndex].className || allItems[nextIndex].id}`);
-        }
-    }
-}, { capture: true });

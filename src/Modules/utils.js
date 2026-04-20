@@ -15,8 +15,40 @@ export function initCursor() {
     });
 };
 
+//Arrow key navigator
+export const arrowKeyNavigator = () => {
+  window.addEventListener('keydown', (e) => {
+    // 1. Get Sidebar items
+    const sidebarItems = Array.from(document.querySelectorAll('#sidebar button, .theme-btn, .stealth, .kill-btn'));
+    
+
+    const activeFace = document.querySelector('.cube-face:not([style*="display: none"])'); 
+    const faceItems = activeFace ? Array.from(activeFace.querySelectorAll('input, textarea, button')) : [];
+
+    // 3. Combine them into one master list for this specific view
+    const allItems = [...sidebarItems, ...faceItems];
+    
+    const active = document.activeElement;
+    const currentIndex = allItems.indexOf(active);
+
+    if (currentIndex > -1) {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            
+            let nextIndex = (e.key === 'ArrowDown') 
+                ? (currentIndex + 1) % allItems.length 
+                : (currentIndex - 1 + allItems.length) % allItems.length;
+            
+            allItems[nextIndex].focus();
+            
+            console.log(`Navigating to: ${allItems[nextIndex].className || allItems[nextIndex].id}`);
+        }
+    }
+}, { capture: true });
+}
 
 
+//Toggle pass visibility
 export function togglePassword(btn) {
     const input = btn.parentElement.querySelector('.passInput');
     if (input.type === "password") {
