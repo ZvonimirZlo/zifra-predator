@@ -167,3 +167,16 @@ export async function handleDecrypt() {
         sfx.success.play()
     }
 }
+
+// --- CRYPTO PROCESSORS
+export const cryptoProcessors = () => {
+  const encryptBtn = document.querySelector(
+  '.cube-face-front .panel-content > button:not(.toggle-visibility)'
+)
+const decryptBtn = document.querySelector(
+  '.cube-face-right .panel-content > button:not(.toggle-visibility)'
+)
+
+if (encryptBtn) encryptBtn.addEventListener('click', handleEncrypt)
+if (decryptBtn) decryptBtn.addEventListener('click', handleDecrypt)
+}

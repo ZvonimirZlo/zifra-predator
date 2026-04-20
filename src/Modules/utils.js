@@ -209,3 +209,22 @@ export function terminalCopy(event, selector) {
     setTimeout(() => btn.innerText = originalText, 1500);
     sfx.success.play()
 }
+
+export const terminalActions = () => {
+    document.querySelectorAll('.control-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    const face = e.target.closest('.cube-face')
+    const selector = face.classList.contains('cube-face-front')
+      ? '.cube-face-front'
+      : '.cube-face-right'
+
+    if (btn.innerText.includes('LINK_DATA')) {
+      terminalPaste(`${selector} .mainInput`)
+    } else if (btn.innerText.includes('PURGE')) {
+      terminalPurge(`${selector} .mainInput`)
+    } else if (btn.innerText.includes('CLONE_EXTRACT')) {
+      terminalCopy(e, `${selector} .resultOutput`)
+    }
+  })
+})
+}

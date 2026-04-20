@@ -1,3 +1,5 @@
+import { startBootSequence } from './Modules/bootSequence.js'
+
 import {
   setTheme,
   toggleSidebar,
@@ -11,11 +13,12 @@ import {
   terminalPaste,
   terminalPurge,
   initCursor,
-  arrowKeyNavigator
+  arrowKeyNavigator,
+  terminalActions
 } from './Modules/utils.js'
 import { toggleMute } from './Modules/soundControl.js'
 import { initCubeListeners } from './Modules/cubeControllers.js'
-import { handleDecrypt, handleEncrypt } from './Modules/cryptoEngine.js'
+import { cryptoProcessors } from './Modules/cryptoEngine.js'
 // import { triggerTitleScramble, startBootSequence } from './Modules/bootSequence'
 import {
   generateQR,
@@ -24,19 +27,8 @@ import {
   initDecrypterScanner,
   downloadQR,
   initQRDropZone,
-  inintQRController
+  initQRController
 } from './Modules/QRActions'
-
-const audioP = new Audio('/Sounds/predator-aiming.ogg')
-
-initCubeListeners() //Triggers cube listeners
-initCursor() //Triggers 'predator' aiming cursor
-initQRDropZone('#decrypter_input') //Allows dropping the QR code directly
-initDecrypterScanner() //Decrypt scanner initialization
-arrowKeyNavigator() //Arrow key trigger
-inintQRController() //Initialize QR controller
-
-// --- DOM ELEMENTS ---
 
 const sidebar = document.getElementById('sidebar')
 const toggleMenu = document.querySelector('.menu-toggle')
@@ -47,22 +39,34 @@ const sequencer = document.getElementById('boot-sequencer')
 const startBtn = document.querySelector('.start')
 const startingPoint = document.querySelector('.starting-point')
 
-// startBtn.addEventListener('click', () => {
-//   startingPoint.style.display = 'block'
-//   startBtn.style.display = 'none'
-//   // Gives the browser a split second to render the 'block'
-//   // change before firing the heavy logic
-//   document.getElementById('btn1').focus();
-//   setTimeout(() => {
-//     startBootSequence()
-//   }, 100)
-// })
 
-// // Call the function
-// document.addEventListener('DOMContentLoaded', triggerTitleScramble)
 
-// --- INITIALIZATION ---
+initCubeListeners() //Triggers cube listeners
+initCursor() //Triggers 'predator' aiming cursor
+initQRDropZone('#decrypter_input') //Allows dropping the QR code directly
+initDecrypterScanner() //Decrypt scanner initialization
+arrowKeyNavigator() //Arrow key trigger
+initQRController() //Initialize QR controller
+terminalActions() //Copy,paste,purge
+cryptoProcessors() //Crypto processing
 sidebar.addEventListener('mouseenter', translator, { once: true }) //Unlocks the sidebar
+
+// --- DOM ELEMENTS ---
+
+
+startBtn.addEventListener('click', () => {
+  startingPoint.style.display = 'block'
+  startBtn.style.display = 'none'
+  // Gives the browser a split second to render the 'block'
+  // change before firing the heavy logic
+  document.getElementById('btn1').focus();
+  setTimeout(() => {
+    startBootSequence()
+  }, 100)
+})
+
+
+
 
 // --- UI CONTROLS ---
 
@@ -95,33 +99,9 @@ document.querySelectorAll('.passInput').forEach(input => {
   input.addEventListener('input', e => updateStrength(e.target))
 })
 
-// --- CRYPTO PROCESSORS
-const encryptBtn = document.querySelector(
-  '.cube-face-front .panel-content > button:not(.toggle-visibility)'
-)
-const decryptBtn = document.querySelector(
-  '.cube-face-right .panel-content > button:not(.toggle-visibility)'
-)
 
-if (encryptBtn) encryptBtn.addEventListener('click', handleEncrypt)
-if (decryptBtn) decryptBtn.addEventListener('click', handleDecrypt)
 
-// --- TERMINAL ACTIONS (Copy/Paste/Purge) ---
-document.querySelectorAll('.control-btn').forEach(btn => {
-  btn.addEventListener('click', e => {
-    const face = e.target.closest('.cube-face')
-    const selector = face.classList.contains('cube-face-front')
-      ? '.cube-face-front'
-      : '.cube-face-right'
 
-    if (btn.innerText.includes('LINK_DATA')) {
-      terminalPaste(`${selector} .mainInput`)
-    } else if (btn.innerText.includes('PURGE')) {
-      terminalPurge(`${selector} .mainInput`)
-    } else if (btn.innerText.includes('CLONE_EXTRACT')) {
-      terminalCopy(e, `${selector} .resultOutput`)
-    }
-  })
-})
+
 
 // ------------------------------------------
