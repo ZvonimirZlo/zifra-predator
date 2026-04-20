@@ -1,8 +1,6 @@
 const audioP = new Audio('/Sounds/predator-aiming.ogg')
 
 
-
-
 //Boot sequence
 export const startBootSequence = () => {
   audioP.play()

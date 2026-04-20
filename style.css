@@ -205,7 +205,7 @@ main {
 
 }
 
-@keyframes flicker {
+/* @keyframes flicker {
 
     0%,
     100% {
@@ -215,7 +215,7 @@ main {
     50% {
         opacity: 0.99;
     }
-}
+} */
 
 /* @keyframes flicker {
     0% {

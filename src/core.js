@@ -19,7 +19,6 @@ import {
 import { toggleMute } from './Modules/soundControl.js'
 import { initCubeListeners } from './Modules/cubeControllers.js'
 import { cryptoProcessors } from './Modules/cryptoEngine.js'
-// import { triggerTitleScramble, startBootSequence } from './Modules/bootSequence'
 import {
   generateQR,
   copyQR,
@@ -49,6 +48,8 @@ arrowKeyNavigator() //Arrow key trigger
 initQRController() //Initialize QR controller
 terminalActions() //Copy,paste,purge
 cryptoProcessors() //Crypto processing
+
+
 sidebar.addEventListener('mouseenter', translator, { once: true }) //Unlocks the sidebar
 
 // --- DOM ELEMENTS ---

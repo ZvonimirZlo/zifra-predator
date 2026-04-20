@@ -36,9 +36,11 @@ export async function copyQR(canvasId) {
         const item = new ClipboardItem({ "image/png": blob });
         await navigator.clipboard.write([item]);
         return true; // Success
+
     } catch (err) {
         console.error("Clipboard Error:", err);
         return false; // Fail
+  
     }
 }
 
@@ -107,6 +109,7 @@ export function downloadQR(canvasId, fileName = "BIO_SIGNATURE.png") {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    
 }
 
 export function initQRDropZone(selector) {
@@ -178,10 +181,12 @@ export const initQRController = () => {
         console.log("MATCH: Copy detected.");
         const success = await copyQR('qr_canvas');
         if (success) showTerminalAlert("SIGNATURE_COPIED");
+        sfx.success.play()
     }
 
     if (closeBtn) {
         console.log("MATCH: Close detected.");
+        sfx.click.play()
         const overlay = document.getElementById('qr_overlay');
         anime({
             targets: overlay,
