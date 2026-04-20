@@ -1,0 +1,156 @@
+// Function to generate and display the QR overlay
+export async function generateQR(encryptedText, canvasId, overlayId) {
+    const canvas = document.getElementById(canvasId);
+    const overlay = document.getElementById(overlayId);
+
+    if (!canvas || !overlay) return;
+
+    try {
+        await QRCode.toCanvas(canvas, encryptedText, {
+            errorCorrectionLevel: 'H',
+            width: 220,
+            margin: 1,
+            color: { dark: "#00FF41", light: "#000000" }
+        });
+
+        overlay.style.display = 'flex';
+        // The animation will be triggered in core.js for UI consistency
+    } catch (err) {
+        console.error("QR Generation Error:", err);
+    }
+}
+
+// Function to copy QR canvas to clipboard
+export async function copyQR(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
+    try {
+        const blob = await new Promise(resolve => canvas.toBlob(resolve));
+        const item = new ClipboardItem({ "image/png": blob });
+        await navigator.clipboard.write([item]);
+        return true; // Success
+    } catch (err) {
+        console.error("Clipboard Error:", err);
+        return false; // Fail
+    }
+}
+
+// Function to scan QR from a file/blob
+export async function scanQRData(file) {
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    await img.decode();
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const code = jsQR(imageData.data, imageData.width, imageData.height);
+    return code ? code.data : null;
+}
+
+export function initDecrypterScanner() {
+    const decryptInput = document.getElementById('decrypter_input');
+
+    if (!decryptInput) return;
+
+    decryptInput.addEventListener('paste', async (e) => {
+        // Prevent default paste if it's an image so we don't get junk text
+        const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        
+        for (const item of items) {
+            if (item.type.indexOf("image") !== -1) {
+                e.preventDefault(); 
+                
+                const blob = item.getAsFile();
+                console.log("Image detected in clipboard, scanning...");
+
+                try {
+                    const decodedText = await scanQRData(blob);
+                    
+                    if (decodedText) {
+                        decryptInput.value = decodedText;
+                        console.log("QR Scan Success:", decodedText);
+                        
+                        // Optional: Visual feedback since sounds are off
+                        decryptInput.style.borderColor = "#00ff41";
+                        setTimeout(() => decryptInput.style.borderColor = "", 1000);
+                    }
+                } catch (err) {
+                    console.error("QR Scan failed or image empty:", err);
+                }
+            }
+        }
+    });
+}
+
+export function downloadQR(canvasId, fileName = "BIO_SIGNATURE.png") {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
+    // Create a temporary link element
+    const link = document.createElement('a');
+    link.download = fileName;
+    link.href = canvas.toDataURL("image/png");
+    
+    // Trigger the download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+export function initQRDropZone(selector) {
+    const target = document.querySelector(selector);
+    if (!target) return;
+
+    // 1. Prevent "New Tab" on dragover
+    target.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        target.style.borderColor = "#00ff41"; // Visual cue
+    });
+
+    target.addEventListener('dragleave', () => {
+        target.style.borderColor = "";
+    });
+
+    // 2. Handle the actual drop
+    target.addEventListener('drop', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        target.style.borderColor = "";
+
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            const file = files[0];
+            
+            // Check if it's an image
+            if (file.type.startsWith('image/')) {
+                console.log("Bio-Signature detected via Drop...");
+                
+                try {
+    
+                    const decodedText = await scanQRData(file);
+                    
+                    if (decodedText) {
+                        target.value = decodedText;
+                        if (window.sfx?.success) sfx.success.play();
+                        
+                        // Visual success flash
+                        anime({
+                            targets: target,
+                            backgroundColor: ['rgba(0, 255, 65, 0.3)', 'rgba(0, 0, 0, 0.4)'],
+                            duration: 800
+                        });
+                    }
+                } catch (err) {
+                    console.error("Drop Scan Failed:", err);
+                }
+            }
+        }
+    });
+}

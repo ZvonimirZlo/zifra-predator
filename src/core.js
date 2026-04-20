@@ -15,12 +15,14 @@ import {
 import { toggleMute } from './Modules/soundControl.js'
 import { initCubeListeners } from './Modules/cubeControllers.js'
 import { handleDecrypt, handleEncrypt } from './Modules/cryptoEngine.js'
-import { triggerTitleScramble, startBootSequence } from './Modules/bootSequence'
+// import { triggerTitleScramble, startBootSequence } from './Modules/bootSequence'
+import { generateQR, copyQR, scanQRData, initDecrypterScanner, downloadQR, initQRDropZone } from './Modules/QRActions'
 
 const audioP = new Audio('/Sounds/predator-aiming.ogg')
 
 initCubeListeners()
 initCursor()
+initQRDropZone('#decrypter_input'); //Allows dropping the QR code directly
 
 // --- DOM ELEMENTS ---
 
@@ -33,16 +35,16 @@ const sequencer = document.getElementById('boot-sequencer')
 const startBtn = document.querySelector('.start')
 const startingPoint = document.querySelector('.starting-point')
 
-startBtn.addEventListener('click', () => {
-  startingPoint.style.display = 'block'
-  startBtn.style.display = 'none'
-  // Gives the browser a split second to render the 'block'
-  // change before firing the heavy logic
-  document.getElementById('btn1').focus();
-  setTimeout(() => {
-    startBootSequence()
-  }, 100)
-})
+// startBtn.addEventListener('click', () => {
+//   startingPoint.style.display = 'block'
+//   startBtn.style.display = 'none'
+//   // Gives the browser a split second to render the 'block'
+//   // change before firing the heavy logic
+//   document.getElementById('btn1').focus();
+//   setTimeout(() => {
+//     startBootSequence()
+//   }, 100)
+// })
 
 // // Call the function
 // document.addEventListener('DOMContentLoaded', triggerTitleScramble)
@@ -106,7 +108,77 @@ document.querySelectorAll('.control-btn').forEach(btn => {
 
 // ------------------------------------------
 
-//
+// --- THE EXECUTIONER LOGIC ---
+async function handleBioExtract() {
+    console.log("INTERNAL: handleBioExtract sequence started"); // Log 1
+    const outputArea = document.getElementById('encrypted_output');
+    const encryptedText = outputArea.value || outputArea.innerText;
+
+    if (!encryptedText || encryptedText.trim().length < 10) {
+        console.warn("GUARD: Text too short or missing.");
+        return;
+    }
+
+    // Call the module
+    await generateQR(encryptedText, 'qr_canvas', 'qr_overlay');
+
+    // UI Feedback
+    anime({
+        targets: '#qr_overlay',
+        opacity: [0, 1],
+        scale: [0.9, 1],
+        duration: 400,
+        easing: 'easeOutExpo'
+    });
+}
+
+// --- THE ONLY CLICK LISTENER YOU NEED ---
+document.addEventListener('click', async (e) => {
+    // This log MUST fire if the click hits the document
+    console.log("GLOBAL CLICK:", e.target.tagName, e.target.className, e.target.id);
+
+    // Use e.target.closest for better accuracy with icons/styled buttons
+    const bioBtn = e.target.closest('.btn-bio-key');
+    const copyBtn = e.target.closest('#copy_qr_btn');
+    const closeBtn = e.target.closest('#close_qr');
+
+    if (bioBtn) {
+        console.log("MATCH: Bio-Key detected.");
+        await handleBioExtract();
+    }
+
+    if (copyBtn) {
+        console.log("MATCH: Copy detected.");
+        const success = await copyQR('qr_canvas');
+        // if (success) showTerminalAlert("SIGNATURE_COPIED");
+    }
+
+    if (closeBtn) {
+        console.log("MATCH: Close detected.");
+        const overlay = document.getElementById('qr_overlay');
+        anime({
+            targets: overlay,
+            opacity: 0,
+            scale: 0.8,
+            duration: 300,
+            easing: 'easeInExpo',
+            complete: () => { overlay.style.display = 'none'; }
+        });
+    }
+});
+
+initDecrypterScanner();
+
+
+
+
+
+
+
+
+
+
+//Arrow key navigator
 window.addEventListener('keydown', (e) => {
     // 1. Get Sidebar items
     const sidebarItems = Array.from(document.querySelectorAll('#sidebar button, .theme-btn, .stealth, .kill-btn'));

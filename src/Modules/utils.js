@@ -1,4 +1,5 @@
 import { showTerminalAlert } from './animations.js';
+import { scanQRData } from './QRActions';
 import {sfx} from './soundControl.js';
 
 // --- PREDATOR CURSOR ---
@@ -65,21 +66,49 @@ export function updateStrength(inputEl) {
 
 //Paste
 export async function terminalPaste(selector) {
-    sfx.click.play()
+    if (window.sfx?.click) sfx.click.play();
     const target = document.querySelector(selector);
+    
     try {
+        const items = await navigator.clipboard.read();
+        
+        for (const item of items) {
+            // --- CASE A: The user pasted a QR Image ---
+            if (item.types.includes("image/png") || item.types.includes("image/jpeg")) {
+                const blob = await item.getType("image/png");
+                const decodedText = await scanQRData(blob);
+                
+                if (decodedText) {
+                    target.value = decodedText;
+                    triggerSuccessFlash(target);
+                    return; // Task complete
+                }
+            }
+            
+            // --- CASE B: The user pasted Yautja Text ---
+            if (item.types.includes("text/plain")) {
+                const blob = await item.getType("text/plain");
+                const text = await blob.text();
+                target.value = text;
+                triggerSuccessFlash(target);
+                return;
+            }
+        }
+    } catch (err) {
+        // Fallback for browsers that don't support .read() but support .readText()
         const text = await navigator.clipboard.readText();
         target.value = text;
-        
-        // Success Flash
-        anime({
-            targets: target,
-            backgroundColor: ['rgba(0, 255, 65, 0.2)', 'rgba(0, 0, 0, 0.4)'],
-            duration: 1000
-        });
-    } catch (err) {
-        console.warn("Clipboard access denied or not available.");
+        triggerSuccessFlash(target);
     }
+}
+
+// Helper to keep the code clean
+function triggerSuccessFlash(target) {
+    anime({
+        targets: target,
+        backgroundColor: ['rgba(0, 255, 65, 0.2)', 'rgba(0, 0, 0, 0.4)'],
+        duration: 1000
+    });
 }
  //Delete
 export function terminalPurge(selector) {
