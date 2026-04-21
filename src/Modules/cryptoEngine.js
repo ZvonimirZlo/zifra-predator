@@ -100,11 +100,11 @@ export async function handleEncrypt() {
     const mainInput = face.querySelector('.mainInput');
     const output = face.querySelector('.resultOutput');
 
-    console.log("2. Inputs found:", { 
-        passLength: passInput.value.length, 
-        textLength: mainInput.value.length,
-        hasOutputElement: !!output 
-    });
+    // console.log("2. Inputs found:", { 
+    //     passLength: passInput.value.length, 
+    //     textLength: mainInput.value.length,
+    //     hasOutputElement: !!output 
+    // });
 
     if (!passInput.value || !mainInput.value) {
         console.log("3. Validation Failed - Stopping");
@@ -112,9 +112,9 @@ export async function handleEncrypt() {
     }
 
     try {
-        console.log("4. Starting Encryption...");
+        // console.log("4. Starting Encryption...");
         const res = await encryptBatch([mainInput.value], passInput.value);
-        console.log("5. Encryption Success:", res[0]);
+        // console.log("5. Encryption Success:", res[0]);
 
         if (output.tagName === 'TEXTAREA' || output.tagName === 'INPUT') {
             output.value = res[0];
@@ -126,7 +126,15 @@ export async function handleEncrypt() {
         console.log("6. UI Updated");
     } catch (err) {
         console.error("CRITICAL ERROR:", err);
-    }
+    }finally {
+    // CRITICAL: Zero out password in memory
+    passInput.value = '';
+    mainInput.value = '';
+    
+    // Force garbage collection hints
+    password = null;
+    if (typeof global.gc === 'function') global.gc();
+  }
 }
 
 export async function handleDecrypt() {
@@ -146,8 +154,7 @@ export async function handleDecrypt() {
         output.innerText = res[0];
     }
     
-    // Debugging: If you see this in the console, the crypto works!
-    console.log("SUCCESS: Encrypted data is: ", res[0]);
+    // console.log("SUCCESS: Encrypted data is: ", res[0]);
     
 
     if (res[0].includes("ACCESS DENIED")) {

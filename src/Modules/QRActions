@@ -2,8 +2,6 @@ import { sfx } from "./soundControl";
 import { showTerminalAlert} from "./animations";
 
 
-
-
 // Function to generate and display the QR overlay
 export async function generateQR(encryptedText, canvasId, overlayId) {
     const canvas = document.getElementById(canvasId);
