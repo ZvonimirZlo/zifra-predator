@@ -1,4 +1,4 @@
-import { showTerminalAlert } from './animations.js';
+import { showTerminalAlert } from './terminalAlert';
 import { scanQRData } from './QRActions';
 import {sfx} from './soundControl.js';
 

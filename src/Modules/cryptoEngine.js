@@ -1,5 +1,5 @@
 import {sfx} from './soundControl.js'
-import { showTerminalAlert } from './animations';
+import { showTerminalAlert } from './terminalAlert';
 
 
 // --- MASKING CONFIGURATION ---

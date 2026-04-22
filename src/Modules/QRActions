@@ -1,5 +1,5 @@
 import { sfx } from "./soundControl";
-import { showTerminalAlert} from "./animations";
+import { showTerminalAlert} from "./terminalAlert";
 
 
 // Function to generate and display the QR overlay
