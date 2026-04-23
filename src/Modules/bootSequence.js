@@ -76,7 +76,7 @@ export const startBootSequence = () => {
     translateY: [-10, 0],
     easing: 'easeOutExpo',
     duration: 800,
-    delay: anime.stagger(500), // Time between each line appearing
+    delay: anime.stagger(300), // Time between each line appearing
     begin: function (anim) {},
     changeComplete: function (el) {},
 

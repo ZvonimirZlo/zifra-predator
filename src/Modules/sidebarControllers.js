@@ -2,56 +2,23 @@ import {sfx} from './soundControl';
 import { showTerminalAlert } from './terminalAlert';
 
 
-
 const body = document.body
-const overlay = document.getElementById('theme-overlay')
-const allBtns = document.querySelectorAll('.sidebar .btn')
+const overlay = document.getElementById('theme-overlay');
+const allBtns = document.querySelectorAll('.sidebar .btn');
 const blue = () => document.getElementById('blue');
 const green = () => document.getElementById('green');
 
 
+//System purge, reloads the browser
+let currentPulse = 0;
+const totalButtons = 6;
+let nukeInterval = null;
 
-
-// export function showTerminalAlert(message) {
-//   const alertBox = document.getElementById('terminal-alert');
-//   const msgText = document.getElementById('alert-message');
-  
-//  if (!alertBox || !msgText) return;
-
-//   // 3. Update the text
-//   msgText.innerText = message;
-
-//   return anime.timeline({ easing: 'easeOutExpo' })
-//     .add({
-//       targets: alertBox,
-//       left: 20,
-//       opacity: [0, 1, 0.5, 1, 0.8, 1],
-//       duration: 500
-//     })
-//     .add({
-//       targets: '.alert-scanner',
-//       left: ['0%', '100%'],
-//       duration: 1000,
-//       easing: 'linear'
-//     })
-//     .add({
-//       targets: alertBox,
-//       opacity: 0,
-//       left: -300,
-//       delay: 2000,
-//       duration: 500
-//     });
-// }
-
-//System purge
-let currentPulse = 0
-const totalButtons = 6
-let nukeInterval = null
-
+//Starts the countdown and reloads browser after 6,5 seconds
 export function startDecayCountdown () {
   sfx.beep.play()
-  const allBtns = Array.from(document.querySelectorAll('.sidebar .btn'))
-  const killBtn = document.getElementById('kill-button')
+  const allBtns = Array.from(document.querySelectorAll('.sidebar .btn'));
+  const killBtn = document.getElementById('kill-button');
   //Disables the kill button
   killBtn.disabled = true
   killBtn.style.pointerEvents = 'none' // Physical lock
@@ -105,6 +72,7 @@ export function startDecayCountdown () {
   }, 6500)
 }
 
+//Toggle sidebar 
 export function toggleSidebar () {
   document.getElementById('sidebar').classList.toggle('open')
 }
@@ -152,9 +120,6 @@ export const translator = () => {
 
   sfx.unlock.play()
 }
-
-
-
 
 
 //Toggle blue or green theme

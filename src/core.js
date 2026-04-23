@@ -5,7 +5,7 @@ import {
   toggleSidebar,
   translator,
   startDecayCountdown
-} from './Modules/animations'
+} from './Modules/sidebarControllers.js'
 import {
   togglePassword,
   updateStrength,
@@ -29,12 +29,9 @@ import {
   initQRController
 } from './Modules/QRActions'
 
-const sidebar = document.getElementById('sidebar')
-const toggleMenu = document.querySelector('.menu-toggle')
-const stealthBtn = document.querySelector('.stealth')
-const killBtn = document.getElementById('kill-button')
+// const sidebar = document.getElementById('sidebar')
 const sequencer = document.getElementById('boot-sequencer')
-// const glyph = sequencer.querySelector('.countdown-glyph')
+const glyph = sequencer.querySelector('.countdown-glyph')
 const startBtn = document.querySelector('.start')
 const startingPoint = document.querySelector('.starting-point')
 
@@ -50,11 +47,11 @@ terminalActions() //Copy,paste,purge
 cryptoProcessors() //Crypto processing
 
 
-sidebar.addEventListener('mouseenter', translator, { once: true }) //Unlocks the sidebar
+document.getElementById('sidebar').addEventListener('mouseenter', translator, { once: true }) //Unlocks the sidebar
 
 // --- DOM ELEMENTS ---
 
-
+//Starting the app
 startBtn.addEventListener('click', () => {
   startingPoint.style.display = 'block'
   startBtn.style.display = 'none'
@@ -67,42 +64,54 @@ startBtn.addEventListener('click', () => {
 })
 
 
-
-
 // --- UI CONTROLS ---
 
-//Change themes
+const initTheme = () => {
+  //Change themes
 document
   .getElementById('green')
   .addEventListener('click', () => setTheme('green'))
 document
   .getElementById('blue')
   .addEventListener('click', () => setTheme('blue'))
+}
 
-//Toggle sidebar visibility
-toggleMenu.addEventListener('click', toggleSidebar)
+const initSidebarVisibility = () => {
+  //Toggle sidebar visibility
+document.querySelector('.menu-toggle').addEventListener('click', toggleSidebar)
+}
 
-// Toggle mute/unmute sounds
+const initStealthMode = () => {
+  // Toggle mute/unmute sounds
 document.querySelector('.stealth').addEventListener('click', toggleMute)
+}
 
-//Triggers countdown and browser reload
-killBtn.addEventListener('click', startDecayCountdown)
+const initRebootSequence = () => {
+  //Triggers countdown and browser reload
+document.getElementById('kill-button').addEventListener('click', startDecayCountdown)
+}
 
-// --- PASSWORD & STRENGTH ---
+const initPasswordStrength = () => {
+  // --- PASSWORD & STRENGTH ---
 document.querySelectorAll('.toggle-visibility').forEach(btn => {
   btn.addEventListener('click', e => {
     e.stopPropagation() // Prevents the click from triggering other things
     togglePassword(e.currentTarget)
   })
 })
+}
 
-document.querySelectorAll('.passInput').forEach(input => {
+const initPasswordStrengthUpdate = () => {
+  document.querySelectorAll('.passInput').forEach(input => {
   input.addEventListener('input', e => updateStrength(e.target))
 })
+}
+
+initTheme()
+initSidebarVisibility()
+initStealthMode()
+initRebootSequence()
+initPasswordStrength()
+initPasswordStrengthUpdate()
 
 
-
-
-
-
-// ------------------------------------------

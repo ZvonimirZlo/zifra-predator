@@ -126,14 +126,14 @@ export async function handleEncrypt() {
         console.log("6. UI Updated");
     } catch (err) {
         console.error("CRITICAL ERROR:", err);
-    }finally {
+    } finally {
     // CRITICAL: Zero out password in memory
     passInput.value = '';
     mainInput.value = '';
     
     // Force garbage collection hints
-    password = null;
-    if (typeof global.gc === 'function') global.gc();
+    // passInput = null;
+//     if (typeof global.gc === 'function') global.gc();
   }
 }
 
