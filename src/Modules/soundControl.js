@@ -33,3 +33,8 @@ export const toggleMute = () => {
 
     return isMuted;
 };
+
+export const initStealthMode = () => {
+  // Toggle mute/unmute sounds
+document.querySelector('.stealth').addEventListener('click', toggleMute)
+}

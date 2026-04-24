@@ -17,7 +17,7 @@ export const startBootSequence = () => {
 
   anime({
     targets: glyph,
-    duration: 5000, // Slower 5-second burn
+    duration: 5500, // Slower 5.5-second burn
     easing: 'linear',
     update: function (anim) {
       const progress = anim.progress

@@ -1,5 +1,5 @@
 import { showTerminalAlert } from './terminalAlert';
-import { scanQRData } from './QRActions';
+import { scanQRData } from './QRActions.js';
 import {sfx} from './soundControl.js';
 
 // --- PREDATOR CURSOR ---

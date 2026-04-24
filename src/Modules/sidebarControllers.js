@@ -145,4 +145,25 @@ export function setTheme (theme) {
   }
 }
 
+export const initTheme = () => {
+  //Change themes
+document
+  .getElementById('green')
+  .addEventListener('click', () => setTheme('green'))
+document
+  .getElementById('blue')
+  .addEventListener('click', () => setTheme('blue'))
+}
+
+export const initSidebarVisibility = () => {
+  //Toggle sidebar visibility
+document.querySelector('.menu-toggle').addEventListener('click', toggleSidebar)
+}
+
+
+export const initRebootSequence = () => {
+  //Triggers countdown and browser reload
+document.getElementById('kill-button').addEventListener('click', startDecayCountdown)
+}
+
 
