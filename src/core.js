@@ -39,11 +39,17 @@ const startBtn = document.querySelector('.start')
 const startingPoint = document.querySelector('.starting-point')
 const sidebar = document.getElementById('sidebar');
 
-//'Unlocks' the sidebar on mouse enter
+//'Unlocks' the sidebar on mouse enter, click
 
 const sidebarUnlocker = () => {
-  sidebar.addEventListener('click', translator, { once: true })
-  sidebar.addEventListener('mouseenter', translator, { once: true }) //Unlocks the sidebar
+const controller = new AbortController();
+const {signal} = controller;
+const handleEvent = x => {
+  translator(x);
+  controller.abort();
+}
+sidebar.addEventListener('click', handleEvent, {signal});
+sidebar.addEventListener('mouseenter', handleEvent, {signal});
 }
 
 
