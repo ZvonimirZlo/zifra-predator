@@ -54,9 +54,9 @@ sidebar.addEventListener('mouseenter', handleEvent, {signal});
 
 
 
-//Starting the app
-startBtn.addEventListener('click', () => {
-  startingPoint.style.display = 'block'
+//Starter 
+const startApp = () => {
+ startingPoint.style.display = 'block'
   startBtn.style.display = 'none'
   // Gives the browser a split second to render the 'block'
   // change before firing the heavy logic
@@ -64,7 +64,18 @@ startBtn.addEventListener('click', () => {
   setTimeout(() => {
     startBootSequence()
   }, 100)
-})
+}
+
+//Start the app when button is clicked
+startBtn.addEventListener('click', startApp, {once: true});
+
+//Start the app when 'Enter' is pressed
+window.addEventListener('keydown', x => {
+  x.preventDefault();
+  x.stopImmediatePropagation();
+  if(x.key === 'Enter') startApp()
+}, { once: true});
+
 
  const initPasswordStrength = () => {
   // --- PASSWORD & STRENGTH ---
