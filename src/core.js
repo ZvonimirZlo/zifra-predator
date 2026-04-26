@@ -33,17 +33,17 @@ import {
 } from './Modules/QRActions.js'
 
 
-// const sidebar = document.getElementById('sidebar')
 const sequencer = document.getElementById('boot-sequencer')
 const glyph = sequencer.querySelector('.countdown-glyph')
 const startBtn = document.querySelector('.start')
 const startingPoint = document.querySelector('.starting-point')
+const sidebar = document.getElementById('sidebar');
 
 //'Unlocks' the sidebar on mouse enter
 
 const sidebarUnlocker = () => {
-    document.getElementById('sidebar')
-  .addEventListener('mouseenter', translator, { once: true }) //Unlocks the sidebar
+  sidebar.addEventListener('click', translator, { once: true })
+  sidebar.addEventListener('mouseenter', translator, { once: true }) //Unlocks the sidebar
 }
 
 
@@ -69,7 +69,7 @@ document.querySelectorAll('.toggle-visibility').forEach(btn => {
   })
 })
 }
-
+//Updates pass strength bar
  const initPasswordStrengthUpdate = () => {
   document.querySelectorAll('.passInput').forEach(input => {
   input.addEventListener('input', e => updateStrength(e.target))
@@ -78,7 +78,7 @@ document.querySelectorAll('.toggle-visibility').forEach(btn => {
 
 initCursor() //'Predator' aiming cursor
 initTheme() //Visual theme switcher
-sidebarUnlocker()
+sidebarUnlocker() //Unlocks the sidebar
 initSidebarVisibility() //Toggle sidebar visibility
 initStealthMode() //Mute sounds
 initRebootSequence() //Browser reloader

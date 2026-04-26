@@ -91,8 +91,6 @@ export function updateStrength(inputEl) {
 }
 
 
-//------------------------------------------------------------------------------------
-
 
 //Reusable functions for inputs and outputs handling
 
