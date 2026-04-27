@@ -18,33 +18,37 @@ export function initCursor() {
 //Arrow key navigator
 export const arrowKeyNavigator = () => {
   window.addEventListener('keydown', (e) => {
-    // 1. Get Sidebar items
+    const cube = document.querySelector('.cube');
+    if(!cube) return;
+
+    let currentSide = 'front'; //Default side on the beginning
+    if (cube.classList.contains('show-right')) {
+        currentSide = 'right'; //Decrypter side
+    }
+    
+    //Sidebar keys
     const sidebarItems = Array.from(document.querySelectorAll('#sidebar button, .theme-btn, .stealth, .kill-btn'));
     
-
-    const activeFace = document.querySelector('.cube-face:not([style*="display: none"])'); 
+    //Active side
+    const activeFace = document.querySelector(`.cube-face-${currentSide}`); 
+    //Interactive cube items
     const faceItems = activeFace ? Array.from(activeFace.querySelectorAll('input, textarea, button')) : [];
-
-    // 3. Combine them into one master list for this specific view
+    //All active elements
     const allItems = [...sidebarItems, ...faceItems];
-    
     const active = document.activeElement;
     const currentIndex = allItems.indexOf(active);
 
-    if (currentIndex > -1) {
-        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-            e.preventDefault();
-            
-            let nextIndex = (e.key === 'ArrowDown') 
-                ? (currentIndex + 1) % allItems.length 
-                : (currentIndex - 1 + allItems.length) % allItems.length;
-            
-            allItems[nextIndex].focus();
-            
-            console.log(`Navigating to: ${allItems[nextIndex].className || allItems[nextIndex].id}`);
-        }
+    // 3. Navigation
+    if (currentIndex > -1 && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+        e.preventDefault();
+        
+        let nextIndex = (e.key === 'ArrowDown') 
+            ? (currentIndex + 1) % allItems.length 
+            : (currentIndex - 1 + allItems.length) % allItems.length;
+        
+        allItems[nextIndex].focus();
     }
-}, { capture: true });
+  }, { capture: true });
 }
 
 

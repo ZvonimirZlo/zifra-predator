@@ -38,6 +38,7 @@ const glyph = sequencer.querySelector('.countdown-glyph')
 const startBtn = document.querySelector('.start')
 const startingPoint = document.querySelector('.starting-point')
 const sidebar = document.getElementById('sidebar');
+const startingContainer = document.querySelector('.boot.sequencer')
 
 //'Unlocks' the sidebar on mouse enter, click
 
@@ -56,6 +57,7 @@ sidebar.addEventListener('mouseenter', handleEvent, {signal});
 
 //Starter 
 const startApp = () => {
+  window.removeEventListener('keydown', handleKeyPress);
  startingPoint.style.display = 'block'
   startBtn.style.display = 'none'
   // Gives the browser a split second to render the 'block'
@@ -66,16 +68,17 @@ const startApp = () => {
   }, 100)
 }
 
+const handleKeyPress = (x) => {
+  if (x.key === 'Enter') {
+    x.preventDefault();
+    startBtn.click()
+  }
+}
+
 //Start the app when button is clicked
 startBtn.addEventListener('click', startApp, {once: true});
-
-//Start the app when 'Enter' is pressed
-window.addEventListener('keydown', x => {
-  x.preventDefault();
-  x.stopImmediatePropagation();
-  if(x.key === 'Enter') startApp()
-}, { once: true});
-
+window.addEventListener('keypress', handleKeyPress);
+ 
 
  const initPasswordStrength = () => {
   // --- PASSWORD & STRENGTH ---
