@@ -8,6 +8,7 @@ export async function generateQR(encryptedText, canvasId, overlayId) {
     const overlay = document.getElementById(overlayId);
 
     if (!canvas || !overlay) return;
+    
 
     try {
         await QRCode.toCanvas(canvas, encryptedText, {
@@ -171,7 +172,7 @@ export const initQRController = () => {
     const closeBtn = e.target.closest('#close_qr');
 
     if (bioBtn) {
-        console.log("MATCH: Bio-Key detected.");
+        // console.log("MATCH: Bio-Key detected.");
         await handleQRExtract();
     }
 
@@ -183,7 +184,7 @@ export const initQRController = () => {
     }
 
     if (closeBtn) {
-        console.log("MATCH: Close detected.");
+        // console.log("MATCH: Close detected.");
         sfx.click.play()
         const overlay = document.getElementById('qr_overlay');
         anime({
@@ -205,7 +206,9 @@ async function handleQRExtract () {
 
   if (!encryptedText || encryptedText.trim().length < 10) {
     console.warn('GUARD: Text too short or missing.')
-    return
+    showTerminalAlert('Text too short or missing!');
+    sfx.alert.play();
+    return;
   }
 
   // Call the module
