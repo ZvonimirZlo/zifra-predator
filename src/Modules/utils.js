@@ -192,6 +192,7 @@ export function terminalCopy(event, selector) {
     const text = target.value || target.innerText;
 
     if (!text || text.trim() === "") {
+        showTerminalAlert('⚠️ No data to clone!')
         sfx.alert.play(); // No data to clone!
         return;
     }

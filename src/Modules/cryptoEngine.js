@@ -1,114 +1,129 @@
 import { sfx } from './soundControl.js'
 import { showTerminalAlert } from './terminalAlert'
 
-// --- MASKING CONFIGURATION ---
-const B64_CHARS =
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
-const MASK_CHARS = B64_CHARS.split('').reverse().join('')
 
-function applyMask (str) {
-  return str
-    .split('')
-    .map(char => {
-      const index = B64_CHARS.indexOf(char)
-      return index !== -1 ? MASK_CHARS[index] : char
-    })
-    .join('')
-}
 
-function removeMask (str) {
-  return str
-    .split('')
-    .map(char => {
-      const index = MASK_CHARS.indexOf(char)
-      return index !== -1 ? B64_CHARS[index] : char
-    })
-    .join('')
-}
-
-// --- CORE CRYPTO FUNCTIONS ---
-async function deriveKey (password, salt) {
-  const encoder = new TextEncoder()
+async function deriveKey(password, salt) {
+  const encoder = new TextEncoder();
   const baseKey = await window.crypto.subtle.importKey(
     'raw',
     encoder.encode(password),
     'PBKDF2',
     false,
     ['deriveKey']
-  )
+  );
   return window.crypto.subtle.deriveKey(
-    { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+    { 
+      name: 'PBKDF2', 
+      salt, 
+      iterations: 600000,
+      hash: 'SHA-256' 
+    },
     baseKey,
     { name: 'AES-GCM', length: 256 },
     false,
     ['encrypt', 'decrypt']
-  )
+  );
 }
 
-//Encryption logic
-async function encryptBatch (messages, password) {
-  const encoder = new TextEncoder()
-  const salt = window.crypto.getRandomValues(new Uint8Array(16))
-  const key = await deriveKey(password, salt)
+async function encryptBatch(messages, password) {
+  const salt = window.crypto.getRandomValues(new Uint8Array(16));
+  
+  // 1. Derive key ONCE per batch. 
+  const key = await deriveKey(password, salt);
+  const saltB64 = uint8ArrayToBase64(salt);
 
-  return Promise.all(
-    messages.map(async msg => {
-      const iv = window.crypto.getRandomValues(new Uint8Array(12))
-      const buffer = await window.crypto.subtle.encrypt(
-        { name: 'AES-GCM', iv },
-        key,
-        encoder.encode(msg)
-      )
-      const saltB64 = btoa(String.fromCharCode(...salt))
-      const ivB64 = btoa(String.fromCharCode(...iv))
-      const contentB64 = btoa(String.fromCharCode(...new Uint8Array(buffer)))
-      return applyMask(`${saltB64}:${ivB64}:${contentB64}`)
-    })
-  )
-}
+  const results = [];
+  for (const msg of messages) {
+    const iv = window.crypto.getRandomValues(new Uint8Array(12));
+    const encoded = new TextEncoder().encode(msg);
 
-//Decryption logic
-async function decryptBatch (encryptedMessages, password) {
-  const decoder = new TextDecoder()
-  const b64ToUint8 = b64 => {
-    try {
-      return Uint8Array.from(atob(b64), c => c.charCodeAt(0))
-    } catch (e) {
-      throw new Error('Invalid Base64')
-    }
+    const buffer = await window.crypto.subtle.encrypt(
+      { name: 'AES-GCM', iv },
+      key,
+      encoded
+    );
+
+    // 2. Chunked Base64 helper to prevent Stack Overflow
+    const ivB64 = uint8ArrayToBase64(iv);
+    const contentB64 = uint8ArrayToBase64(new Uint8Array(buffer));
+
+    results.push(`${saltB64}:${ivB64}:${contentB64}`);
   }
+  return results;
+}
 
-  return Promise.all(
-    encryptedMessages.map(async entry => {
+// THE STACK-SAFE HELPER
+function uint8ArrayToBase64(uint8) {
+  let binary = '';
+  const chunkSide = 8192; 
+  for (let i = 0; i < uint8.length; i += chunkSide) {
+    // Process in small bites to stay under the stack limit
+    binary += String.fromCharCode.apply(null, uint8.subarray(i, i + chunkSide));
+  }
+  return btoa(binary);
+}
+
+
+async function decryptBatch(encryptedMessages, password) {
+  const decoder = new TextDecoder();
+  const results = [];
+
+  // 1. Safety check
+  if (!encryptedMessages || encryptedMessages.length === 0) return [];
+
+  try {
+    // 2. Extract salt from the first entry to derive the key once
+    const firstEntry = encryptedMessages[0].trim().split(':');
+    const salt = b64ToUint8(firstEntry[0]);
+    
+    // The "Heavy Lifting" (600k iterations) happens here, once.
+    const key = await deriveKey(password, salt);
+
+    // 3. The Sequential Loop 
+    // processes messages one-by-one.
+    for (const entry of encryptedMessages) {
       try {
-        const cleanEntry = removeMask(entry.trim())
-        const parts = cleanEntry.split(':')
+        const parts = entry.trim().split(':');
+        if (parts.length !== 3) continue; 
 
-        if (parts.length !== 3) throw new Error('Invalid format')
+        const iv = b64ToUint8(parts[1]);
+        const data = b64ToUint8(parts[2]);
 
-        const [sB64, iB64, cB64] = parts
-        const salt = b64ToUint8(sB64)
-        const iv = b64ToUint8(iB64)
-        const data = b64ToUint8(cB64)
-
-        // Re-derive the key using the password and the salt from the message
-        const key = await deriveKey(password, salt)
-
-        // AES-GCM will automatically throw an error here if the password/key is wrong
+        // Decrypt using the pre-derived key
         const buffer = await window.crypto.subtle.decrypt(
-          { name: 'AES-GCM', iv: iv },
+          { name: 'AES-GCM', iv },
           key,
           data
-        )
+        );
 
-        return decoder.decode(buffer)
+        results.push(decoder.decode(buffer));
       } catch (e) {
-        // This is the "Wrong Password" trigger
-        console.error('Decryption failed:', e)
-        return '!!! ACCESS DENIED: INVALID KEY !!!'
+        console.error("Single message decryption failed:", e);
+        results.push('!!! ACCESS DENIED: INVALID KEY OR CORRUPTED DATA !!!');
       }
-    })
-  )
+    }
+  } catch (e) {
+    console.error("Master key derivation failed:", e);
+    throw new Error("Initialization failed. Check your password.");
+  }
+
+  return results;
+}
+function b64ToUint8(b64) {
+  // 1. Decode Base64 to a binary string
+  const binString = atob(b64);
+  const size = binString.length;
+  
+  // 2. Pre-allocate the exact amount of memory needed
+  const bytes = new Uint8Array(size);
+  
+  // 3. Fill the bucket manually
+  for (let i = 0; i < size; i++) {
+    bytes[i] = binString.charCodeAt(i);
+  }
+  
+  return bytes;
 }
 
 export async function handleEncrypt () {

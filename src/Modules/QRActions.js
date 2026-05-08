@@ -205,7 +205,7 @@ async function handleQRExtract () {
   const encryptedText = outputArea.value || outputArea.innerText
 
   if (!encryptedText || encryptedText.trim().length < 10) {
-    console.warn('GUARD: Text too short or missing.')
+    // console.warn('GUARD: Text too short or missing.')
     showTerminalAlert('Text too short or missing!');
     sfx.alert.play();
     return;
