@@ -22,6 +22,7 @@ export async function generateQR(encryptedText, canvasId, overlayId) {
         // The animation will be triggered in core.js for UI consistency
     } catch (err) {
         console.error("QR Generation Error:", err);
+        showTerminalAlert("QR Generation Error: The amount of data is too big to be stored in a QR Code")
     }
 }
 

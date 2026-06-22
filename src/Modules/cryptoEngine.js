@@ -1,9 +1,21 @@
 import { sfx } from './soundControl.js'
 import { showTerminalAlert } from './terminalAlert'
 
+// ==========================================
+// 1. UNIFIED RUNTIME STATE
+// ==========================================
+let currentPayload = {
+  binaryData: null, // Always holds an ArrayBuffer (for text or files)
+  fileName: '',     // Stores the original filename if a file/video was processed
+  isText: true      // Flag to guide UI output choices (preview vs download)
+};
 
+const MAX_PREVIEW_LENGTH = 50000;
 
-async function deriveKey(password, salt) {
+// ==========================================
+// 2. STACK-SAFE UTILITIES & ENGINE
+// ==========================================
+async function deriveKey (password, salt) {
   const encoder = new TextEncoder();
   const baseKey = await window.crypto.subtle.importKey(
     'raw',
@@ -13,12 +25,7 @@ async function deriveKey(password, salt) {
     ['deriveKey']
   );
   return window.crypto.subtle.deriveKey(
-    { 
-      name: 'PBKDF2', 
-      salt, 
-      iterations: 600000,
-      hash: 'SHA-256' 
-    },
+    { name: 'PBKDF2', salt, iterations: 600000, hash: 'SHA-256' },
     baseKey,
     { name: 'AES-GCM', length: 256 },
     false,
@@ -26,202 +33,262 @@ async function deriveKey(password, salt) {
   );
 }
 
-async function encryptBatch(messages, password) {
-  const salt = window.crypto.getRandomValues(new Uint8Array(16));
-  
-  // 1. Derive key ONCE per batch. 
-  const key = await deriveKey(password, salt);
-  const saltB64 = uint8ArrayToBase64(salt);
-
-  const results = [];
-  for (const msg of messages) {
-    const iv = window.crypto.getRandomValues(new Uint8Array(12));
-    const encoded = new TextEncoder().encode(msg);
-
-    const buffer = await window.crypto.subtle.encrypt(
-      { name: 'AES-GCM', iv },
-      key,
-      encoded
-    );
-
-    // 2. Chunked Base64 helper to prevent Stack Overflow
-    const ivB64 = uint8ArrayToBase64(iv);
-    const contentB64 = uint8ArrayToBase64(new Uint8Array(buffer));
-
-    results.push(`${saltB64}:${ivB64}:${contentB64}`);
-  }
-  return results;
-}
-
-// THE STACK-SAFE HELPER
-function uint8ArrayToBase64(uint8) {
+function uint8ArrayToBase64 (uint8) {
   let binary = '';
-  const chunkSide = 8192; 
+  const chunkSide = 8192;
   for (let i = 0; i < uint8.length; i += chunkSide) {
-    // Process in small bites to stay under the stack limit
     binary += String.fromCharCode.apply(null, uint8.subarray(i, i + chunkSide));
   }
   return btoa(binary);
 }
 
-
-async function decryptBatch(encryptedMessages, password) {
-  const decoder = new TextDecoder();
-  const results = [];
-
-  // 1. Safety check
-  if (!encryptedMessages || encryptedMessages.length === 0) return [];
-
-  try {
-    // 2. Extract salt from the first entry to derive the key once
-    const firstEntry = encryptedMessages[0].trim().split(':');
-    const salt = b64ToUint8(firstEntry[0]);
-    
-    // The "Heavy Lifting" (600k iterations) happens here, once.
-    const key = await deriveKey(password, salt);
-
-    // 3. The Sequential Loop 
-    // processes messages one-by-one.
-    for (const entry of encryptedMessages) {
-      try {
-        const parts = entry.trim().split(':');
-        if (parts.length !== 3) continue; 
-
-        const iv = b64ToUint8(parts[1]);
-        const data = b64ToUint8(parts[2]);
-
-        // Decrypt using the pre-derived key
-        const buffer = await window.crypto.subtle.decrypt(
-          { name: 'AES-GCM', iv },
-          key,
-          data
-        );
-
-        results.push(decoder.decode(buffer));
-      } catch (e) {
-        console.error("Single message decryption failed:", e);
-        results.push('!!! ACCESS DENIED: INVALID KEY OR CORRUPTED DATA !!!');
-      }
-    }
-  } catch (e) {
-    console.error("Master key derivation failed:", e);
-    throw new Error("Initialization failed. Check your password.");
-  }
-
-  return results;
-}
-function b64ToUint8(b64) {
-  // 1. Decode Base64 to a binary string
+function b64ToUint8 (b64) {
   const binString = atob(b64);
   const size = binString.length;
-  
-  // 2. Pre-allocate the exact amount of memory needed
   const bytes = new Uint8Array(size);
-  
-  // 3. Fill the bucket manually
   for (let i = 0; i < size; i++) {
     bytes[i] = binString.charCodeAt(i);
   }
-  
   return bytes;
 }
 
+// ==========================================
+// 3. UNIFIED CRYPTO CORE (Raw Byte Processing)
+// ==========================================
+async function encryptData (arrayBuffer, password) {
+  const salt = window.crypto.getRandomValues(new Uint8Array(16));
+  const iv = window.crypto.getRandomValues(new Uint8Array(12));
+  const key = await deriveKey(password, salt);
+
+  const encryptedBuffer = await window.crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv },
+    key,
+    arrayBuffer
+  );
+
+  return [
+    uint8ArrayToBase64(salt),
+    uint8ArrayToBase64(iv),
+    uint8ArrayToBase64(new Uint8Array(encryptedBuffer))
+  ].join(':');
+}
+
+async function decryptData (encryptedString, password) {
+  const parts = encryptedString.trim().split(':');
+  if (parts.length !== 3) throw new Error('MALFORMED_DATA');
+
+  const salt = b64ToUint8(parts[0]);
+  const iv = b64ToUint8(parts[1]);
+  const ciphertext = b64ToUint8(parts[2]);
+  const key = await deriveKey(password, salt);
+
+  // CRITICAL: Throws naturally on bad password/integrity failure
+  return await window.crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv },
+    key,
+    ciphertext
+  );
+}
+
+// ==========================================
+// 4. DATA NORMALIZATION HELPERS
+// ==========================================
+async function ingestFilePayload (file) {
+  currentPayload.binaryData = await file.arrayBuffer();
+  currentPayload.fileName = file.name;
+  currentPayload.isText = file.type.startsWith('text/') || file.name.endsWith('.enc');
+}
+
+function ingestTextPayload (textString) {
+  currentPayload.binaryData = new TextEncoder().encode(textString).buffer;
+  currentPayload.fileName = '';
+  currentPayload.isText = true;
+}
+
+function triggerFileDownload (arrayBuffer, filename, defaultExt = '.enc') {
+  const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename.includes('.') ? filename : `${filename}${defaultExt}`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ==========================================
+// 5. INTERFACE EXECUTION CONTROLLERS
+// ==========================================
 export async function handleEncrypt () {
-  const face = document.querySelector('.cube-face-front')
-  const passInput = face.querySelector('.passInput')
-  const mainInput = face.querySelector('.mainInput')
-  const output = face.querySelector('.resultOutput')
+  const face = document.querySelector('.cube-face-front');
+  const passInput = face.querySelector('.passInput');
+  const mainInput = face.querySelector('.mainInput');
+  const output = face.querySelector('.resultOutput');
 
-  // console.log("2. Inputs found:", {
-  //     passLength: passInput.value.length,
-  //     textLength: mainInput.value.length,
-  //     hasOutputElement: !!output
-  // });
+  const downloadPrompt = document.getElementById('encryptDownloadPrompt');
+  const secureDownloadBtn = document.getElementById('encryptDownloadBtn');
 
-  if (!passInput.value || !mainInput.value) {
-    console.log('3. Validation Failed - Stopping')
-    return showTerminalAlert('Need password and text!'), sfx.alert.play()
+  if (!passInput.value) return showTerminalAlert('Password required!'), sfx.alert.play();
+
+  if (!currentPayload.binaryData) {
+    if (!mainInput.value) return showTerminalAlert('No data to encrypt!'), sfx.alert.play();
+    ingestTextPayload(mainInput.value);
   }
 
   try {
-    // console.log("4. Starting Encryption...");
-    const res = await encryptBatch([mainInput.value], passInput.value)
-    // console.log("5. Encryption Success:", res[0]);
+    const encryptedResult = await encryptData(currentPayload.binaryData, passInput.value);
+    sfx.success.play();
 
-    if (output.tagName === 'TEXTAREA' || output.tagName === 'INPUT') {
-      output.value = res[0]
+    // Determine if it needs to go to a file prompt
+    if (!currentPayload.isText || encryptedResult.length > MAX_PREVIEW_LENGTH) {
+      // 1. Hide terminal output window, show download prompt
+      output.style.display = 'none';
+      downloadPrompt.style.display = 'block';
+
+      // 2. Clone button to cleanly strip away any lingering previous click events
+      const newBtn = secureDownloadBtn.cloneNode(true);
+      secureDownloadBtn.parentNode.replaceChild(newBtn, secureDownloadBtn);
+
+      // 3. Attach the secure binary payload download trigger
+      newBtn.addEventListener('click', () => {
+        sfx.click.play();
+        const outName = currentPayload.fileName ? `${currentPayload.fileName}.enc` : 'payload.enc';
+        
+        // Convert the ciphertext string straight to binary for the download block
+        triggerFileDownload(new TextEncoder().encode(encryptedResult), outName);
+
+        // Self-cleaning sequence
+        newBtn.disabled = true;
+        newBtn.innerText = 'DOWNLOAD_COMPLETE';
+        setTimeout(() => {
+          downloadPrompt.style.display = 'none';
+          output.style.display = 'block';
+          output.value = `[SUCCESS] Encrypted bundle built dynamically.`;
+          newBtn.disabled = false;
+          newBtn.innerText = 'Download Secure File (.txt)';
+        }, 2000);
+      }, { once: true });
+
     } else {
-      output.innerText = res[0]
+      output.style.display = 'block';
+      downloadPrompt.style.display = 'none';
+      output.value = encryptedResult;
     }
-
-    sfx.success.play()
-    console.log('6. UI Updated')
   } catch (err) {
-    console.error('CRITICAL ERROR:', err)
+    console.error('Encryption Failed:', err);
+    sfx.error.play();
   } finally {
-    // CRITICAL: Zero out password in memory
-    passInput.value = ''
-    mainInput.value = ''
-
-    // Force garbage collection
-    // passInput = null;
-    //     if (typeof global.gc === 'function') global.gc();
+    passInput.value = '';
+    mainInput.value = '';
+    mainInput.readOnly = false;
+    currentPayload = { binaryData: null, fileName: '', isText: true };
   }
 }
 
 export async function handleDecrypt () {
-  const face = document.querySelector('.cube-face-right')
-  const pass = face.querySelector('.passInput').value
-  const text = face.querySelector('.mainInput').value
-  const output = face.querySelector('.resultOutput')
-  sfx.click.play()
-  if (!pass || !text)
-    return showTerminalAlert('Need password and encrypted text!'), alert.play()
+  const face = document.querySelector('.cube-face-right');
+  const passInput = face.querySelector('.passInput');
+  const mainInput = face.querySelector('.mainInput');
+  const output = face.querySelector('.resultOutput');
 
-  const res = await decryptBatch([text], pass)
-  output.value = res[0]
+  const downloadPrompt = document.getElementById('decryptDownloadPrompt');
+  const secureDownloadBtn = document.getElementById('decryptDownloadBtn');
 
-  if (output.tagName === 'TEXTAREA' || output.tagName === 'INPUT') {
-    output.value = res[0]
-  } else {
-    output.innerText = res[0]
+  if (!passInput.value) return showTerminalAlert('Password required!'), sfx.alert.play();
+
+  if (!currentPayload.binaryData) {
+    if (!mainInput.value) return showTerminalAlert('No data to decrypt!'), sfx.alert.play();
+    ingestTextPayload(mainInput.value);
   }
 
-  // console.log("SUCCESS: Encrypted data is: ", res[0]);
+  try {
+    const ciphertextString = new TextDecoder().decode(currentPayload.binaryData);
+    const decryptedBuffer = await decryptData(ciphertextString, passInput.value);
+    
+    sfx.success.play();
 
-  if (res[0].includes('ACCESS DENIED')) {
-    sfx.error.play()
-    anime({
+    // Determine if it needs to go to a file prompt
+    if (!currentPayload.isText || decryptedBuffer.byteLength > MAX_PREVIEW_LENGTH) {
+      output.style.display = 'none';
+      downloadPrompt.style.display = 'block';
+
+      const newBtn = secureDownloadBtn.cloneNode(true);
+      secureDownloadBtn.parentNode.replaceChild(newBtn, secureDownloadBtn);
+
+      newBtn.addEventListener('click', () => {
+        sfx.click.play();
+        
+        let restoredName = currentPayload.fileName || 'decrypted_payload.bin';
+        if (restoredName.toLowerCase().endsWith('.enc')) restoredName = restoredName.slice(0, -4);
+        
+        triggerFileDownload(decryptedBuffer, `DEC_${restoredName}`);
+
+        newBtn.disabled = true;
+        newBtn.innerText = 'DOWNLOAD_COMPLETE';
+        setTimeout(() => {
+          downloadPrompt.style.display = 'none';
+          output.style.display = 'block';
+          output.value = `[SUCCESS] Payload unlocked and extracted.`;
+          newBtn.disabled = false;
+          newBtn.innerText = 'Download Decrypted File';
+        }, 2000);
+      }, { once: true });
+
+    } else {
+      output.style.display = 'block';
+      downloadPrompt.style.display = 'none';
+      output.value = new TextDecoder().decode(decryptedBuffer);
+    }
+  } catch (err) {
+    console.error('Auth Failure:', err);
+    sfx.error.play();
+    output.value = '!!! ACCESS DENIED: INVALID KEY OR CORRUPTED DATA !!!';
+    
+    window.anime?.({
       targets: output,
-      // Flash red and shake
-      backgroundColor: [
-        'rgba(255,0,0,0)',
-        'rgba(255,0,0,0.4)',
-        'rgba(255,0,0,0)'
-      ],
+      backgroundColor: ['rgba(255,0,0,0)', 'rgba(255,0,0,0.4)', 'rgba(255,0,0,0)'],
       translateX: [-10, 10, -10, 10, 0],
       duration: 400,
       easing: 'linear'
-    })
-
-    output.style.color = '#ff4c4c'
-    setTimeout(() => {
-      output.style.color = '#00ff41'
-    }, 1000)
-  } else {
-    sfx.success.play()
+    });
+  } finally {
+    passInput.value = '';
+    mainInput.value = '';
+    mainInput.readOnly = false;
+    currentPayload = { binaryData: null, fileName: '', isText: true };
   }
 }
 
-// --- CRYPTO PROCESSORS
+// ==========================================
+// 6. UI DOM EVENT ROUTERS
+// ==========================================
 export const cryptoProcessors = () => {
-  const encryptBtn = document.querySelector(
-    '.cube-face-front .panel-content > button:not(.toggle-visibility)'
-  )
-  const decryptBtn = document.querySelector(
-    '.cube-face-right .panel-content > button:not(.toggle-visibility)'
-  )
+  const encryptBtn = document.querySelector('.cube-face-front .panel-content > button:not(.toggle-visibility)');
+  const decryptBtn = document.querySelector('.cube-face-right .panel-content > button:not(.toggle-visibility)');
+  const encryptInput = document.getElementById('encrypterInput');
+  const decryptInput = document.getElementById('decrypter_input');
 
-  if (encryptBtn) encryptBtn.addEventListener('click', handleEncrypt)
-  if (decryptBtn) decryptBtn.addEventListener('click', handleDecrypt)
-}
+  const setupDropListeners = (inputEl) => {
+    if (!inputEl) return;
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eName => {
+      inputEl.addEventListener(eName, e => { e.preventDefault(); e.stopPropagation(); }, false);
+    });
+
+    inputEl.addEventListener('drop', async (e) => {
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        await ingestFilePayload(files[0]);
+        inputEl.value = `📎 [FILE ATTACHED]\nName: ${files[0].name}\nSize: ${(files[0].size / 1024).toFixed(1)} KB`;
+        inputEl.readOnly = true;
+        sfx.click.play();
+      }
+    }, false);
+  };
+
+  setupDropListeners(encryptInput);
+  setupDropListeners(decryptInput);
+
+  if (encryptBtn) encryptBtn.addEventListener('click', handleEncrypt);
+  if (decryptBtn) decryptBtn.addEventListener('click', handleDecrypt);
+};

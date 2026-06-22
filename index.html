@@ -115,25 +115,37 @@
 
 
                         <textarea class="mainInput" id="encrypterInput" placeholder="Message..."></textarea>
+
+
+
                         <button>PROCESS</button>
                         <div class="terminal-controls enc">
-                            
+
                             <button class="control-btn">LINK_DATA</button>
                             <button class="control-btn btn-purge">⚠️PURGE</button>
                             <button class="control-btn">CLONE_EXTRACT</button>
                             <button class="control-btn btn-bio-key">GENERATE_QR</button>
-                            <button class="control-btn">PRE_PROCESSOR</button>
-                            <button class="control-btn btn-bio-key">MASK_ON</button>
+                            <!-- <button class="control-btn">PRE_PROCESSOR</button>
+                            <button class="control-btn btn-bio-key">MASK_ON</button> -->
 
                         </div>
 
                         <textarea readonly class="resultOutput output-box" id="encrypted_output"></textarea>
+
+                        <div id="encryptDownloadPrompt" style="display: none; text-align: center; margin-top: 10px;">
+                            <p style="color: #00ff41;">[!] Payload too large for terminal window.</p>
+                            <button id="encryptDownloadBtn" style="padding: 10px 20px; cursor: pointer;">
+                                Download Secure File (.txt)
+                            </button>
+                        </div>
+
+
                         <div id="qr_overlay"
                             style="display:none; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 10; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #00ff41;">
                             <canvas id="qr_canvas"></canvas>
                             <div class="qr-actions" style="margin-top: 10px; display: flex; gap: 10px;">
-                                <button class="control-btn" id="copy_qr_btn">CLONE_SIGNATURE</button>
-                                <button id="download_qr_btn">HARD_COPY</button>
+                                <button class="control-btn" id="copy_qr_btn">COPY_SIGNATURE</button>
+                                <button id="download_qr_btn">DOWNLOAD QR</button>
                                 <button class="control-btn" id="close_qr">CLOSE</button>
                             </div>
                         </div>
@@ -151,7 +163,9 @@
                             consectetur adipisicing elit. Quod,
                             nostrum?
                         </div>
-                        <div class="cube-line">This is an experimental security project. While it uses industry-standard AES-256-GCM, it is intended for educational and portfolio purposes. Use for sensitive data at your own risk.
+                        <div class="cube-line">This is an experimental security project. While it uses industry-standard
+                            AES-256-GCM, it is intended for educational and portfolio purposes. Use for sensitive data
+                            at your own risk.
                         </div>
                         <div class="cube-line">Lorem ipsum dolor sit amet,
                             consectetur adipisicing elit. Quod,
@@ -234,7 +248,7 @@
                             <div class="strength-label">Strength: Empty</div>
                         </div>
 
-                        <textarea readonly class="mainInput" id="decrypter_input" placeholder="Cipher..."></textarea>
+                        <textarea class="mainInput" id="decrypter_input" placeholder="Cipher..."></textarea>
                         <button>PROCESS</button>
                         <div class="terminal-controls">
                             <button class="control-btn">LINK_DATA</button>
@@ -242,8 +256,14 @@
                             <button class="control-btn">CLONE_EXTRACT</button>
                         </div>
 
-                        <textarea class="resultOutput output-box" id="decrypter_output"></textarea>
 
+                        <textarea class="resultOutput output-box" id="decrypter_output"></textarea>
+                        <div id="decryptDownloadPrompt" style="display: none; text-align: center; margin-top: 10px;">
+                            <p style="color: #00ff41;">[!] Decrypted payload too large for terminal window.</p>
+                            <button id="decryptDownloadBtn" style="padding: 10px 20px; cursor: pointer;">
+                                Download Decrypted File
+                            </button>
+                        </div>
 
                     </div>
                 </div>
