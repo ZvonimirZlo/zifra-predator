@@ -33,39 +33,23 @@ body {
     place-items: center;
 }
 
-/* Cube content text */
-
-.content-wrapper {
-    padding: 20px;
+main {
     display: flex;
-    align-items: center;
-    flex-direction: column;
     justify-content: center;
-    
+    /* Horizontally centers the scene */
+    align-items: center;
+    /* Vertically centers the scene */
+    min-height: 100vh;
 }
 
-.content-wrapper img {
-    opacity: 0;
-}
 
-.cube-line {
-    position: relative;
-    color: var(--neon);
-    line-height: 1.2;
-    text-align: center;
-    color: var(--neon);
-    display: inline-block;
-    font-size: 14px;
-    opacity: 0;
-}
-
-/* START */
+/* STARTING SCENE */
 .starting-point {
     display: none;
 }
 
 
-/* Alert box */
+/* -------------- ALERT BOX ---------------- */
 .terminal-alert {
     position: fixed;
     top: 20px;
@@ -97,7 +81,7 @@ body {
     text-shadow: 0 0 5px red;
 }
 
-/* The "Scanning" line that moves across the alert */
+/* The "Scanning laser" line that moves across the alert box */
 .alert-scanner {
     position: absolute;
     top: 0;
@@ -108,10 +92,7 @@ body {
     box-shadow: 0 0 10px red;
 }
 
-
-
-
-/* GREEN THEME */
+/* --- Green theme styles --- */
 #theme-overlay {
     position: fixed;
     top: 0;
@@ -123,29 +104,19 @@ body {
     z-index: 1000;
     opacity: 0;
     mix-blend-mode: multiply;
-
     transition:
         background 0.5s cubic-bezier(0.19, 1, 0.22, 1),
         opacity 0.4s ease-in-out,
         filter 0.5s ease;
     backface-visibility: hidden;
-
 }
 
 body.green-theme #theme-overlay {
     opacity: 0.5;
-
 }
 
 
-main {
-    display: flex;
-    justify-content: center;
-    /* Horizontally centers the scene */
-    align-items: center;
-    /* Vertically centers the scene */
-    min-height: 100vh;
-}
+/* ----------------- CUBE ----------------- */
 
 .scene {
     width: 800px;
@@ -153,14 +124,28 @@ main {
     perspective: 1800px;
     display: grid;
     place-items: center;
-
 }
-
 
 .scene,
 .cube-face {
     width: var(--cube-size);
     height: var(--cube-size);
+}
+
+/* Encrypter terminal buttons */
+.enc {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.control-btn {
+    width: 100%;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    padding: 8px 2px;
 }
 
 .panel-content {
@@ -182,6 +167,33 @@ main {
     pointer-events: none;
 }
 
+
+/* Cube content text */
+
+.content-wrapper {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.content-wrapper img {
+    opacity: 0;
+}
+
+.cube-line {
+    position: relative;
+    color: var(--neon);
+    line-height: 1.2;
+    text-align: center;
+    color: var(--neon);
+    display: inline-block;
+    font-size: 14px;
+    opacity: 0;
+}
+
 .cube-face {
     position: absolute;
     width: 800px;
@@ -192,9 +204,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     background-color: rgba(0, 0, 0, 0.8);
-    /* background-image: url(frameBlue.png); */
     background-size: contain;
     background-repeat: no-repeat;
     animation: flicker .05s steps(1) infinite;
@@ -217,27 +227,6 @@ main {
     }
 } */
 
-/* @keyframes flicker {
-    0% {
-        opacity: 1;
-    }
-
-    3% {
-        opacity: 0.99;
-    }
-
-    6% {
-        opacity: 1;
-    }
-
-    7% {
-        opacity: 0.99;
-    } 
-
-    100% {
-        opacity: 1;
-    }
-} */
 
 .cube-face::after {
     content: "";
@@ -259,156 +248,50 @@ main {
     z-index: 10;
 }
 
-
-
-/* ---------------- SIDEBAR ---------------- */
-
-
-.sidebar {
-    width: 250px;
-    height: 100%;
-    padding: 20px;
+.eye-btn {
+    font-size: 0.9rem;
+    line-height: 1;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    margin-right: 30px;
-    position: relative;
-    overflow: hidden;
-    /* clip-path: polygon(
-        0 15%, 15% 0, 
-        100% 0, 100% 85%, 
-        85% 100%, 0 100%
-    ); */
-    border: 8px solid transparent;
-    border-image: url('/Images/Black-Frame-PNG.png') 60;
-    border-radius: 4px;
-    z-index: 2000 !important;
-    transform-origin: top center;
-}
-
-.sidebar:hover {
-    background-color: red;
-}
-
-.sidebar::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background-image: url('/Images/raphael-renter-raphi_rawr-kjyOhVXpnFE-unsplash.webp');
-    background-size: cover;
-    background-position: center;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-
-.sidebar .navigate {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-}
-
-
-/* ---------------- MENU ---------------- */
-
-.menu {
-    width: 220px;
-}
-
-.menu button:hover {
-    color: var(--neon);
+    justify-content: center;
+    background: rgba(0, 255, 65, 0.1);
+    border: 1px solid var(--neon);
     cursor: pointer;
-    box-shadow:
-        0 0 10px rgba(46, 14, 14, 0.5),
-        inset 0 0 15px rgba(255, 0, 0, 0.2);
-    text-shadow: 1px 1px 2px var(--neon) !important;
+    height: inherit;
+    width: 35px;
 }
 
-.menu {
+
+.input-eye {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    padding-left: 27px;
+    flex-direction: row;
+    height: 35px;
 }
 
-
-.menu button {
-    width: 110px;
-    height: 70px;
-    margin-bottom: 1px;
-    color: #ff0000;
-    background: #000000;
-    transition: 0.3s;
-    border: 4px solid transparent !important;
-    border-image: url('/Images/frame2.png') 30 round !important;
-    border-image-outset: 0;
-    border-radius: 4px;
-    box-shadow:
-        inset 2px 2px 0px rgba(151, 89, 89, 0.05),
-        inset -2px -2px 5px rgba(0, 0, 0, 0.8),
-        5px 5px 8px rgba(22, 21, 21, 0.9);
-    text-transform: uppercase;
-    text-shadow: 1px 1px 2px red;
-    font-family: 'yautja';
-    font-size: 44px;
+/* Password entropy styles */
+.strength-container {
+    margin-bottom: 15px;
 }
 
-
-
-/* 3. The "Press": Make it look even deeper when clicked */
-.menu button:active {
-    box-shadow:
-        inset 10px 10px 20px rgba(0, 0, 0, 1),
-        inset -1px -1px 2px rgba(255, 255, 255, 0.05);
-    transform: scale(0.98);
+.strength-bar {
+    height: 4px;
+    width: 0%;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-top: 5px;
+    background: #ff4c4c;
+    box-shadow: 0 0 10px rgba(255, 76, 76, 0.5);
 }
 
-
-#theme {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
-    padding: 10px;
-    margin: auto;
-}
-
-#theme .theme-btn {
-    margin: 1px;
-    border: 8px solid transparent;
-    border-image-source: url(raphael-renter-raphi_rawr-kjyOhVXpnFE-unsplash.webp);
-    border-image-slice: 60;
-    border-image-repeat: round;
-    image-rendering: crisp-edges;
-    /* For Firefox */
-    image-rendering: pixelated;
-    border-radius: 4px;
-    box-shadow:
-        inset 2px 2px 0px rgba(151, 89, 89, 0.05),
-        inset -2px -2px 5px rgba(0, 0, 0, 0.8),
-        5px 5px 8px rgba(22, 21, 21, 0.9);
-    text-transform: uppercase;
-    /* text-shadow: 1px 1px 2px red; */
-    font-family: 'yautja';
-    font-size: 44px;
-    background-color: #000000;
-}
-
-#blue {
+.strength-label {
+    font-size: 0.7rem;
     color: var(--neon-blue);
-    text-shadow: 2px 2px 10px var(--neon-blue);
-    box-shadow: 2px 2px 10px var(--neon-blue);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-#green {
-    color: var(--neon);
-}
 
+/* Terminal buttons */
 button:not(.menu > button):not(.eye-btn):not(.theme-btn) {
     background: var(--neon);
     color: #000;
@@ -426,12 +309,14 @@ button:not(.menu > button):not(.eye-btn):not(.theme-btn) {
     backdrop-filter: blur(5px);
 }
 
+/* Terminal buttons hover effect */
 button:not(.menu > button):not(.eye-btn):hover {
     background: var(--neon-blue);
     color: #000;
     box-shadow: 0 0 20px var(--neon-blue);
 }
 
+/* Cube styles */
 .cube {
     width: 100%;
     height: 100%;
@@ -492,24 +377,12 @@ button:not(.menu > button):not(.eye-btn):hover {
     transform: rotateX(-90deg) translateZ(400px);
 }
 
-/* .cube.show-front  { transform: translateZ(calc(-1 * var(--cube-half))) rotateY(0deg); }
-.cube.show-right  { transform: translateZ(calc(-1 * var(--cube-half))) rotateY(-90deg); }
-.cube.show-back   { transform: translateZ(calc(-1 * var(--cube-half))) rotateY(-180deg); }
-.cube.show-left   { transform: translateZ(calc(-1 * var(--cube-half))) rotateY(90deg); }
-.cube.show-top    { transform: translateZ(calc(-1 * var(--cube-half))) rotateX(-90deg); }
-.cube.show-bottom { transform: translateZ(calc(-1 * var(--cube-half))) rotateX(90deg); }
+/* Cube depth */
+.scene {
+    perspective: calc(var(--cube-size) * 3);
+}
 
-.cube-face-front  { transform: rotateY(0deg) translateZ(var(--cube-half)); }
-.cube-face-back   { transform: rotateY(180deg) translateZ(var(--cube-half)); }
-.cube-face-right  { transform: rotateY(90deg) translateZ(var(--cube-half)); }
-.cube-face-left   { transform: rotateY(-90deg) translateZ(var(--cube-half)); }
-.cube-face-top    { transform: rotateX(90deg) translateZ(var(--cube-half)); }
-.cube-face-bottom { transform: rotateX(-90deg) translateZ(var(--cube-half)); }
- */
-
-
-
-/* ---------------- INPUTS ---------------- */
+/* --Inputs-- */
 
 textarea,
 input {
@@ -525,7 +398,7 @@ textarea {
     resize: none;
 }
 
-/* ---------------- OUTPUT ---------------- */
+/* -- Output -- */
 
 .output-box {
     margin-top: 20px;
@@ -539,6 +412,149 @@ textarea {
     height: 160px;
     font-size: 24px;
 }
+
+
+/* ---------------- SIDEBAR ---------------- */
+
+.sidebar {
+    width: 250px;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-right: 30px;
+    position: relative;
+    overflow: hidden;
+    border: 8px solid transparent;
+    border-image: url('/Images/Black-Frame-PNG.png') 60;
+    border-radius: 4px;
+    z-index: 2000 !important;
+    transform-origin: top center;
+}
+
+.sidebar:hover {
+    background-color: red;
+}
+
+.sidebar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('/Images/raphael-renter-raphi_rawr-kjyOhVXpnFE-unsplash.webp');
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.sidebar .navigate {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+/* -- sidebar menu -- */
+
+.menu {
+    width: 220px;
+}
+
+.menu button:hover {
+    color: var(--neon);
+    cursor: pointer;
+    box-shadow:
+        0 0 10px rgba(46, 14, 14, 0.5),
+        inset 0 0 15px rgba(255, 0, 0, 0.2);
+    text-shadow: 1px 1px 2px var(--neon) !important;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-left: 27px;
+}
+
+
+.menu button {
+    width: 110px;
+    height: 70px;
+    margin-bottom: 1px;
+    color: #ff0000;
+    background: #000000;
+    transition: 0.3s;
+    border: 4px solid transparent !important;
+    border-image: url('/Images/frame2.png') 30 round !important;
+    border-image-outset: 0;
+    border-radius: 4px;
+    box-shadow:
+        inset 2px 2px 0px rgba(151, 89, 89, 0.05),
+        inset -2px -2px 5px rgba(0, 0, 0, 0.8),
+        5px 5px 8px rgba(22, 21, 21, 0.9);
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px red;
+    font-family: 'yautja';
+    font-size: 44px;
+}
+
+
+
+/* 3. The "Press": Make it look deeper when clicked */
+.menu button:active {
+    box-shadow:
+        inset 10px 10px 20px rgba(0, 0, 0, 1),
+        inset -1px -1px 2px rgba(255, 255, 255, 0.05);
+    transform: scale(0.98);
+}
+
+/* Theme menu */
+#theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    padding: 10px;
+    margin: auto;
+}
+
+/* Theme buttons */
+#theme .theme-btn {
+    margin: 1px;
+    border: 8px solid transparent;
+    border-image-slice: 60;
+    border-image-repeat: round;
+    image-rendering: crisp-edges;
+    /* For Firefox */
+    image-rendering: pixelated;
+    border-radius: 4px;
+    box-shadow:
+        inset 2px 2px 0px rgba(151, 89, 89, 0.05),
+        inset -2px -2px 5px rgba(0, 0, 0, 0.8),
+        5px 5px 8px rgba(22, 21, 21, 0.9);
+    text-transform: uppercase;
+    font-family: 'yautja';
+    font-size: 44px;
+    background-color: #000000;
+}
+
+/* Blue theme button */
+#blue {
+    color: var(--neon-blue);
+    text-shadow: 2px 2px 10px var(--neon-blue);
+    box-shadow: 2px 2px 10px var(--neon-blue);
+}
+
+/* Green theme button */
+#green {
+    color: var(--neon);
+}
+
 
 
 /* ---------------- MOBILE ---------------- */
@@ -592,69 +608,17 @@ textarea {
     }
 }
 
-.eye-btn {
-    font-size: 0.9rem;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 255, 65, 0.1);
-    border: 1px solid var(--neon);
-    cursor: pointer;
-    height: inherit;
-    width: 35px;
-}
-
-.strength-container {
-    margin-bottom: 15px;
-}
-
-.input-eye {
-    display: flex;
-    flex-direction: row;
-    height: 35px;
-}
-
-.strength-bar {
-    height: 4px;
-    width: 0%;
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    margin-top: 5px;
-    background: #ff4c4c;
-    box-shadow: 0 0 10px rgba(255, 76, 76, 0.5);
-}
-
-.strength-label {
-    font-size: 0.7rem;
-    color: var(--neon-blue);
-    margin-top: 4px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-
-.scene {
-    perspective: calc(var(--cube-size) * 3);
-}
-
-
 .sidebar.menu.btn {
     padding: 10px 40px;
     border: none;
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     padding: 2px;
-    /* This becomes your border thickness */
+    /* This becomes border thickness */
 
 
 }
 
-/* .cube-face h2, .cube-face label {
-    text-shadow: 
-        1px 0 1px rgba(255,0,0,0.5), 
-        -1px 0 1px rgba(0,0,255,0.5);
-
-} */
 
 .hud-overlay {
     position: fixed;
@@ -748,36 +712,30 @@ textarea,
 .output-box,
 .passInput {
     color: red;
-
-    /* text-shadow: 
-        0 0 2px #fff,        
-        0 0 8px #00ff41,    
-        0 0 15px rgba(0, 255, 65, 0.3);  */
     background: rgba(0, 10, 20, 0.8);
     border: 1px solid #003366;
 }
 
-
-button:not(.menu > button):not(.eye-btn) {
+/* button:not(.menu > button):not(.eye-btn) {
     background: rgba(0, 110, 255, 0.1);
     color: #38B6FF;
     border: 1px solid #38B6FF;
     transition: all 0.2s ease-in-out;
-}
+} */
 
-button:not(.menu > button):not(.eye-btn):hover {
+/* button:not(.menu > button):not(.eye-btn):hover {
     background: #38B6FF;
     color: #000;
     box-shadow: 0 0 25px #38B6FF;
     transform: scale(1.02);
-}
+} */
 
 .passInput,
 .eye-btn {
     border: 1px solid var(--borderColor);
 }
 
-.navigate {
+/* .navigate {
     font-family: 'IBM Plex Mono', sans-serif;
     color: var(--headlineBlue);
     text-transform: uppercase;
@@ -789,10 +747,10 @@ button:not(.menu > button):not(.eye-btn):hover {
     background-size: 100% 4px;
     -webkit-background-clip: text;
     background-clip: text;
-}
+} */
 
 /* 3. A simple underline to ground the element */
-.navigate::after {
+/* .navigate::after {
     content: "";
     display: block;
     width: 100%;
@@ -800,9 +758,9 @@ button:not(.menu > button):not(.eye-btn):hover {
     background: linear-gradient(90deg, transparent, #00ffff, transparent);
     margin-top: 5px;
     box-shadow: 0 0 10px #00ffff;
-}
+} */
 
-
+/* ------------------- BOOT SEQUENCE SCENE -------------------- */
 #boot-sequencer {
     position: fixed;
     top: 0;
@@ -903,12 +861,8 @@ button:not(.menu > button):not(.eye-btn):hover {
         height: 100vh !important;
         transform: none !important;
         display: none;
-        /* background: url('frame1.webp')center no-repeat;
-        background-size: 100% 110%; */
         background: #000000;
         padding: 60px 20px;
-        /* background-color: black !important; */
-
         border: 2px solid var(--neon-blue);
         box-shadow: inset 0 0 20px rgba(0, 110, 255, 0.4);
         overflow-y: auto;
@@ -925,14 +879,6 @@ button:not(.menu > button):not(.eye-btn):hover {
         display: flex;
     }
 
-    /* 4. Kill the Image Masks and Pseudo-elements */
-    /* .cube-face::after,
-    .cube-face::before {
-        -webkit-mask-image: none !important;
-        mask-image: none !important;
-        background-image: none !important;
-    } */
-
     .panel-content {
         width: 100% !important;
         max-width: 500px;
@@ -947,7 +893,7 @@ button:not(.menu > button):not(.eye-btn):hover {
     }
 
     h2 {
-        margin-top: 20px;
+        margin: 20px;
     }
 
 
@@ -961,56 +907,8 @@ button:not(.menu > button):not(.eye-btn):hover {
     /* Prevents the word from jumping to two lines */
 }
 
-/* .cube-face {
-    border: 1px solid rgba(56, 182, 255, 0.3);
-    outline: 5px solid rgba(0, 0, 0, 0.9); 
-} */
 
-
-
-/* @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-} */
-
-/* --- PREDATOR CURSOR INTEGRATION --- */
-
-/* body, .scene, .cube-face { cursor: none; } */
-
-/* #predator-cursor {
-    /* Centering the base bar */
-/* transform: translate(-50%, -50%); */
-/* box-shadow: 0 0 15px #ff0000;
-    transition: transform 0.2s ease;
-}
-
-#predator-cursor::before,
-#predator-cursor::after {
-    content: "";
-    position: absolute;
-    width: 35px;
-    height: 3px;
-    background-color: #ff0000;
-    box-shadow: 0 0 8px #ff0000;
-    bottom: 40px;
-}
-
-#predator-cursor::before {
-    left: -20px;
-    transform: rotate(-60deg);
-    transform-origin: right center;
-}
-
-#predator-cursor::after {
-    right: -20px;
-    transform: rotate(60deg);
-    transform-origin: left center;
-}
-
-#predator-cursor.locked {
-    transform: translate(-50%, -50%) scale(1.3);
-    filter: brightness(2);
-}  */
+/* --- PREDATOR CURSOR --- */
 
 #predator-cursor {
     position: fixed;
@@ -1068,7 +966,9 @@ img {
     height: 160px;
 }
 
-/* START fingerprint button */
+
+/* ------- INTRO, FINGERPRINT BUTTON -------- */
+
 #boot-sequencer .fingerprint-container {
     position: relative;
     width: 160px;
@@ -1082,10 +982,6 @@ img {
 }
 
 
-
-
-/* --------------------------------------------------------------------------------------------- */
-
 .start {
     display: flex;
     align-items: center;
@@ -1094,9 +990,6 @@ img {
     gap: 150px;
 }
 
-/* .start .intro-headline {
-    color:#39ff14
-} */
 
 .fingerprint-container {
     width: 100px;
@@ -1111,9 +1004,6 @@ img {
 .intro-headline {
     filter: drop-shadow(0 0 5px #39FF14);
 }
-
-
-
 
 /* Scan effect */
 .scan-line {
@@ -1140,7 +1030,7 @@ img {
 }
 
 .matrix-rain::before {
-    content: "101010 1100 0011 0101 1001 1110 0010 1101";
+    content: "0101 AES GCM 1101 0101 1110 0010 1101";
     position: absolute;
     color: #00ff00;
     font-size: 14px;
@@ -1229,8 +1119,6 @@ img {
 
 /* Animations  */
 
-
-
 @keyframes draw-fast {
     0% {
         stroke-dashoffset: 500;
@@ -1294,7 +1182,7 @@ img {
 }
 
 
-
+/* Blinking cursor */
 .cursor {
     display: inline-block;
     animation: blink 0.6s infinite;
@@ -1327,27 +1215,5 @@ img {
         opacity: 1;
         filter: brightness(1.5) drop-shadow(0 0 8px #39ff14);
     }
-}
-
-
-
-
-
-
-/* ------------------------------------------- */
-/* Encrypter terminal buttons */
- .enc {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5px;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.control-btn {
-    width: 100%;
-    /* font-family: 'IBM Plex Mono', monospace;  */
-    font-size: 0.7rem;
-    padding: 8px 2px;
 }
 

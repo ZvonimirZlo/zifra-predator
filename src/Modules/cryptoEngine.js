@@ -2,7 +2,7 @@ import { sfx } from './soundControl.js'
 import { showTerminalAlert } from './terminalAlert'
 
 // ==========================================
-// 1. UNIFIED RUNTIME STATE
+// UNIFIED RUNTIME STATE
 // ==========================================
 let currentPayload = {
   binaryData: null, // Always holds an ArrayBuffer (for text or files)
@@ -13,7 +13,7 @@ let currentPayload = {
 const MAX_PREVIEW_LENGTH = 50000;
 
 // ==========================================
-// 2. STACK-SAFE UTILITIES & ENGINE
+// STACK-SAFE UTILITIES & ENGINE
 // ==========================================
 async function deriveKey (password, salt) {
   const encoder = new TextEncoder();
@@ -53,7 +53,7 @@ function b64ToUint8 (b64) {
 }
 
 // ==========================================
-// 3. UNIFIED CRYPTO CORE (Raw Byte Processing)
+// UNIFIED CRYPTO CORE (Raw Byte Processing)
 // ==========================================
 async function encryptData (arrayBuffer, password) {
   const salt = window.crypto.getRandomValues(new Uint8Array(16));
@@ -82,7 +82,7 @@ async function decryptData (encryptedString, password) {
   const ciphertext = b64ToUint8(parts[2]);
   const key = await deriveKey(password, salt);
 
-  // CRITICAL: Throws naturally on bad password/integrity failure
+  // Throws naturally on bad password/integrity failure
   return await window.crypto.subtle.decrypt(
     { name: 'AES-GCM', iv },
     key,
@@ -91,7 +91,7 @@ async function decryptData (encryptedString, password) {
 }
 
 // ==========================================
-// 4. DATA NORMALIZATION HELPERS
+// DATA NORMALIZATION HELPERS
 // ==========================================
 async function ingestFilePayload (file) {
   currentPayload.binaryData = await file.arrayBuffer();
@@ -118,7 +118,7 @@ function triggerFileDownload (arrayBuffer, filename, defaultExt = '.enc') {
 }
 
 // ==========================================
-// 5. INTERFACE EXECUTION CONTROLLERS
+// INTERFACE EXECUTION CONTROLLERS
 // ==========================================
 export async function handleEncrypt () {
   const face = document.querySelector('.cube-face-front');
@@ -166,7 +166,7 @@ export async function handleEncrypt () {
           output.style.display = 'block';
           output.value = `[SUCCESS] Encrypted bundle built dynamically.`;
           newBtn.disabled = false;
-          newBtn.innerText = 'Download Secure File (.txt)';
+          newBtn.innerText = 'Download Secure File';
         }, 2000);
       }, { once: true });
 
@@ -261,7 +261,7 @@ export async function handleDecrypt () {
 }
 
 // ==========================================
-// 6. UI DOM EVENT ROUTERS
+// UI DOM EVENT ROUTERS
 // ==========================================
 export const cryptoProcessors = () => {
   const encryptBtn = document.querySelector('.cube-face-front .panel-content > button:not(.toggle-visibility)');

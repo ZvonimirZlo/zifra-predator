@@ -84,7 +84,7 @@ export function initDecrypterScanner() {
                         decryptInput.value = decodedText;
                         console.log("QR Scan Success:", decodedText);
                         
-                        // Optional: Visual feedback since sounds are off
+                        // Visual feedback since sounds are off
                         decryptInput.style.borderColor = "#00ff41";
                         setTimeout(() => decryptInput.style.borderColor = "", 1000);
                     }
