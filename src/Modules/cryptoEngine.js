@@ -150,15 +150,26 @@ export async function handleEncrypt () {
       const newBtn = secureDownloadBtn.cloneNode(true);
       secureDownloadBtn.parentNode.replaceChild(newBtn, secureDownloadBtn);
 
+
+     // Capture the filename immediately while it still exists in currentPayload
+      const capturedFileName = currentPayload.fileName;
+
       // 3. Attach the secure binary payload download trigger
       newBtn.addEventListener('click', () => {
         sfx.click.play();
-        const outName = currentPayload.fileName ? `${currentPayload.fileName}.enc` : 'payload.enc';
+        
+        // Use the safely captured filename
+        let baseName = 'encrypted_payload';
+        if (capturedFileName) {
+          const lastDotIndex = capturedFileName.lastIndexOf('.');
+          baseName = lastDotIndex !== -1 ? capturedFileName.substring(0, lastDotIndex) : capturedFileName;
+        }
+        
+        const outName = `${baseName}.enc`;
         
         // Convert the ciphertext string straight to binary for the download block
         triggerFileDownload(new TextEncoder().encode(encryptedResult), outName);
 
-        // Self-cleaning sequence
         newBtn.disabled = true;
         newBtn.innerText = 'DOWNLOAD_COMPLETE';
         setTimeout(() => {

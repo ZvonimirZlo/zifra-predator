@@ -659,9 +659,9 @@ textarea {
     font-family: 'yautja', monospace;
 }
 
-#decrypter_input {
+/* #decrypter_input {
     font-family: 'yautja', monospace;
-}
+} */
 
 #decrypter_output {
     font-family: 'Courier New', Courier, monospace;
@@ -676,11 +676,11 @@ textarea {
     font-size: 14px;
 }
 
-.cube-face-right .mainInput {
+/* .cube-face-right .mainInput {
     font-family: 'Yautja', sans-serif;
     color: #ff0000;
     font-size: 24px;
-}
+} */
 
 /* Laser scan effect */
 .laser-scan {
@@ -900,7 +900,6 @@ textarea,
 }
 
 .btn {
-    /* Transitions will FIGHT with Anime.js. Remove them! */
     transition: none !important;
     display: inline-block;
     white-space: nowrap;
