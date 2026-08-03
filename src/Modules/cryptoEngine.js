@@ -150,32 +150,22 @@ export async function handleEncrypt () {
       const newBtn = secureDownloadBtn.cloneNode(true);
       secureDownloadBtn.parentNode.replaceChild(newBtn, secureDownloadBtn);
 
+      const capturedFileName = currentPayload.fileName || 'encrypted_payload.bin';
 
-     // Capture the filename immediately while it still exists in currentPayload
-      const capturedFileName = currentPayload.fileName;
-
-      // 3. Attach the secure binary payload download trigger
       newBtn.addEventListener('click', () => {
         sfx.click.play();
         
-        // Use the safely captured filename
-        let baseName = 'encrypted_payload';
-        if (capturedFileName) {
-          const lastDotIndex = capturedFileName.lastIndexOf('.');
-          baseName = lastDotIndex !== -1 ? capturedFileName.substring(0, lastDotIndex) : capturedFileName;
-        }
+        // Keeps the full name and tacks .enc on the end (e.g., "fileName.txt.enc") to avoid opening raw encrypted file
+        const outName = `${capturedFileName}.enc`;
         
-        const outName = `${baseName}.enc`;
-        
-        // Convert the ciphertext string straight to binary for the download block
         triggerFileDownload(new TextEncoder().encode(encryptedResult), outName);
-
+       //On download complete sequence
         newBtn.disabled = true;
         newBtn.innerText = 'DOWNLOAD_COMPLETE';
         setTimeout(() => {
           downloadPrompt.style.display = 'none';
           output.style.display = 'block';
-          output.value = `[SUCCESS] Encrypted bundle built dynamically.`;
+          showTerminalAlert(`[SUCCESS] Encrypted bundle built dynamically.`);
           newBtn.disabled = false;
           newBtn.innerText = 'Download Secure File';
         }, 2000);
@@ -219,7 +209,7 @@ export async function handleDecrypt () {
     
     sfx.success.play();
 
-    // Determine if it needs to go to a file prompt
+    // Determine if it needs to go to a file prompt or if the input is plain text
     if (!currentPayload.isText || decryptedBuffer.byteLength > MAX_PREVIEW_LENGTH) {
       output.style.display = 'none';
       downloadPrompt.style.display = 'block';
@@ -227,13 +217,20 @@ export async function handleDecrypt () {
       const newBtn = secureDownloadBtn.cloneNode(true);
       secureDownloadBtn.parentNode.replaceChild(newBtn, secureDownloadBtn);
 
+      const capturedFileName = currentPayload.fileName;
+
       newBtn.addEventListener('click', () => {
         sfx.click.play();
         
-        let restoredName = currentPayload.fileName || 'decrypted_payload.bin';
-        if (restoredName.toLowerCase().endsWith('.enc')) restoredName = restoredName.slice(0, -4);
+        let restoredName = 'decrypted_payload.bin';
+        if (capturedFileName) {
+          // If it ends with .enc, slice off the last 4 characters to reveal the exstension before encryption, for example: "fileName.txt"
+          restoredName = capturedFileName.toLowerCase().endsWith('.enc')
+            ? capturedFileName.slice(0, -4)
+            : capturedFileName;
+        }
         
-        triggerFileDownload(decryptedBuffer, `DEC_${restoredName}`);
+        triggerFileDownload(decryptedBuffer, restoredName);
 
         newBtn.disabled = true;
         newBtn.innerText = 'DOWNLOAD_COMPLETE';
