@@ -105,9 +105,10 @@
                         <div class="scan-line-horizontal"></div>
                     </div>
                     <div class="panel-content">
-
+                        <!-- autocomplete="off" and spellcheck="false" stops the browser from saving what the user types into its auto-fill history-->
                         <div class="input-eye">
-                            <input type="password" class="passInput" placeholder="Enter secure key...">
+                            <input autocomplete="off" spellcheck="false" type="password" class="passInput"
+                                placeholder="Enter secure key...">
                             <button class="eye-btn toggle-visibility">👁️</button>
                         </div>
 
@@ -116,8 +117,8 @@
                             <div class="strength-label">Strength: Empty</div>
                         </div>
 
-
-                        <textarea class="mainInput" id="encrypterInput" placeholder="Message..."></textarea>
+                        <textarea autocomplete="off" spellcheck="false" class="mainInput" id="encrypterInput"
+                            placeholder="Message..."></textarea>
 
 
 
@@ -242,8 +243,9 @@
                     </div>
                     <div class="panel-content">
 
+                        <!-- autocomplete="off" and spellcheck="false" stops the browser from saving what the user types into its auto-fill history-->
                         <div class="input-eye">
-                            <input type="password" class="passInput" placeholder="Enter secure key...">
+                            <input autocomplete="off" spellcheck="false" type="password" class="passInput" placeholder="Enter secure key...">
                             <button class="eye-btn toggle-visibility">👁️</button>
                         </div>
                         <div class="strength-container">
@@ -251,7 +253,7 @@
                             <div class="strength-label">Strength: Empty</div>
                         </div>
 
-                        <textarea class="mainInput" id="decrypter_input" placeholder="Cipher..."></textarea>
+                        <textarea autocomplete="off" spellcheck="false" class="mainInput" id="decrypter_input" placeholder="Cipher..."></textarea>
                         <button>PROCESS</button>
                         <div class="terminal-controls">
                             <button class="control-btn">LINK_DATA</button>
