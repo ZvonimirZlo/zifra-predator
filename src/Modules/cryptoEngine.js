@@ -125,6 +125,8 @@ export async function handleEncrypt () {
   const passInput = face.querySelector('.passInput');
   const mainInput = face.querySelector('.mainInput');
   const output = face.querySelector('.resultOutput');
+  const strengthBar = document.querySelector('.strength-bar');
+  const strengthLabel = document.querySelector('.strength-label');
 
   const downloadPrompt = document.getElementById('encryptDownloadPrompt');
   const secureDownloadBtn = document.getElementById('encryptDownloadBtn');
@@ -184,6 +186,9 @@ export async function handleEncrypt () {
     mainInput.value = '';
     mainInput.readOnly = false;
     currentPayload = { binaryData: null, fileName: '', isText: true };
+    strengthBar.style.width = 0;
+    strengthLabel.innerText = 'STRENGTH: EMPTY';
+    strengthLabel.style.color = "#38B6FF";
   }
 }
 
@@ -276,6 +281,7 @@ export const cryptoProcessors = () => {
   const decryptBtn = document.querySelector('.cube-face-right .panel-content > button:not(.toggle-visibility)');
   const encryptInput = document.getElementById('encrypterInput');
   const decryptInput = document.getElementById('decrypter_input');
+
 
   const setupDropListeners = (inputEl) => {
     if (!inputEl) return;
