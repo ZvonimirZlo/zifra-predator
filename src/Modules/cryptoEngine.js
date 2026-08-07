@@ -125,8 +125,8 @@ export async function handleEncrypt () {
   const passInput = face.querySelector('.passInput');
   const mainInput = face.querySelector('.mainInput');
   const output = face.querySelector('.resultOutput');
-  const strengthBar = document.querySelector('.strength-bar');
-  const strengthLabel = document.querySelector('.strength-label');
+  const strengthBar = face.querySelector('.strength-bar');
+  const strengthLabel = face.querySelector('.strength-label');
 
   const downloadPrompt = document.getElementById('encryptDownloadPrompt');
   const secureDownloadBtn = document.getElementById('encryptDownloadBtn');
@@ -197,6 +197,8 @@ export async function handleDecrypt () {
   const passInput = face.querySelector('.passInput');
   const mainInput = face.querySelector('.mainInput');
   const output = face.querySelector('.resultOutput');
+  const strengthBar = face.querySelector('.strength-bar');
+  const strengthLabel = face.querySelector('.strength-label');
 
   const downloadPrompt = document.getElementById('decryptDownloadPrompt');
   const secureDownloadBtn = document.getElementById('decryptDownloadBtn');
@@ -270,6 +272,9 @@ export async function handleDecrypt () {
     mainInput.value = '';
     mainInput.readOnly = false;
     currentPayload = { binaryData: null, fileName: '', isText: true };
+    strengthBar.style.width = 0;
+    strengthLabel.innerText = 'STRENGTH: EMPTY';
+    strengthLabel.style.color = "#38B6FF";
   }
 }
 
