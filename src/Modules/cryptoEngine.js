@@ -190,6 +190,7 @@ export async function handleEncrypt () {
     console.error('Encryption Failed:', err);
     sfx.error.play();
   } finally {
+    //Cleans inputs, resets payload states, and drops memory references for security reasons
     passInput.value = '';
     mainInput.value = '';
     mainInput.readOnly = false;
@@ -276,6 +277,7 @@ export async function handleDecrypt () {
       easing: 'linear'
     });
   } finally {
+    //Cleans inputs, resets payload states, and drops memory references for security reasons
     passInput.value = '';
     mainInput.value = '';
     mainInput.readOnly = false;
