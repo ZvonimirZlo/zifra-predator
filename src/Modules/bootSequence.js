@@ -14,7 +14,7 @@ export const startBootSequence = () => {
   let currentLength = 5 // Starting with "##:##"
 
   sidebarContent.style.opacity = '0'
-
+//Glymphs animation
   anime({
     targets: glyph,
     duration: 5500, // 5.5-second burn

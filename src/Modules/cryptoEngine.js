@@ -10,11 +10,13 @@ let currentPayload = {
   isText: true      // Flag to guide UI output choices (preview vs download)
 };
 
-const MAX_PREVIEW_LENGTH = 50000;
+const MAX_PREVIEW_LENGTH = 50000; // Prevents UI thread locking when rendering massive text outputs
 
 // ==========================================
 // STACK-SAFE UTILITIES & ENGINE
 // ==========================================
+
+//Key derivation function
 async function deriveKey (password, salt) {
   const encoder = new TextEncoder();
   const baseKey = await window.crypto.subtle.importKey(
@@ -25,7 +27,7 @@ async function deriveKey (password, salt) {
     ['deriveKey']
   );
   return window.crypto.subtle.deriveKey(
-    { name: 'PBKDF2', salt, iterations: 600000, hash: 'SHA-256' },
+    { name: 'PBKDF2', salt, iterations: 600000, hash: 'SHA-256' },//iteration count is set to 600,000 to balance security and performance
     baseKey,
     { name: 'AES-GCM', length: 256 },
     false,
@@ -33,15 +35,17 @@ async function deriveKey (password, salt) {
   );
 }
 
+//Creates base64 string from Uint8Array
 function uint8ArrayToBase64 (uint8) {
   let binary = '';
-  const chunkSide = 8192;
+  const chunkSide = 8192; //chunk size of 8192 avoids call-stack size limits for large arrays
   for (let i = 0; i < uint8.length; i += chunkSide) {
     binary += String.fromCharCode.apply(null, uint8.subarray(i, i + chunkSide));
   }
-  return btoa(binary);
+  return btoa(binary); //creates a Base64-encoded ASCII string from a binary string
 }
 
+//Creates a new Uint8Array object from a base64-encoded string
 function b64ToUint8 (b64) {
   const binString = atob(b64);
   const size = binString.length;
@@ -55,6 +59,8 @@ function b64ToUint8 (b64) {
 // ==========================================
 // UNIFIED CRYPTO CORE (Raw Byte Processing)
 // ==========================================
+
+//Encryption function
 async function encryptData (arrayBuffer, password) {
   const salt = window.crypto.getRandomValues(new Uint8Array(16));
   const iv = window.crypto.getRandomValues(new Uint8Array(12));
@@ -73,6 +79,7 @@ async function encryptData (arrayBuffer, password) {
   ].join(':');
 }
 
+//Decryption function
 async function decryptData (encryptedString, password) {
   const parts = encryptedString.trim().split(':');
   if (parts.length !== 3) throw new Error('MALFORMED_DATA');
@@ -105,6 +112,7 @@ function ingestTextPayload (textString) {
   currentPayload.isText = true;
 }
 
+//File download function
 function triggerFileDownload (arrayBuffer, filename, defaultExt = '.enc') {
   const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
   const url = URL.createObjectURL(blob);
@@ -142,13 +150,13 @@ export async function handleEncrypt () {
     const encryptedResult = await encryptData(currentPayload.binaryData, passInput.value);
     sfx.success.play();
 
-    // Determine if it needs to go to a file prompt
+    // Determine if it needs to go to a file prompt if encrypted result is longer than MAX_PREVIEW_LENGTH
     if (!currentPayload.isText || encryptedResult.length > MAX_PREVIEW_LENGTH) {
       // 1. Hide terminal output window, show download prompt
       output.style.display = 'none';
       downloadPrompt.style.display = 'block';
 
-      // 2. Clone button to cleanly strip away any lingering previous click events
+      // Clone node to cleanly strip away lingering previous closure references and duplicate click events
       const newBtn = secureDownloadBtn.cloneNode(true);
       secureDownloadBtn.parentNode.replaceChild(newBtn, secureDownloadBtn);
 

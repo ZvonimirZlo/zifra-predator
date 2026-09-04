@@ -1,5 +1,6 @@
-// Modules/audio.js
+/**SOUND CONTROL MODULE */
 
+//Sounds 
 export const sfx = {
     click: new Audio('/Sounds/click.ogg'),
     change: new Audio('/Sounds/change.ogg'),
@@ -17,6 +18,7 @@ export const sfx = {
 
 let isMuted = false;
 
+//Mute all sounds
 export const toggleMute = () => {
     isMuted = !isMuted;
 
