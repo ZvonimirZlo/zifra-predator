@@ -1,4 +1,6 @@
-/**SOUND CONTROL MODULE */
+/**
+ * Centralized sound-effect controls.
+ */
 
 //Sounds 
 export const sfx = {

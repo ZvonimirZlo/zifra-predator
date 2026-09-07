@@ -72,7 +72,7 @@ export function startDecayCountdown () {
   }, 6500)
 }
 
-//Toggle sidebar 
+//Toggle sidebar visibility
 export function toggleSidebar () {
   document.getElementById('sidebar').classList.toggle('open')
 }
@@ -122,7 +122,7 @@ export const translator = () => {
 }
 
 
-//Toggle blue or green theme
+// Switches between the blue and green visual themes.
 export function setTheme (theme) {
   const statusMsg = theme === 'green' ? "THERMAL_UPLINK_STABLE" : "VISUAL_SPECTRUM_RESET";
     showTerminalAlert(statusMsg);
