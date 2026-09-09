@@ -124,7 +124,7 @@ export const translator = () => {
 
 // Switches between the blue and green visual themes.
 export function setTheme (theme) {
-  const statusMsg = theme === 'green' ? "THERMAL_UPLINK_STABLE" : "VISUAL_SPECTRUM_RESET";
+  const statusMsg = theme === 'green' ? "NIGHT_MODE_ON" : "VISUAL_SPECTRUM_RESET";
     showTerminalAlert(statusMsg);
   if (theme === 'green') {
     sfx.change.play()

@@ -221,7 +221,7 @@ body.green-theme #theme-overlay {
 
 }
 
-/* @keyframes flicker {
+@keyframes flicker {
 
     0%,
     100% {
@@ -231,7 +231,7 @@ body.green-theme #theme-overlay {
     50% {
         opacity: 0.99;
     }
-} */
+}
 
 
 .cube-face::after {
