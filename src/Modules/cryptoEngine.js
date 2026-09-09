@@ -114,13 +114,14 @@ async function decryptData (encryptedString, password) {
 // saves its original filename, and checks its MIME type or file extension
 // to determine if it is text-based or already encrypted (.enc).
 
-const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100 MB limit
+const MAX_ENCRYPT_FILE_SIZE = 75 * 1024 * 1024; // ~75 MB (so +33% lands near 100MB)
+const MAX_DECRYPT_FILE_SIZE = 135 * 1024 * 1024; // ~135 MB (to accept encrypted files up to ~100MB original size)
 
 //Prevents browser crash if input file is too large
-async function ingestFilePayload (file) {
-  if (file.size > MAX_FILE_SIZE) {
+async function ingestFilePayload (file, maxSize) {
+  if (file.size > maxSize) {
     throw new Error('FILE_TOO_LARGE'),
-    showTerminalAlert('File exceeds 100MB browser limit!'),
+    showTerminalAlert(`File exceeds maximum limit of ${(maxSize / (1024 * 1024)).toFixed(0)}MB!`),
     sfx.alert.play()
   }
   currentPayload.binaryData = await file.arrayBuffer()
@@ -355,7 +356,7 @@ export const cryptoProcessors = () => {
   const encryptInput = document.getElementById('encrypterInput')
   const decryptInput = document.getElementById('decrypter_input')
 
-  const setupDropListeners = inputEl => {
+  const setupDropListeners = (inputEl, maxSize) => {
     if (!inputEl) return
     ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eName => {
       inputEl.addEventListener(
@@ -373,20 +374,26 @@ export const cryptoProcessors = () => {
       async e => {
         const files = e.dataTransfer.files
         if (files.length > 0) {
-          await ingestFilePayload(files[0])
-          inputEl.value = `📎 [FILE ATTACHED]\nName: ${files[0].name}\nSize: ${(
-            files[0].size / 1024
-          ).toFixed(1)} KB`
-          inputEl.readOnly = true
-          sfx.click.play()
+          try {
+            await ingestFilePayload(files[0], maxSize)
+            inputEl.value = `📎 [FILE ATTACHED]\nName: ${files[0].name}\nSize: ${(
+              files[0].size / 1024
+            ).toFixed(1)} KB`
+            inputEl.readOnly = true
+            sfx.click.play()
+          } catch (err) {
+            // Error is already handled inside ingestFilePayload via terminal alert
+          }
         }
       },
       false
     )
   }
 
-  setupDropListeners(encryptInput)
-  setupDropListeners(decryptInput)
+  setupDropListeners(encryptInput, MAX_ENCRYPT_FILE_SIZE)
+  setupDropListeners(decryptInput, MAX_DECRYPT_FILE_SIZE)
+  // setupDropListeners(encryptInput)
+  // setupDropListeners(decryptInput)
 
   if (encryptBtn) encryptBtn.addEventListener('click', handleEncrypt)
   if (decryptBtn) decryptBtn.addEventListener('click', handleDecrypt)
