@@ -18,6 +18,12 @@ export const sfx = {
     unlock: new Audio('/Sounds/unlockingGauntlet.ogg')
 };
 
+// Apply 0.6 volume to all sounds automatically
+Object.values(sfx).forEach(sound => {
+    sound.volume = 0.6;
+});
+
+
 let isMuted = false;
 
 //Mute all sounds

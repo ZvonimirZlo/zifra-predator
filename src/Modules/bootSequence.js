@@ -1,5 +1,5 @@
 const audioP = new Audio('/Sounds/predator-aiming.ogg')
-
+audioP.volume = 0.6;
 
 //Boot sequence
 export const startBootSequence = () => {

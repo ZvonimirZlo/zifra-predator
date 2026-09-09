@@ -62,6 +62,7 @@ function b64ToUint8 (b64) {
 // UNIFIED CRYPTO CORE (Raw Byte Processing)
 // ==========================================
 
+
 // Encryption function
 
 // Raw byte processing via ArrayBuffer
@@ -112,7 +113,16 @@ async function decryptData (encryptedString, password) {
 // Reads an uploaded file into memory as raw binary data (ArrayBuffer),
 // saves its original filename, and checks its MIME type or file extension
 // to determine if it is text-based or already encrypted (.enc).
+
+const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100 MB limit
+
+//Prevents browser crash if input file is too large
 async function ingestFilePayload (file) {
+  if (file.size > MAX_FILE_SIZE) {
+    throw new Error('FILE_TOO_LARGE'),
+    showTerminalAlert('File exceeds 100MB browser limit!'),
+    sfx.alert.play()
+  }
   currentPayload.binaryData = await file.arrayBuffer()
   currentPayload.fileName = file.name
   currentPayload.isText =
