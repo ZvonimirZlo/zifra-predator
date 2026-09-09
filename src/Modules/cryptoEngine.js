@@ -114,8 +114,8 @@ async function decryptData (encryptedString, password) {
 // saves its original filename, and checks its MIME type or file extension
 // to determine if it is text-based or already encrypted (.enc).
 
-const MAX_ENCRYPT_FILE_SIZE = 75 * 1024 * 1024; // ~75 MB (so +33% lands near 100MB)
-const MAX_DECRYPT_FILE_SIZE = 135 * 1024 * 1024; // ~135 MB (to accept encrypted files up to ~100MB original size)
+const MAX_ENCRYPT_FILE_SIZE = 100 * 1024 * 1024; // ~100 MB size
+const MAX_DECRYPT_FILE_SIZE = 140 * 1024 * 1024; // ~140 MB (to accept encrypted files up to ~100MB original size)
 
 //Prevents browser crash if input file is too large
 async function ingestFilePayload (file, maxSize) {
@@ -392,8 +392,7 @@ export const cryptoProcessors = () => {
 
   setupDropListeners(encryptInput, MAX_ENCRYPT_FILE_SIZE)
   setupDropListeners(decryptInput, MAX_DECRYPT_FILE_SIZE)
-  // setupDropListeners(encryptInput)
-  // setupDropListeners(decryptInput)
+
 
   if (encryptBtn) encryptBtn.addEventListener('click', handleEncrypt)
   if (decryptBtn) decryptBtn.addEventListener('click', handleDecrypt)
