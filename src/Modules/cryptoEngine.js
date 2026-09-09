@@ -37,7 +37,8 @@ async function deriveKey (password, salt) {
   )
 }
 
-// Converts binary data to Base64 in chunks to support large payloads
+// Converts binary data to Base64 in chunks to support large payloads,
+// Processes data in 8KB chunks to prevent call-stack size limits and UI freezing on large arrays
 function uint8ArrayToBase64 (uint8) {
   let binary = ''
   const chunkSide = 8192 //chunk size of 8192 avoids call-stack size limits for large arrays
@@ -114,6 +115,9 @@ async function decryptData (encryptedString, password) {
 // saves its original filename, and checks its MIME type or file extension
 // to determine if it is text-based or already encrypted (.enc).
 
+
+// MAX_ENCRYPT_FILE_SIZE and MAX_DECRYPT_FILE_SIZE block oversized files before 
+// they exhaust browser memory during arrayBuffer() ingestion
 const MAX_ENCRYPT_FILE_SIZE = 100 * 1024 * 1024; // ~100 MB size
 const MAX_DECRYPT_FILE_SIZE = 140 * 1024 * 1024; // ~140 MB (to accept encrypted files up to ~100MB original size)
 
@@ -356,6 +360,7 @@ export const cryptoProcessors = () => {
   const encryptInput = document.getElementById('encrypterInput')
   const decryptInput = document.getElementById('decrypter_input')
 
+
   const setupDropListeners = (inputEl, maxSize) => {
     if (!inputEl) return
     ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eName => {
@@ -372,17 +377,33 @@ export const cryptoProcessors = () => {
     inputEl.addEventListener(
       'drop',
       async e => {
-        const files = e.dataTransfer.files
-        if (files.length > 0) {
-          try {
-            await ingestFilePayload(files[0], maxSize)
-            inputEl.value = `📎 [FILE ATTACHED]\nName: ${files[0].name}\nSize: ${(
-              files[0].size / 1024
-            ).toFixed(1)} KB`
-            inputEl.readOnly = true
-            sfx.click.play()
-          } catch (err) {
-            // Error is already handled inside ingestFilePayload via terminal alert
+        const items = e.dataTransfer.items
+        if (items && items.length > 0) {
+          const item = items[0]
+          
+          // Check if dropped item is a directory/folder using webkitGetAsEntry() method
+          const entry = typeof item.getAsEntry === 'function' 
+            ? item.getAsEntry() 
+            : (typeof item.webkitGetAsEntry === 'function' ? item.webkitGetAsEntry() : null)
+
+          if (entry && entry.isDirectory) {
+            showTerminalAlert('Folders are not supported! Please drop a file.')
+            sfx.alert.play()
+            return
+          }
+
+          const files = e.dataTransfer.files
+          if (files.length > 0) {
+            try {
+              await ingestFilePayload(files[0], maxSize)
+              inputEl.value = `📎 [FILE ATTACHED]\nName: ${files[0].name}\nSize: ${(
+                files[0].size / 1024
+              ).toFixed(1)} KB`
+              inputEl.readOnly = true
+              sfx.click.play()
+            } catch (err) {
+              // Error is already handled inside ingestFilePayload via terminal alert
+            }
           }
         }
       },

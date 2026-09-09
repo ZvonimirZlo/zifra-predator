@@ -93,6 +93,12 @@ main {
 }
 
 /* --- Green theme styles --- */
+/*
+ * The idea: blue + yellow => green.
+ * Technically, this is achieved through multiply blending:
+ * the yellow overlay filter transforms the existing blue palette
+ * into a green-ish version without recoloring the UI.
+ */
 #theme-overlay {
     position: fixed;
     top: 0;
