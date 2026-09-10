@@ -5,17 +5,21 @@ export const clickOnSide = side => {
   if (!cube) return
   const activeSide = cube.dataset.side
 
-
-// --- RESET PREVIOUS SIDE ---
+  // --- RESET PREVIOUS SIDE ---
   // This cleans up the face you are LEAVING so it's ready for next time
   const oldFace = document.querySelector(`.cube-face-${activeSide}`)
   if (oldFace) {
-    const elementsToReset = oldFace.querySelectorAll('.cube-line, .laser-scan, label, input, textarea, button')
+    const elementsToReset = oldFace.querySelectorAll(
+      '.cube-line, .laser-scan, label, input, textarea, button, .cube-headline'
+    )
     elementsToReset.forEach(el => {
       el.removeAttribute('style') // Nukes the Anime.js inline styles
+      //Resets box headline to 30px
+      if (el.classList.contains('cube-headline')) {
+        el.style.fontSize = '30px'
+      }
     })
   }
-
 
   cube.classList.replace(`show-${activeSide}`, `show-${side}`)
   cube.setAttribute('data-side', side)
@@ -46,24 +50,27 @@ export const clickOnSide = side => {
           },
           '-=800'
         )
-        .add({
-          targets: targetFace.querySelectorAll('.cube-line, img'),
-          opacity: [0,1],
-          clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'],
-          translateY: [-10, 0],
-          color: ['#00ffea', '#00ff00'],
-          easing: 'easeOutExpo',
-          duration: 800,
-          delay: anime.stagger(100), // Time between each line appearing
-          begin: function (anim) {},
-          changeComplete: function (el) {},
+        .add(
+          {
+            targets: targetFace.querySelectorAll('.cube-line, img'),
+            opacity: [0, 1],
+            clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'],
+            translateY: [-10, 0],
+            color: ['#00ffea', '#00ff00'],
+            easing: 'easeOutExpo',
+            duration: 800,
+            delay: anime.stagger(100), // Time between each line appearing
+            begin: function (anim) {},
+            changeComplete: function (el) {},
 
-          keyframes: [
-            { opacity: 1, duration: 100 },
-            { opacity: 0.5, duration: 100 },
-            { opacity: 1, duration: 100 }
-          ]
-        },'-=1000')
+            keyframes: [
+              { opacity: 1, duration: 100 },
+              { opacity: 0.5, duration: 100 },
+              { opacity: 1, duration: 100 }
+            ]
+          },
+          '-=1000'
+        )
     }
   }, 600)
 }
