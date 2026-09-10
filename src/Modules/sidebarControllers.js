@@ -90,10 +90,10 @@ export const translator = () => {
   const humanLabels = {
     front: 'Encrypter',
     right: 'Decrypter',
-    back: 'Manual',
-    left: 'About',
+    back: 'About',
+    left: 'Manual',
     top: 'Top',
-    bottom: 'Bottom'
+    bottom: 'Credits'
   }
   allBtns.forEach((btn, index) => {
     const side = btn.dataset.side
