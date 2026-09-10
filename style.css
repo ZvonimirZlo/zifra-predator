@@ -50,35 +50,158 @@ main {
 
 
 /* -------------- ALERT BOX ---------------- */
+
 .terminal-alert {
     position: fixed;
     top: 20px;
     left: -300px;
-    /* Start off-screen */
     width: 250px;
     height: 100px;
-    background: #000;
-    border: 14px solid transparent;
-    border-image-source: url(btnFrame.png);
-    border-image-slice: 20;
-    color: #ff0000;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
     padding: 15px;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
-    z-index: 9999;
+    box-sizing: border-box;
+    background:
+        repeating-linear-gradient(0deg,
+            rgba(255, 255, 255, .012) 0px,
+            rgba(255, 255, 255, .012) 1px,
+            transparent 1px,
+            transparent 3px),
+        linear-gradient(135deg,
+            #050806 0%,
+            #111812 35%,
+            #080d09 70%,
+            #151e16 100%);
+    color: var(--warning);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .8em;
+    letter-spacing: .04em;
+    line-height: 1.35;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    display: flex;
     justify-content: center;
-    font-size: .8em;
+    overflow: hidden;
+    z-index: 9999;
+    clip-path: polygon(12px 0,
+            calc(100% - 18px) 0,
+            100% 18px,
+            100% calc(100% - 12px),
+            calc(100% - 12px) 100%,
+            18px 100%,
+            0 calc(100% - 18px),
+            0 12px);
+    box-shadow:
+        0 0 0 1px #050805,
+        0 0 4px rgba(130, 170, 110, .35),
+        0 0 14px rgba(80, 130, 70, .15),
+        inset 0 0 18px rgba(0, 0, 0, .9);
+
+}
+
+.terminal-alert::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(135deg,
+            rgba(170, 195, 150, .28),
+            transparent 18%),
+        linear-gradient(315deg,
+            rgba(0, 0, 0, .7),
+            transparent 22%),
+        linear-gradient(110deg,
+            transparent 38%,
+            rgba(180, 210, 145, .04) 44%,
+            rgba(255, 220, 140, .15) 48%,
+            rgba(140, 190, 130, .04) 52%,
+            transparent 58%);
+    background-size:
+        100% 100%,
+        100% 100%,
+        250% 250%;
+    background-position:
+        0 0,
+        0 0,
+        200% 200%;
+    animation: alienReflection 6s linear infinite;
+}
+
+.terminal-alert::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(0deg,
+            transparent 0px,
+            transparent 3px,
+            rgba(130, 180, 110, .035) 4px),
+
+        linear-gradient(180deg,
+            transparent 0%,
+            rgba(130, 180, 100, .07) 48%,
+            transparent 52%);
+    background-size:
+        100% 100%,
+        100% 250%;
+    mix-blend-mode: screen;
+    animation: scanSweep 4s linear infinite;
+}
+
+
+@keyframes alienReflection {
+
+    0% {
+        background-position:
+            0 0,
+            0 0,
+            220% 220%;
+    }
+
+    100% {
+        background-position:
+            0 0,
+            0 0,
+            -40% -40%;
+    }
+}
+
+
+@keyframes scanSweep {
+
+    0% {
+        background-position:
+            0 0,
+            0 -100%;
+    }
+
+    100% {
+        background-position:
+            0 0,
+            0 100%;
+    }
+}
+
+
+
+.terminal-alert::selection {
+    background: rgba(130, 170, 100, .35);
+    color: #fff;
+}
+
+/* Detects if a user has enabled a setting on their device to minimize 
+non-essential motion or animations */
+@media (prefers-reduced-motion: reduce) {
+
+    .terminal-alert,
+    .terminal-alert::before,
+    .terminal-alert::after {
+        animation: none;
+    }
 }
 
 .alert-prefix {
     font-weight: bold;
     margin-right: 8px;
-    text-shadow: 0 0 5px red;
 }
 
 /* The "Scanning laser" line that moves across the alert box */
@@ -221,7 +344,7 @@ body.green-theme #theme-overlay {
 
 }
 
-@keyframes flicker {
+/* @keyframes flicker {
 
     0%,
     100% {
@@ -231,7 +354,7 @@ body.green-theme #theme-overlay {
     50% {
         opacity: 0.99;
     }
-}
+} */
 
 
 .cube-face::after {
@@ -254,6 +377,7 @@ body.green-theme #theme-overlay {
     z-index: 10;
 }
 
+/* Toggle pasword visibility */
 .eye-btn {
     font-size: 0.9rem;
     line-height: 1;
@@ -267,7 +391,7 @@ body.green-theme #theme-overlay {
     width: 35px;
 }
 
-
+/* Password input */
 .input-eye {
     display: flex;
     flex-direction: row;
@@ -275,6 +399,7 @@ body.green-theme #theme-overlay {
 }
 
 /* Password entropy styles */
+
 .strength-container {
     margin-bottom: 15px;
 }
@@ -416,7 +541,7 @@ textarea {
     text-shadow: 0 0 5px red;
     overflow-y: auto;
     height: 160px;
-    font-size: 24px;
+    font-size: 19px;
 }
 
 
@@ -441,9 +566,6 @@ textarea {
     transform-origin: top center;
 }
 
-.sidebar:hover {
-    background-color: red;
-}
 
 .sidebar::before {
     content: "";
@@ -457,6 +579,13 @@ textarea {
     background-size: cover;
     background-position: center;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
+.sidebar:hover {
+          filter:
+        drop-shadow(0 0 5px rgba(255, 0, 0, 0.35))
+        drop-shadow(0 0 20px rgba(255, 0, 0, 0.15));
 }
 
 .sidebar .navigate {
@@ -682,11 +811,11 @@ textarea {
     font-size: 14px;
 }
 
-/* .cube-face-right .mainInput {
+.cube-face-right .mainInput {
     font-family: 'Yautja', sans-serif;
     color: #ff0000;
-    font-size: 24px;
-} */
+    font-size: 18px;
+}
 
 /* Laser scan effect */
 .laser-scan {
@@ -727,9 +856,9 @@ textarea,
     color: #38B6FF;
     border: 1px solid #38B6FF;
     transition: all 0.2s ease-in-out;
-} */
+}
 
-/* button:not(.menu > button):not(.eye-btn):hover {
+button:not(.menu > button):not(.eye-btn):hover {
     background: #38B6FF;
     color: #000;
     box-shadow: 0 0 25px #38B6FF;
