@@ -384,6 +384,13 @@ body.green-theme #theme-overlay {
     z-index: 10;
 }
 
+.terminal-title {
+    color: var(--blue);
+    letter-spacing: clamp(1px, 1.5vw, 5px);
+    font-size: clamp(12px, min(2vw, 2vh), 15px);
+    line-height: 1.2;
+}
+
 /* Toggle pasword visibility */
 .eye-btn {
     font-size: 0.9rem;
@@ -709,25 +716,36 @@ textarea {
     z-index: 90;
 }
 
+
+
 /* Activates hamburger menu */
+
 @media (max-width: 900px) {
+      .cube-face {
+        justify-content: flex-start;
+        align-items: center;
+    }
     .menu-toggle {
         display: block;
         width: 60px !important;
-        height: 50px;
-        right: 10px;
-        top: 10px;
+        height: 40px;
+        right: 20px;
+        top: 5px;
         left: auto;
         position: fixed;
         z-index: 110;
         background: rgba(0, 0, 0, 0.8);
-        border: 1px solid var(--neon-blue);
+        border:1px solid var(--neon-blue);
         color: var(--neon-blue);
         margin: 0;
         padding: 0;
     }
 
 
+.terminal-title{
+    position: relative;
+    margin-top: -10px;
+}
     .sidebar {
         position: fixed;
         left: 0;
@@ -756,8 +774,6 @@ textarea {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     padding: 2px;
-    /* This becomes border thickness */
-
 
 }
 
@@ -776,11 +792,6 @@ textarea {
     padding-top: 5vh;
 }
 
-.terminal-title {
-    font-family: 'IBM Plex Mono', monospace;
-    color: var(--blue);
-    letter-spacing: 5px;
-}
 
 .cube-face-right .panel-content {
     transform: translateZ(5px);
@@ -1357,4 +1368,6 @@ img {
         filter: brightness(1.5) drop-shadow(0 0 8px #39ff14);
     }
 }
+
+
 
