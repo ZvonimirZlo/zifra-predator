@@ -437,6 +437,11 @@ img {
 /*========================================================================================================================================
                                                         ALERT BOX TERMINAL
   ========================================================================================================================================*/
+@property --holo-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
 
 .terminal-alert {
     position: fixed;
@@ -446,42 +451,85 @@ img {
     height: 100px;
     padding: 15px;
     box-sizing: border-box;
+
+    border: 1px solid transparent;
+
     background:
-        repeating-linear-gradient(0deg,
+        /* Scanlines */
+        repeating-linear-gradient(
+            0deg,
             rgba(255, 255, 255, .012) 0px,
             rgba(255, 255, 255, .012) 1px,
             transparent 1px,
-            transparent 3px),
-        linear-gradient(135deg,
+            transparent 3px
+        ),
+
+        /* Terminal interior */
+        linear-gradient(
+            135deg,
             #050806 0%,
             #111812 35%,
             #080d09 70%,
-            #151e16 100%);
+            #151e16 100%
+        ),
+        conic-gradient(
+    from var(--holo-angle),
+
+    #4aff72 0deg,
+    #b5ffca 30deg,
+    #43e8d0 65deg,
+    #39aaff 100deg,
+
+    /* WARNING ZONE */
+    #ff3030 120deg,
+    #ff0000 138deg,
+    #ffffff 148deg,
+    #ff0000 158deg,
+    #ff3030 175deg,
+
+    #ffcf67 205deg,
+    #8cff72 255deg,
+    #3fffc4 310deg,
+    #4aff72 360deg
+);
+
+    background-clip:
+        padding-box,
+        padding-box,
+        border-box;
+
     color: var(--warning);
     font-family: 'IBM Plex Mono', monospace;
     font-size: .8em;
     letter-spacing: .04em;
     line-height: 1.35;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     overflow: hidden;
     z-index: 9999;
-    clip-path: polygon(12px 0,
-            calc(100% - 18px) 0,
-            100% 18px,
-            100% calc(100% - 12px),
-            calc(100% - 12px) 100%,
-            18px 100%,
-            0 calc(100% - 18px),
-            0 12px);
+
     box-shadow:
-        0 0 0 1px #050805,
-        0 0 4px rgba(130, 170, 110, .35),
-        0 0 14px rgba(80, 130, 70, .15),
+        0 0 0 1px rgba(5, 8, 5, .9),
+        0 0 5px rgba(100, 255, 140, .35),
+        0 0 15px rgba(80, 200, 180, .18),
+        0 0 30px rgba(100, 255, 180, .08),
         inset 0 0 18px rgba(0, 0, 0, .9);
 
+    animation: holographicBorder 6s linear infinite;
 }
+
+@keyframes holographicBorder {
+    from {
+        --holo-angle: 0deg;
+    }
+
+    to {
+        --holo-angle: 360deg;
+    }
+}
+
 
 .terminal-alert::before {
     content: "";
@@ -601,7 +649,6 @@ non-essential motion or animations */
     background: rgba(255, 0, 0, 0.5);
     box-shadow: 0 0 10px red;
 }
-
 
 
 
