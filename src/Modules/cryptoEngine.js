@@ -10,7 +10,7 @@ let currentPayload = {
   isText: true // Flag to guide UI output choices (preview vs download)
 }
 
-const MAX_PREVIEW_LENGTH = 50000 // Prevents UI thread locking when rendering massive text outputs
+const MAX_PREVIEW_LENGTH = 10000 // Prevents UI thread locking when rendering massive text outputs
 
 // ==========================================
 // STACK-SAFE UTILITIES & ENGINE
