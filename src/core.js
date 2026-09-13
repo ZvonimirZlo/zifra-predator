@@ -14,7 +14,7 @@ const introLines = document.querySelectorAll('#intro-lines .line');
 const updateIntroLine = (index, statusText = 'OK') => {
   if (introLines[index]) {
     const currentText = introLines[index].textContent.split('.')[0];
-    introLines[index].textContent = `${currentText}......... [${statusText}]`;
+    introLines[index].textContent = `${currentText}${introLines[index].textContent.slice(introLines[index].textContent.indexOf('.'))}[${statusText}]`;
     introLines[index].style.color = 'red';
   }
 };
