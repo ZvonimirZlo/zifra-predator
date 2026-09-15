@@ -17,6 +17,7 @@ let nukeInterval = null;
 //Starts the countdown and reloads browser after 6,5 seconds
 export function startDecayCountdown () {
   sfx.beep.play()
+  showTerminalAlert('⚠️ KILLSWITCH ENGAGED\nABORT: NOT AVAILABLE SYSTEM REBOOT INITIATED  06')
   const allBtns = Array.from(document.querySelectorAll('.sidebar .btn'));
   const killBtn = document.getElementById('kill-button');
   //Disables the kill button
@@ -82,11 +83,11 @@ export const translator = () => {
   const buttons = document.querySelectorAll('.sidebar .btn');
     const blue = document.getElementById('blue');
 
-    if (buttons.length === 0) {
-        console.error("Translator Error: No buttons found in sidebar!");
-        return;
-    }
-  const active = document.querySelector('.status')
+    // if (buttons.length === 0) {
+    //     console.error("Translator Error: No buttons found in sidebar!");
+    //     return;
+    // }
+  // const active = document.querySelector('.status')
   const humanLabels = {
     front: 'Encrypter',
     right: 'Decrypter',

@@ -1449,6 +1449,13 @@ textarea,
     }
 }
 
+/* ---- Touch devices: disable custom predator cursor ---- */
+@media (hover: none) and (pointer: coarse) {
+    #predator-cursor {
+        display: none;
+    }
+}
+
 /*  */
 .panel-content {
     margin-top: 10%;

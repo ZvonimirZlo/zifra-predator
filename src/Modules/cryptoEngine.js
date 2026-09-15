@@ -121,8 +121,38 @@ async function decryptData (encryptedString, password) {
 const MAX_ENCRYPT_FILE_SIZE = 100 * 1024 * 1024; // ~100 MB size
 const MAX_DECRYPT_FILE_SIZE = 140 * 1024 * 1024; // ~140 MB (to accept encrypted files up to ~100MB original size)
 
+
+let memoryManager = {
+  activeBuffers: new Set(),
+  
+  trackBuffer(buffer) {
+    this.activeBuffers.add(buffer);
+    // Auto-cleanup after 5 minutes
+    setTimeout(() => {
+      this.activeBuffers.delete(buffer);
+      buffer = null; // Release reference
+    }, 300000);
+  },
+  
+  cleanup() {
+    this.activeBuffers.clear();
+  }
+};
+
+
+
+
 //Prevents browser crash if input file is too large
 async function ingestFilePayload (file, maxSize) {
+
+  // Clear old buffers before ingesting new
+  memoryManager.cleanup();
+  
+  const buffer = await file.arrayBuffer();
+  memoryManager.trackBuffer(buffer);
+
+
+
   if (file.size > maxSize) {
     throw new Error('FILE_TOO_LARGE'),
     showTerminalAlert(`File exceeds maximum limit of ${(maxSize / (1024 * 1024)).toFixed(0)}MB!`),
@@ -161,6 +191,8 @@ function triggerFileDownload (arrayBuffer, filename, defaultExt = '.enc') {
 // INTERFACE EXECUTION CONTROLLERS
 // ==========================================
 
+let isProcessing = false;
+
 // Handles encryption UI state, output rendering, and file downloads.
 export async function handleEncrypt () {
   const face = document.querySelector('.cube-face-front')
@@ -181,7 +213,11 @@ export async function handleEncrypt () {
       return showTerminalAlert('No data to encrypt!'), sfx.alert.play()
     ingestTextPayload(mainInput.value)
   }
-
+    if (isProcessing) {
+    showTerminalAlert('Operation in progress!');
+    return;
+  }
+    isProcessing = true;
   try {
     const encryptedResult = await encryptData(
       currentPayload.binaryData,
@@ -236,6 +272,7 @@ export async function handleEncrypt () {
     console.error('Encryption Failed:', err)
     sfx.error.play()
   } finally {
+    isProcessing = false;
     //Cleans inputs, resets payload states, and drops memory references for security reasons
     passInput.value = ''
     mainInput.value = ''
