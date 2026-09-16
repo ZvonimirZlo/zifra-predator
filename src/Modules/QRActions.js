@@ -1,3 +1,5 @@
+import QRCode from 'qrcode';
+import jsQR from 'jsqr';
 import { sfx } from "./soundControl";
 import { showTerminalAlert} from "./terminalAlert";
 
