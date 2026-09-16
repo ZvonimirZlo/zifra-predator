@@ -115,6 +115,9 @@ const initializeApplication = async () => {
     updateIntroLine(14);
 
     console.log('[CORE] All systems online.');
+    setTimeout(() => {
+      showTerminalAlert('[CORE] All systems online.');
+    },7000)
 
   } catch (error) {
     console.error('[CORE] Initialization sequence failed:', error);
