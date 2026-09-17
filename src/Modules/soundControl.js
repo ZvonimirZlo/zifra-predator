@@ -21,6 +21,7 @@ export const sfx = {
 // Apply 0.6 volume to all sounds automatically
 Object.values(sfx).forEach(sound => {
     sound.volume = 0.6;
+    sound.preload = 'auto';
 });
 
 

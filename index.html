@@ -6,13 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predator</title>
     <link rel="stylesheet" href="style.css">
-    <!-- <link href="fonts/Yautja.woff2" as="font" type="font/woff2" crossorigin> -->
-    <!-- <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Tilt+Prism&display=swap"
-        rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Tilt+Prism&display=swap"
-        rel="stylesheet">
-    <!-- <link rel="icon" href="data:;base64,iVBORw0KGgo=">  -->
+    <link rel="preload" href="/IBMBold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Yautja.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 
 <body>
@@ -30,7 +26,8 @@
             <div class="start">
                 <h1 class="intro-headline">Zifr@ Predator</h1>
                 <div class="fingerprint-container">
-                    <img src="/Images/fingerprint-5661868.webp" fetchpriority=high width="400" height="400" alt="Biometric Scan">
+                    <img src="/Images/fingerprint-1.webp" fetchpriority=high width="400" height="400"
+                        alt="Biometric Scan">
 
                     <div class="scan-line"></div>
                     <div class="matrix-rain"></div>
@@ -165,8 +162,7 @@
                     <div class="content-wrapper">
                         <h1 class="cube-line cube-headline" style="font-size: 30px;">Zifr@ Predator</h1>
                         <br>
-                        <img
-                            src="/Images/helmet.png" class="cube-line" alt="predator helmet"> <br>
+                        <img class="helmet" src="/Images/helmet-1.webp" class="cube-line" alt="predator helmet"> <br>
                         <div class="cube-line">Zifr@ Predator is an experimental security project</div>
                         <div class="cube-line">designed to explore secure data protection and encryption.</div>
                         <div class="cube-line">It uses industry-standard AES-256-GCM for authenticated encryption.</div>
@@ -448,8 +444,6 @@
         </section>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js" defer></script> -->
     <script type="module" src='src/core.js'></script>
 </body>
 
