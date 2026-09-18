@@ -5,7 +5,6 @@
 
 import { showTerminalAlert } from './Modules/terminalAlert.js';
 
-
 const sequencer = document.getElementById('boot-sequencer');
 const startBtn = document.querySelector('.start');
 const startingPoint = document.querySelector('.starting-point');
@@ -116,8 +115,11 @@ const initializeApplication = async () => {
 
     console.log('[CORE] All systems online.');
     setTimeout(() => {
+      const yautja = new Audio('public/Sounds/yautja.ogg');
+      yautja.volume = 0.5
       showTerminalAlert('[CORE] All systems online.');
-    },7000)
+      yautja.play()
+    },6000)
 
   } catch (error) {
     console.error('[CORE] Initialization sequence failed:', error);

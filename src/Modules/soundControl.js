@@ -15,7 +15,7 @@ export const sfx = {
     countdown: new Audio('/Sounds/countdown-boom.ogg'),
     beep: new Audio('/Sounds/beepP.ogg'),
     calibrating: new Audio('/Sounds/calibrating.ogg'),
-    unlock: new Audio('/Sounds/unlockingGauntlet.ogg')
+    unlock: new Audio('/Sounds/unlockingGauntlet.ogg'),
 };
 
 // Apply 0.6 volume to all sounds automatically

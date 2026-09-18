@@ -10,7 +10,7 @@ export const clickOnSide = side => {
   const oldFace = document.querySelector(`.cube-face-${activeSide}`)
   if (oldFace) {
     const elementsToReset = oldFace.querySelectorAll(
-      '.cube-line, .laser-scan, label, input, textarea, button, .cube-headline'
+      '.cube-line, .laser-scan, label, input, textarea, button, .cube-headline, img'
     )
     elementsToReset.forEach(el => {
       el.removeAttribute('style') // Nukes the Anime.js inline styles
