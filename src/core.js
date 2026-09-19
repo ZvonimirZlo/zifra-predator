@@ -97,8 +97,14 @@ const initializeApplication = async () => {
 
     // 7. QR Dropzone
     const qrModule = await import('./Modules/QRActions.js')
-    qrModule.initQRDropZone('#decrypter_input')
-    updateIntroLine(9)
+    try {
+      qrModule.qrDiagnostics()
+      qrModule.initQRDropZone('#decrypter_input')
+      updateIntroLine(9)
+    } catch (error) {
+      console.warn('[QR] Diagnostics failed:', error)
+      updateIntroLine(9, 'WARN')
+    }
 
     // 8. Decrypter Scanner
     qrModule.initDecrypterScanner()

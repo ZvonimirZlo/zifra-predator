@@ -226,3 +226,73 @@ async function handleQRExtract () {
     easing: 'easeOutExpo'
   })
 }
+
+// Checks and diagnoses qr actions
+
+export const qrDiagnostics = () => {
+    const results = [];
+
+    if (typeof QRCode !== 'object' && typeof QRCode !== 'function') {
+        results.push({
+            name: 'QRCode',
+            status: 'FAIL',
+            reason: 'QRCode library unavailable'
+        });
+    } else {
+        results.push({
+            name: 'QRCode',
+            status: 'OK'
+        });
+    }
+
+    if (typeof jsQR !== 'function') {
+        results.push({
+            name: 'jsQR',
+            status: 'FAIL',
+            reason: 'jsQR library unavailable'
+        });
+    } else {
+        results.push({
+            name: 'jsQR',
+            status: 'OK'
+        });
+    }
+
+    if (typeof generateQR !== 'function') {
+        results.push({
+            name: 'generateQR',
+            status: 'FAIL',
+            reason: 'QR generation function unavailable'
+        });
+    } else {
+        results.push({
+            name: 'generateQR',
+            status: 'OK'
+        });
+    }
+
+    if (typeof scanQRData !== 'function') {
+        results.push({
+            name: 'scanQRData',
+            status: 'FAIL',
+            reason: 'QR scanner function unavailable'
+        });
+    } else {
+        results.push({
+            name: 'scanQRData',
+            status: 'OK'
+        });
+    }
+
+    console.table(results);
+
+    const failures = results.filter(x => x.status === 'FAIL');
+
+    if (failures.length) {
+        throw new Error(
+            `[QR] ${failures.length}/${results.length} diagnostics failed`
+        );
+    }
+
+    return results;
+};
