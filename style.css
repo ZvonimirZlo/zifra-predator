@@ -44,6 +44,15 @@ body {
     place-items: center;
 }
 
+main {
+    display: flex;
+    justify-content: center;
+    /* Horizontally centers the scene */
+    align-items: center;
+    /* Vertically centers the scene */
+    min-height: 100vh;
+}
+
 
 
 /* ================================================================================================================================
@@ -309,30 +318,6 @@ body {
 
 /* Animations  */
 
-
-/* @keyframes letterGlow {
-    0% {
-        opacity: 0;
-        text-shadow: none;
-    }
-
-    45% {
-        opacity: 1;
-        text-shadow:
-            0 0 3px #0F0,
-            0 0 10px #0F0,
-            0 0 25px #0F0,
-            0 0 45px rgba(0, 255, 0, 0.5);
-    }
-
-    100% {
-        opacity: 1;
-        text-shadow:
-            0 0 3px #0F0,
-            0 0 8px #0F0,
-            0 0 16px rgba(0, 255, 0, 0.7);
-    }
-} */
 @keyframes letterGlow {
     0% {
         opacity: 0;
@@ -553,7 +538,6 @@ img {
     font-size: 0.7rem;
     color: #ff0000;
     margin-top: 10px;
-    /* opacity: 0.8; */
 }
 
 .countdown-glyph {
@@ -562,8 +546,6 @@ img {
     color: #ff0000;
     text-shadow: 0 0 20px #ff0000;
     width: 300px;
-    /* text-align: center; */
-    /* transition: transform 0.1s ease-out; */
 }
 
 .first-line {
@@ -742,6 +724,27 @@ img {
     animation: scanSweep 4s linear infinite;
 }
 
+.terminal-alert::selection {
+    background: rgba(130, 170, 100, .35);
+    color: #fff;
+}
+
+.alert-prefix {
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+/* The "Scanning laser" line that moves across the alert box */
+.alert-scanner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 10px red;
+}
+
 
 @keyframes holographicBorder {
     from {
@@ -789,11 +792,6 @@ img {
 
 
 
-.terminal-alert::selection {
-    background: rgba(130, 170, 100, .35);
-    color: #fff;
-}
-
 /* Detects if a user has enabled a setting on their device to minimize 
 non-essential motion or animations */
 @media (prefers-reduced-motion: reduce) {
@@ -805,35 +803,12 @@ non-essential motion or animations */
     }
 }
 
-.alert-prefix {
-    font-weight: bold;
-    margin-right: 8px;
-}
-
-/* The "Scanning laser" line that moves across the alert box */
-.alert-scanner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2px;
-    height: 100%;
-    background: rgba(255, 0, 0, 0.5);
-    box-shadow: 0 0 10px red;
-}
 
 
 
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
-main {
-    display: flex;
-    justify-content: center;
-    /* Horizontally centers the scene */
-    align-items: center;
-    /* Vertically centers the scene */
-    min-height: 100vh;
-}
 
 
 
@@ -948,7 +923,7 @@ body.green-theme #theme-overlay {
 }
 
 
-/* ------Cube face------ */
+/* ------Cube faces------ */
 .cube-face {
     position: absolute;
     width: var(--cube-size);
@@ -973,16 +948,16 @@ body.green-theme #theme-overlay {
 }
 
 
+/* =================== CUBE FACE FRONT / CUBE FACE RIGHT ==================== */
+
+
 /* ---Cube headline ---*/
 .cube-headline {
     font-size: 30px;
-    /* color: white !important; */
     filter: drop-shadow(0 0 5px #39FF14);
 }
 
 .scene {
-    width: 800px;
-    height: 800px;
     perspective: 1800px;
     display: grid;
     place-items: center;
@@ -1056,18 +1031,6 @@ body.green-theme #theme-overlay {
     opacity: 0;
 }
 
-
-/* @keyframes flicker {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.99;
-    }
-} */
 
 
 .cube-face::after {
@@ -1198,6 +1161,70 @@ textarea {
     height: 160px;
     font-size: 19px;
 }
+
+.hud-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5vh;
+}
+
+
+.cube-face-right .panel-content {
+    transform: translateZ(5px);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+
+#encrypted_output,
+#decrypter_input {
+    font-family: 'yautja', monospace;
+}
+
+
+#decrypter_output {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+}
+
+.cube-face-right .mainInput::placeholder {
+    font-family: 'IBM Plex Mono', monospace;
+    /* Human readable */
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+.cube-face-right .mainInput {
+    font-family: 'yautja', sans-serif;
+    color: #ff0000;
+    font-size: 18px;
+}
+
+textarea,
+.output-box,
+.passInput,
+.eye-btn {
+    color: red;
+    background: rgba(0, 10, 20, 0.8);
+    border: 1px solid var(--borderColor);
+}
+
+/* =================== CUBE FACE BACK ==================== */
+
+.helmet {
+    width: 195px;
+    height: 200px;
+}
+
+
 
 
 /* ==============================================================================================================================
@@ -1369,61 +1396,6 @@ textarea {
 }
 
 
-.hud-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 5vh;
-}
-
-
-.cube-face-right .panel-content {
-    transform: translateZ(5px);
-    will-change: transform;
-    backface-visibility: hidden;
-}
-
-
-.terminal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-
-#encrypted_output,
-#decrypter_input {
-    font-family: 'yautja', monospace;
-}
-
-
-#decrypter_output {
-    font-family: 'Courier New', Courier, monospace;
-    color: #00ff41;
-    font-size: 16px;
-}
-
-.cube-face-right .mainInput::placeholder {
-    font-family: 'IBM Plex Mono', monospace;
-    /* Human readable */
-    letter-spacing: 1px;
-    font-size: 14px;
-}
-
-.cube-face-right .mainInput {
-    font-family: 'yautja', sans-serif;
-    color: #ff0000;
-    font-size: 18px;
-}
-
 /* -----Laser scan effect -----*/
 .laser-scan {
     position: absolute;
@@ -1448,20 +1420,6 @@ textarea {
 .scanning .cube-face {
     box-shadow: inset 0 0 100px rgba(255, 0, 0, 0.2);
     transition: box-shadow 0.3s;
-}
-
-textarea,
-.output-box,
-.passInput {
-    color: red;
-    background: rgba(0, 10, 20, 0.8);
-    border: 1px solid #003366;
-}
-
-
-.passInput,
-.eye-btn {
-    border: 1px solid var(--borderColor);
 }
 
 
@@ -1636,18 +1594,10 @@ textarea,
     z-index: 1000;
 }
 
-textarea {
+textarea,.output-box {
     height: clamp(100px, calc(var(--cube-size) * 0.20), 160px);
 }
 
-.output-box {
-    height: clamp(100px, calc(var(--cube-size) * 0.20), 160px);
-}
-
-.helmet {
-    width: 195px;
-    height: 200px;
-}
 
 
 

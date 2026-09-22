@@ -455,3 +455,101 @@ export const cryptoProcessors = () => {
   if (encryptBtn) encryptBtn.addEventListener('click', handleEncrypt)
   if (decryptBtn) decryptBtn.addEventListener('click', handleDecrypt)
 }
+
+
+export const cryptoDiagnostics = async () => {
+  const results = [];
+
+  const addResult = (name, status, reason = '') => {
+    results.push({
+      name,
+      status,
+      ...(reason && { reason })
+    });
+  };
+
+  if (!window.crypto) {
+    addResult('Crypto API', 'FAIL', 'window.crypto unavailable');
+  } else {
+    addResult('Crypto API', 'OK');
+  }
+
+  if (!window.crypto?.subtle) {
+    addResult('SubtleCrypto', 'FAIL', 'crypto.subtle unavailable');
+  } else {
+    addResult('SubtleCrypto', 'OK');
+  }
+
+  if (typeof window.crypto?.getRandomValues === 'function') {
+    addResult('Random Values', 'OK');
+  } else {
+    addResult('Random Values', 'FAIL');
+  }
+
+  if (typeof TextEncoder !== 'undefined') {
+    addResult('TextEncoder', 'OK');
+  } else {
+    addResult('TextEncoder', 'FAIL');
+  }
+
+  if (typeof TextDecoder !== 'undefined') {
+    addResult('TextDecoder', 'OK');
+  } else {
+    addResult('TextDecoder', 'FAIL');
+  }
+
+  if (typeof btoa === 'function' && typeof atob === 'function') {
+    addResult('Base64', 'OK');
+  } else {
+    addResult('Base64', 'FAIL');
+  }
+
+  // Test the actual cryptographic primitives that engine uses.
+  if (window.crypto?.subtle) {
+    try {
+      const key = await window.crypto.subtle.importKey(
+        'raw',
+        new TextEncoder().encode('diagnostic'),
+        'PBKDF2',
+        false,
+        ['deriveKey']
+      );
+
+      await window.crypto.subtle.deriveKey(
+        {
+          name: 'PBKDF2',
+          salt: new Uint8Array(16),
+          iterations: 1,
+          hash: 'SHA-256'
+        },
+        key,
+        {
+          name: 'AES-GCM',
+          length: 256
+        },
+        false,
+        ['encrypt', 'decrypt']
+      );
+
+      addResult('PBKDF2 + AES-GCM', 'OK');
+    } catch (error) {
+      addResult(
+        'PBKDF2 + AES-GCM',
+        'FAIL',
+        error.message
+      );
+    }
+  }
+
+  console.table(results);
+
+  const failures = results.filter(x => x.status === 'FAIL');
+
+  if (failures.length) {
+    throw new Error(
+      `[CRYPTO] ${failures.length}/${results.length} diagnostics failed`
+    );
+  }
+
+  return results;
+};
