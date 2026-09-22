@@ -1104,7 +1104,8 @@ body.green-theme #theme-overlay {
 }
 
 
-/* Terminal buttons */
+/* ---------Terminal buttons --------*/
+
 button:not(.menu > button):not(.eye-btn):not(.theme-btn) {
     background: var(--neon);
     color: #000;
@@ -1131,7 +1132,7 @@ button:not(.menu > button):not(.eye-btn):hover {
 
 
 
-/* --Inputs-- */
+/* -----Inputs----- */
 
 textarea,
 input {
@@ -1147,7 +1148,7 @@ textarea {
     resize: none;
 }
 
-/* -- Output -- */
+/* ----- Output ----- */
 
 .output-box {
     margin-top: 20px;
@@ -1191,7 +1192,7 @@ textarea {
 
 
 #decrypter_output {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'IBM Plex Mono', Courier, monospace;
     font-size: 13px;
 }
 
@@ -1395,8 +1396,12 @@ textarea,
 
 }
 
+/* ==========================================================================================================================================
+                                                              UTILS && EFFECTS 
+   ==========================================================================================================================================
 
-/* -----Laser scan effect -----*/
+/* --------------------Laser scan effect -----------------*/
+
 .laser-scan {
     position: absolute;
     top: 0;
@@ -1422,6 +1427,47 @@ textarea,
     transition: box-shadow 0.3s;
 }
 
+/* ------Download prompt in case file is too large ------*/
+#encryptDownloadPrompt {
+    display: none;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#encryptDownloadBtn {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#decryptDownloadPrompt {
+    display: none; 
+    text-align: center; 
+    margin-top: 10px;
+}
+
+
+/* ------------------QR Action styles ------------------*/
+
+#qr_overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #00ff41;
+}
+
+.qr-actions {
+    margin-top: 10px; 
+    display: flex; 
+    gap: 10px;
+}
 
 /* =====================================================================================
                                  RESPONSIVE DESIGN
@@ -1594,7 +1640,8 @@ textarea,
     z-index: 1000;
 }
 
-textarea,.output-box {
+textarea,
+.output-box {
     height: clamp(100px, calc(var(--cube-size) * 0.20), 160px);
 }
 
