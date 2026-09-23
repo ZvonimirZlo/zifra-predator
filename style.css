@@ -891,9 +891,8 @@ body.green-theme #theme-overlay {
 }
 
 
-/* 400px intentionally hardcoded: var(--cube-half) causes visible blur on resize*/
 .cube-face-front {
-    transform: rotateY(0deg) translateZ(400px);
+    transform: rotateY(0deg) translateZ(var(--cube-half));
 }
 
 
