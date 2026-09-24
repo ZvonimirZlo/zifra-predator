@@ -156,10 +156,21 @@ document
   .addEventListener('click', () => setTheme('blue'))
 }
 
+
 export const initSidebarVisibility = () => {
-  //Toggle sidebar visibility
-document.querySelector('.menu-toggle').addEventListener('click', toggleSidebar)
-}
+  const menuToggle = document.querySelector('.menu-toggle');
+  const sidebarButtons = document.querySelectorAll('.sidebar .btn');
+
+  // Toggle via hamburger icon
+  menuToggle.addEventListener('click', toggleSidebar);
+
+  // Close when any sidebar button is clicked
+  sidebarButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('sidebar').classList.remove('open');
+    });
+  });
+};
 
 
 export const initRebootSequence = () => {
