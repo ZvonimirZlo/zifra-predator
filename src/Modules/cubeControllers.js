@@ -52,7 +52,7 @@ export const clickOnSide = side => {
         )
         .add(
           {
-            targets: targetFace.querySelectorAll('.cube-line, img'),
+            targets: targetFace.querySelectorAll('.cube-line, img, strong'),
             opacity: [0, 1],
             clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'],
             translateY: [-10, 0],

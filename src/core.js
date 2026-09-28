@@ -11,7 +11,7 @@ const startingPoint = document.querySelector('.starting-point')
 const sidebar = document.getElementById('sidebar')
 const introLines = document.querySelectorAll('#intro-lines .line')
 
-// Helper to update specific terminal lines sequentially
+// // Helper to update specific terminal lines sequentially
 const updateIntroLine = (index, statusText = 'OK') => {
   if (introLines[index]) {
     const currentText = introLines[index].textContent.split('.')[0]
@@ -39,7 +39,7 @@ const createSidebarUnlocker = translator => {
 //each module waits for the previous dynamic import to finish
 const initializeApplication = async () => {
   try {
-    // 0. Boot Sequence
+    // // 0. Boot Sequence
     const bootModule = await import('./Modules/bootSequence.js')
     bootModule.startBootSequence()
     updateIntroLine(0)

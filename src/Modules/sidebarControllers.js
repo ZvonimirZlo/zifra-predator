@@ -93,7 +93,7 @@ export const translator = () => {
     right: 'Decrypter',
     back: 'About',
     left: 'Manual',
-    top: 'Top',
+    top: 'Legend',
     bottom: 'Credits'
   }
   allBtns.forEach((btn, index) => {

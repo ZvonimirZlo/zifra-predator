@@ -309,7 +309,7 @@ main {
     animation: glitch-text 0.3s infinite;
 }
 
-/* --------------------------------Blinking cursor------------------------------*/
+/* ----------Blinking cursor------------*/
 .cursor {
     display: inline-block;
     animation: blink 0.6s infinite;
@@ -741,8 +741,8 @@ img {
     left: 0;
     width: 2px;
     height: 100%;
-    background: rgba(255, 0, 0, 0.5);
-    box-shadow: 0 0 10px red;
+    background: var(--neon);
+    box-shadow: 0 0 10px rgb(0, 255, 0);
 }
 
 
@@ -802,18 +802,6 @@ non-essential motion or animations */
         animation: none;
     }
 }
-
-
-
-
-
-/* ------------------------------------------------------------------------------------------------------------------ */
-
-
-
-
-
-
 
 
 /* --- Green theme styles --- */
@@ -949,12 +937,6 @@ body.green-theme #theme-overlay {
 
 /* =================== CUBE FACE FRONT / CUBE FACE RIGHT ==================== */
 
-
-/* ---Cube headline ---*/
-.cube-headline {
-    font-size: 30px;
-    filter: drop-shadow(0 0 5px #39FF14);
-}
 
 .scene {
     perspective: 1800px;
@@ -1224,6 +1206,25 @@ textarea,
     height: 200px;
 }
 
+/* ---Cube headline ---*/
+.cube-headline {
+    font-size: 24px;
+    font-family: 'IBM Bold', monospace;
+    filter: drop-shadow(0 0 5px #39FF14);
+}
+
+/* ---------------------------------------------------------------- */
+.content-wrapper-t {
+    width: 70%;
+    max-width: 700px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+
 
 
 
@@ -1439,8 +1440,8 @@ textarea,
 }
 
 #decryptDownloadPrompt {
-    display: none; 
-    text-align: center; 
+    display: none;
+    text-align: center;
     margin-top: 10px;
 }
 
@@ -1463,8 +1464,8 @@ textarea,
 }
 
 .qr-actions {
-    margin-top: 10px; 
-    display: flex; 
+    margin-top: 10px;
+    display: flex;
     gap: 10px;
 }
 
