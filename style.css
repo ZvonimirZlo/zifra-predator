@@ -54,6 +54,14 @@ main {
 }
 
 
+.red-skull {
+font-size: 1.2em; /* Makes the emoji slightly larger than the text */
+    display: inline-block;
+    /* This filter tints the white/gray emoji into a fierce red */
+    filter: invert(15%) sepia(95%) saturate(7000%) hue-rotate(350deg) brightness(90%) contrast(110%);
+    text-shadow: 0 0 6px rgba(255, 1, 1, 0.8);
+}
+
 
 /* ================================================================================================================================
                                             INTRO SCENE, FINGERPRINT START BUTTON, HEADLINE
@@ -1578,7 +1586,6 @@ textarea,
 
 @media (max-width: 1025px) {
     .cube-face {
-        justify-content: flex-start;
         align-items: center;
     }
 

@@ -14,7 +14,7 @@ export async function generateQR(encryptedText, canvasId, overlayId) {
 
     try {
         await QRCode.toCanvas(canvas, encryptedText, {
-            errorCorrectionLevel: 'H',
+            errorCorrectionLevel: 'H',//High error correction
             width: 220,
             margin: 1,
             color: { dark: "#00FF41", light: "#000000" }

@@ -88,7 +88,7 @@
 
             <button class="stealth">STEALTH_OFF &#128266;</button>
             <!-- <button class="stealth">PRE_PROCESSOR_OFF</button> -->
-            <button class=" kill-btn" id="kill-button">REBOOT_SYSTEM ⚠️</button>
+            <button class=" kill-btn" id="kill-button"><span class="red-skull">💀</span> REBOOT_SYSTEM</button>
         </nav>
 
         <div id="theme-overlay"></div>
@@ -97,7 +97,7 @@
             <!-- Front view -->
             <div class="cube show-front" id="cube" data-side="front">
 
-                <!-- Front -->
+                <!-- Front/Encrypter -->
                 <div class="cube-face cube-face-front">
                     <div class="laser-scan"></div>
                     <div class="hud-overlay">
@@ -126,7 +126,7 @@
                         <div class="terminal-controls enc">
 
                             <button class="control-btn">LINK_DATA</button>
-                            <button class="control-btn btn-purge">⚠️PURGE</button>
+                            <button class="control-btn btn-purge">⚠️ PURGE</button>
                             <button class="control-btn">CLONE_EXTRACT</button>
                             <button class="control-btn btn-bio-key">GENERATE_QR</button>
                             <!-- <button class="control-btn">PRE_PROCESSOR</button>
@@ -163,18 +163,30 @@
                     <div class="content-wrapper">
                         <h1 class="cube-line cube-headline">Zifr@ Predator</h1>
                         <br>
-                        <img class="helmet" src="/Images/helmet-1.webp" class="cube-line" alt="predator helmet"> <br>
-                        <div class="cube-line">Zifr@ Predator is an experimental security project</div>
-                        <div class="cube-line">designed to explore secure data protection and encryption.</div>
-                        <div class="cube-line">It uses industry-standard AES-256-GCM for authenticated encryption.</div>
-                        <div class="cube-line">This project is intended for educational and portfolio purposes.</div>
-                        <div class="cube-line">It has not been independently audited or security-certified.</div>
+                        <img class="helmet cube-line" src="/Images/helmet-1.webp" alt="predator helmet"> <br>
+                        <div class="cube-line">Experimental security project exploring data protection.</div>
+                        <br>
+                        <div class="cube-line"><strong>[ARCHITECTURE & TECH]</strong></div>
+                        <div class="cube-line">— 100% Client-side execution (Zero server storage).</div>
+                        <div class="cube-line">— Powered by native Web Crypto API (AES-256-GCM).</div>
+                        <div class="cube-line">— Auto-handles large payloads via local file downloads.</div>
+                        <div class="cube-line">— Real-time password entropy & strength analysis.</div>
+                        <div class="cube-line">— Dynamic terminal alert system & real-time audio telemetry.</div>
+                        <br>
+                        <div class="cube-line"><strong>[DIAGNOSTIC ENGINE]</strong></div>
+                        <div class="cube-line">— Progressive async loader synced with visual boot sequence.</div>
+                        <div class="cube-line">— Real-time subsystem health-checks (Audio & QR).</div>
+                        <div class="cube-line">— Defensive fault-tolerance with automated fallback error alerts.</div>
+                        <br>
+                        <div class="cube-line"><strong>[DISCLAIMER]</strong></div>
+                        <div class="cube-line">Built for educational and portfolio purposes.</div>
+                        <div class="cube-line">Not independently audited or certified.</div>
                         <div class="cube-line">Use for sensitive data at your own risk.</div>
                     </div>
                 </div>
 
 
-                <!-- Right -->
+                <!-- Right/Decrypter -->
                 <div class="cube-face cube-face-right">
                     <div class="laser-scan"></div>
                     <div class="hud-overlay">
@@ -199,7 +211,7 @@
                         <button>PROCESS</button>
                         <div class="terminal-controls">
                             <button class="control-btn">LINK_DATA</button>
-                            <button class="control-btn btn-purge">PURGE</button>
+                            <button class="control-btn btn-purge">⚠️ PURGE</button>
                             <button class="control-btn">CLONE_EXTRACT</button>
                         </div>
 
@@ -219,32 +231,13 @@
                 <div class="cube-face cube-face-left">
                     <div class="laser-scan"></div>
                     <div class="content-wrapper">
-                        <!-- <h1 class="cube-line cube-headline">How To Use This App</h1>
-                        <br>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div>
-                        <div class="cube-line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nostrum?</div> -->
                         <h1 class="cube-line cube-headline">How To Use This App</h1> <br>
-                        <div class="cube-line">Choose ENCRYPTER to secure your data.</div>
+                        <div class="cube-line">Watch for <strong>[CORE]</strong> terminal alerts for system feedback.</div>
+                        <div class="cube-line">Choose <strong>ENCRYPTER</strong> to secure your data.</div>
                         <div class="cube-line">Enter a strong secure key for encryption.</div>
                         <div class="cube-line">Check the password strength/entropy indicator.</div>
                         <div class="cube-line">Enter text, paste by using <strong>LINK DATA</strong></div>
-                        <div class="cube-line">button or drop a file into the input.</div>
+                        <div class="cube-line">button or drop a file (up to ~100MB) into the input.</div>
                         <div class="cube-line">Press PROCESS to begin encryption.</div>
                         <div class="cube-line">Small results appear in the output terminal.</div>
                         <div class="cube-line">Large payloads can be downloaded as files.</div>
@@ -267,24 +260,25 @@
                     <h1 class="cube-line cube-headline">LEGEND</h1> <br>
                     <div class="content-wrapper content-wrapper-t">
                         <!-- <h1 class="cube-line cube-headline">LEGEND</h1> <br> -->
-                        <div class="cube-line">[ENCRYPTER] — Encrypt text or files.</div>
-                        <div class="cube-line">[DECRYPTER] — Decrypt encrypted payloads.</div>
-                        <div class="cube-line">[ABOUT] — View project information.</div>
-                        <div class="cube-line">[MANUAL] — Open the usage guide.</div>
-                        <div class="cube-line">[LEGEND] — Access the top interface.</div>
-                        <div class="cube-line">[CREDITS] — View project credits.</div>
-                        <div class="cube-line">[DAY MODE] — Switch to the blue theme.</div>
-                        <div class="cube-line">[NIGHT MODE] — Switch to the green theme.</div>
-                        <div class="cube-line">[STEALTH] — Toggle application sounds.</div>
-                        <div class="cube-line">[REBOOT_SYSTEM] — Restart the application.</div>
-                        <div class="cube-line">[PROCESS] — Encrypt or decrypt the payload.</div>
-                        <div class="cube-line">[EYE] — Show or hide the password.</div>
-                        <div class="cube-line">[LINK_DATA] — Paste text or scan a QR image.</div>
-                        <div class="cube-line">[PURGE] — Clear the current input, output and password.</div>
-                        <div class="cube-line">[CLONE_EXTRACT] — Copy the processed output.</div>
-                        <div class="cube-line">[GENERATE_QR] — Convert encrypted data to QR.</div>
-                        <div class="cube-line">[COPY_SIGNATURE] — Copy the generated QR image.</div>
-                        <div class="cube-line">[DOWNLOAD QR] — Save the generated QR image.</div>
+                        <div class="cube-line"><strong>[ENCRYPTER]</strong> — Encrypt text or files.</div>
+                        <div class="cube-line"><strong>[DECRYPTER]</strong> — Decrypt encrypted payloads.</div>
+                        <div class="cube-line"><strong>[ABOUT]</strong> — View project information.</div>
+                        <div class="cube-line"><strong>[MANUAL]</strong> — Open the usage guide.</div>
+                        <div class="cube-line"><strong>[LEGEND]</strong> — Access the top interface.</div>
+                        <div class="cube-line"><strong>[CREDITS]</strong> — View project credits.</div>
+                        <div class="cube-line"><strong>[DAY MODE]</strong> — Switch to the blue theme.</div>
+                        <div class="cube-line"><strong>[NIGHT MODE]</strong> — Switch to the green theme.</div>
+                        <div class="cube-line"><strong>[STEALTH]</strong> — Toggle application sounds.</div>
+                        <div class="cube-line"><strong>[REBOOT_SYSTEM]</strong> — Restart the application.</div>
+                        <div class="cube-line"><strong>[PROCESS]</strong> — Encrypt or decrypt the payload.</div>
+                        <div class="cube-line"><strong>[EYE]</strong> — Show or hide the password.</div>
+                        <div class="cube-line"><strong>[LINK_DATA]</strong> — Paste text or scan a QR image.</div>
+                        <div class="cube-line"><strong>[PURGE]</strong> — Clear the current input, output and password.
+                        </div>
+                        <div class="cube-line"><strong>[CLONE_EXTRACT]</strong> — Copy the processed output.</div>
+                        <div class="cube-line"><strong>[GENERATE_QR]</strong>— Convert encrypted data to QR.</div>
+                        <div class="cube-line"><strong>[COPY_SIGNATURE]</strong> — Copy the generated QR image.</div>
+                        <div class="cube-line"><strong>[DOWNLOAD QR]</strong> — Save the generated QR image.</div>
                     </div>
                 </div>
 
