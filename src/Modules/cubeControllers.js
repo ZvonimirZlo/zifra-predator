@@ -60,7 +60,23 @@ export const clickOnSide = side => {
             easing: 'easeOutExpo',
             duration: 800,
             delay: anime.stagger(100), // Time between each line appearing
-            begin: function (anim) {},
+            begin: function (anim) {
+              // Loop through each specific element being animated
+              anim.animatables.forEach((el, index) => {
+                const targetEl = el.target;
+      
+                // 1. Start this specific element in the alien font
+                targetEl.style.fontFamily = 'yautja';
+
+                // 2. Calculate its stagger delay (fallback to index * 80 if el.delay isn't direct)
+                const elementDelay = el.delay !== undefined ? el.delay : index * 80;
+
+                // 3. Switch to IBM shortly after *this specific element* starts (e.g., X ms later)
+                setTimeout(() => {
+                  targetEl.style.fontFamily = 'IBM Plex Mono';
+                }, elementDelay + 340);
+              });
+            },
             changeComplete: function (el) {},
 
             keyframes: [

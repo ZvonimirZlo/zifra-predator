@@ -233,14 +233,3 @@ export const terminalActions = () => {
   })
 })
 }
-
-// export const animeDiagnostics = () => {
-//   if (typeof window.anime !== 'function') {
-//     throw new Error('[ANIME] Anime.js API unavailable')
-//   }
-
-//   return true
-// }
-
-// const animeModule = await import('./Modules/terminalAlert.js')
-// animeModule.animeDiagnostics()

@@ -1002,7 +1002,9 @@ body.green-theme #theme-overlay {
     align-items: center;
     flex-direction: column;
     justify-content: center;
-
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
 }
 
 .content-wrapper img {
@@ -1011,13 +1013,14 @@ body.green-theme #theme-overlay {
 
 .cube-line {
     position: relative;
-    color: var(--neon);
     line-height: 1.2;
     text-align: center;
     color: var(--neon);
     display: inline-block;
     font-size: 14px;
     opacity: 0;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 

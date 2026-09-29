@@ -135,7 +135,7 @@
                         </div>
 
                         <textarea readonly class="resultOutput output-box" id="encrypted_output"></textarea>
-
+                        <!-- Download prompt container -->
                         <div id="encryptDownloadPrompt">
                             <p style="color: #00ff41;">[!] Payload too large for terminal window.</p>
                             <button id="encryptDownloadBtn">
@@ -143,7 +143,7 @@
                             </button>
                         </div>
 
-
+                       <!-- QR overlay container-->
                         <div id="qr_overlay">
                             <canvas id="qr_canvas"></canvas>
                             <div class="qr-actions">
@@ -217,6 +217,8 @@
 
 
                         <textarea class="resultOutput output-box" id="decrypter_output"></textarea>
+
+                        <!-- Download file prompt container -->
                         <div id="decryptDownloadPrompt">
                             <p style="color: #00ff41;">[!] Decrypted payload too large for terminal window.</p>
                             <button id="decryptDownloadBtn" style="padding: 10px 20px; cursor: pointer;">
@@ -227,7 +229,7 @@
                     </div>
                 </div>
 
-                <!-- Left -->
+                <!-- Left/How to use -->
                 <div class="cube-face cube-face-left">
                     <div class="laser-scan"></div>
                     <div class="content-wrapper">
@@ -254,7 +256,7 @@
                     </div>
                 </div>
 
-                <!-- Top -->
+                <!-- Top/Legend -->
                 <div class="cube-face cube-face-top">
                     <div class="laser-scan"></div>
                     <h1 class="cube-line cube-headline">LEGEND</h1> <br>
@@ -273,8 +275,7 @@
                         <div class="cube-line"><strong>[PROCESS]</strong> — Encrypt or decrypt the payload.</div>
                         <div class="cube-line"><strong>[EYE]</strong> — Show or hide the password.</div>
                         <div class="cube-line"><strong>[LINK_DATA]</strong> — Paste text or scan a QR image.</div>
-                        <div class="cube-line"><strong>[PURGE]</strong> — Clear the current input, output and password.
-                        </div>
+                        <div class="cube-line"><strong>[PURGE]</strong> — Clear the current input, output and password.</div>
                         <div class="cube-line"><strong>[CLONE_EXTRACT]</strong> — Copy the processed output.</div>
                         <div class="cube-line"><strong>[GENERATE_QR]</strong>— Convert encrypted data to QR.</div>
                         <div class="cube-line"><strong>[COPY_SIGNATURE]</strong> — Copy the generated QR image.</div>
