@@ -58,7 +58,7 @@ main {
 font-size: 1.2em; /* Makes the emoji slightly larger than the text */
     display: inline-block;
     /* This filter tints the white/gray emoji into a fierce red */
-    filter: invert(15%) sepia(95%) saturate(7000%) hue-rotate(350deg) brightness(90%) contrast(110%);
+    /* filter: invert(15%) sepia(95%) saturate(7000%) hue-rotate(160deg) brightness(90%) contrast(110%); */
     text-shadow: 0 0 6px rgba(255, 1, 1, 0.8);
 }
 
@@ -1222,6 +1222,13 @@ textarea,
     font-size: 24px;
     font-family: 'IBM Bold', monospace;
     filter: drop-shadow(0 0 5px #39FF14);
+}
+
+/* =================== CUBE FACE BOTTOM ==================== */
+
+.logo{
+    width: 350px;
+    height: 350px;
 }
 
 /* ---------------------------------------------------------------- */
