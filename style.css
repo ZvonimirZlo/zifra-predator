@@ -1002,7 +1002,7 @@ body.green-theme #theme-overlay {
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    overflow: hidden;
+    /* overflow: hidden; */
     white-space: nowrap;
     max-width: 100%;
 }

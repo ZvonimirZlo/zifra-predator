@@ -147,17 +147,17 @@ async function ingestFilePayload (file, maxSize) {
 
   // Clear old buffers before ingesting new
   memoryManager.cleanup();
+
+    if (file.size > maxSize) {
+    throw new Error('FILE_TOO_LARGE'),
+    showTerminalAlert(`File exceeds maximum limit of ${(maxSize / (1024 * 1024)).toFixed(0)}MB!`),
+    sfx.alert.play()
+  }
   
   const buffer = await file.arrayBuffer();
   memoryManager.trackBuffer(buffer);
 
 
-
-  if (file.size > maxSize) {
-    throw new Error('FILE_TOO_LARGE'),
-    showTerminalAlert(`File exceeds maximum limit of ${(maxSize / (1024 * 1024)).toFixed(0)}MB!`),
-    sfx.alert.play()
-  }
   currentPayload.binaryData = await file.arrayBuffer()
   currentPayload.fileName = file.name
   currentPayload.isText =

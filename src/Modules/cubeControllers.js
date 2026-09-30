@@ -53,36 +53,65 @@ export const clickOnSide = side => {
         .add(
           {
             targets: targetFace.querySelectorAll('.cube-line, img, strong'),
+
             opacity: [0, 1],
+
             clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'],
-            translateY: [-10, 0],
+
+            translateX: [-6, 0],
+            translateY: [-8, 0],
+
             color: ['#00ffea', '#00ff00'],
+
             easing: 'easeOutExpo',
             duration: 800,
-            delay: anime.stagger(100), // Time between each line appearing
+            delay: anime.stagger(100),
+
             begin: function (anim) {
-              // Loop through each specific element being animated
               anim.animatables.forEach((el, index) => {
-                const targetEl = el.target;
-      
-                // 1. Start this specific element in the alien font
-                targetEl.style.fontFamily = 'yautja';
+                const target = el.target
+                const elementDelay = index * 100
 
-                // 2. Calculate its stagger delay (fallback to index * 80 if el.delay isn't direct)
-                const elementDelay = el.delay !== undefined ? el.delay : index * 80;
+                // Alien/transmission state
+                target.style.fontFamily = 'yautja'
+                target.style.fontWeight = '700'
+                target.style.textShadow = '0 0 4px #00ffea, 0 0 12px #00ffea'
 
-                // 3. Switch to IBM shortly after *this specific element* starts (e.g., X ms later)
+                // Resolve into readable text
                 setTimeout(() => {
-                  targetEl.style.fontFamily = 'IBM Plex Mono';
-                }, elementDelay + 340);
-              });
+                  target.style.fontFamily = 'IBM Plex Mono'
+                  // target.style.fontWeight = 'bold'
+                  target.style.textShadow = 'none'
+                }, elementDelay + 240)
+              })
             },
-            changeComplete: function (el) {},
 
             keyframes: [
-              { opacity: 1, duration: 100 },
-              { opacity: 0.5, duration: 100 },
-              { opacity: 1, duration: 100 }
+              {
+                opacity: 1,
+                translateX: 0,
+                duration: 100
+              },
+              {
+                opacity: 0.25,
+                translateX: -4,
+                duration: 60
+              },
+              {
+                opacity: 1,
+                translateX: 3,
+                duration: 60
+              },
+              {
+                opacity: 0.5,
+                translateX: -2,
+                duration: 40
+              },
+              {
+                opacity: 1,
+                translateX: 0,
+                duration: 180
+              }
             ]
           },
           '-=1000'

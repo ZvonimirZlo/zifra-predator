@@ -130,7 +130,7 @@ const initializeApplication = async () => {
     console.log('[CORE] All systems online.')
     setTimeout(() => {
       const yautja = new Audio('public/Sounds/yautja.ogg')
-      yautja.volume = 0.3
+      yautja.volume = 0.2
       showTerminalAlert('[CORE] All systems online.')
       yautja.play()
     }, 6000)
