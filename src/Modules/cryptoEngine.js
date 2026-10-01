@@ -158,7 +158,7 @@ async function ingestFilePayload (file, maxSize) {
   memoryManager.trackBuffer(buffer);
 
 
-  currentPayload.binaryData = await file.arrayBuffer()
+  currentPayload.binaryData = buffer;
   currentPayload.fileName = file.name
   currentPayload.isText =
     file.type.startsWith('text/') || file.name.endsWith('.enc')
