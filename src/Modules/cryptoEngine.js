@@ -63,7 +63,6 @@ function b64ToUint8 (b64) {
 // UNIFIED CRYPTO CORE (Raw Byte Processing)
 // ==========================================
 
-
 // Encryption function
 
 // Raw byte processing via ArrayBuffer
@@ -115,50 +114,49 @@ async function decryptData (encryptedString, password) {
 // saves its original filename, and checks its MIME type or file extension
 // to determine if it is text-based or already encrypted (.enc).
 
-
-// MAX_ENCRYPT_FILE_SIZE and MAX_DECRYPT_FILE_SIZE block oversized files before 
+// MAX_ENCRYPT_FILE_SIZE and MAX_DECRYPT_FILE_SIZE block oversized files before
 // they exhaust browser memory during arrayBuffer() ingestion
-const MAX_ENCRYPT_FILE_SIZE = 100 * 1024 * 1024; // ~100 MB size
-const MAX_DECRYPT_FILE_SIZE = 140 * 1024 * 1024; // ~140 MB (to accept encrypted files up to ~100MB original size)
-
+const MAX_ENCRYPT_FILE_SIZE = 100 * 1024 * 1024 // ~100 MB size
+const MAX_DECRYPT_FILE_SIZE = 140 * 1024 * 1024 // ~140 MB (to accept encrypted files up to ~100MB original size)
 
 let memoryManager = {
   activeBuffers: new Set(),
-  
-  trackBuffer(buffer) {
-    this.activeBuffers.add(buffer);
+
+  trackBuffer (buffer) {
+    this.activeBuffers.add(buffer)
     // Auto-cleanup after 5 minutes
     setTimeout(() => {
-      this.activeBuffers.delete(buffer);
-      buffer = null; // Release reference
-    }, 300000);
+      this.activeBuffers.delete(buffer)
+      buffer = null // Release reference
+    }, 300000)
   },
-  
-  cleanup() {
-    this.activeBuffers.clear();
+
+  cleanup () {
+    this.activeBuffers.clear()
   }
-};
-
-
-
+}
 
 //Prevents browser crash if input file is too large
 async function ingestFilePayload (file, maxSize) {
-
   // Clear old buffers before ingesting new
-  memoryManager.cleanup();
+  memoryManager.cleanup()
 
-    if (file.size > maxSize) {
-    throw new Error('FILE_TOO_LARGE'),
-    showTerminalAlert(`File exceeds maximum limit of ${(maxSize / (1024 * 1024)).toFixed(0)}MB!`),
-    sfx.alert.play()
+  if (file.size > maxSize) {
+    throw (
+      (new Error('FILE_TOO_LARGE'),
+      showTerminalAlert(
+        `File exceeds maximum limit of ${(maxSize / (1024 * 1024)).toFixed(
+          0
+        )}MB!`
+      ),
+      sfx.alert.play())
+    )
   }
-  
-  const buffer = await file.arrayBuffer();
-  memoryManager.trackBuffer(buffer);
 
+  const buffer = await file.arrayBuffer()
+  memoryManager.trackBuffer(buffer)
 
-  currentPayload.binaryData = buffer;
+  currentPayload.binaryData = buffer
   currentPayload.fileName = file.name
   currentPayload.isText =
     file.type.startsWith('text/') || file.name.endsWith('.enc')
@@ -191,7 +189,8 @@ function triggerFileDownload (arrayBuffer, filename, defaultExt = '.enc') {
 // INTERFACE EXECUTION CONTROLLERS
 // ==========================================
 
-let isProcessing = false;
+let isProcessing = false
+const lab = document.getElementById('lab')
 
 // Handles encryption UI state, output rendering, and file downloads.
 export async function handleEncrypt () {
@@ -213,11 +212,11 @@ export async function handleEncrypt () {
       return showTerminalAlert('No data to encrypt!'), sfx.alert.play()
     ingestTextPayload(mainInput.value)
   }
-    if (isProcessing) {
-    showTerminalAlert('Operation in progress!');
-    return;
+  if (isProcessing) {
+    showTerminalAlert('Operation in progress!')
+    return
   }
-    isProcessing = true;
+  isProcessing = true
   try {
     const encryptedResult = await encryptData(
       currentPayload.binaryData,
@@ -272,7 +271,7 @@ export async function handleEncrypt () {
     console.error('Encryption Failed:', err)
     sfx.error.play()
   } finally {
-    isProcessing = false;
+    isProcessing = false
     //Cleans inputs, resets payload states, and drops memory references for security reasons
     passInput.value = ''
     mainInput.value = ''
@@ -281,6 +280,11 @@ export async function handleEncrypt () {
     strengthBar.style.width = 0
     strengthLabel.innerText = 'STRENGTH: EMPTY'
     strengthLabel.style.color = '#38B6FF'
+    lab.href = '#'
+    lab.style.backgroundColor = ''
+    lab.style.borderColor = '#003366'
+    lab.style.cursor = 'default'
+    lab.style.boxShadow = ''
   }
 }
 
@@ -397,7 +401,6 @@ export const cryptoProcessors = () => {
   const encryptInput = document.getElementById('encrypterInput')
   const decryptInput = document.getElementById('decrypter_input')
 
-
   const setupDropListeners = (inputEl, maxSize) => {
     if (!inputEl) return
     ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eName => {
@@ -417,11 +420,14 @@ export const cryptoProcessors = () => {
         const items = e.dataTransfer.items
         if (items && items.length > 0) {
           const item = items[0]
-          
+
           // Check if dropped item is a directory/folder using webkitGetAsEntry() method
-          const entry = typeof item.getAsEntry === 'function' 
-            ? item.getAsEntry() 
-            : (typeof item.webkitGetAsEntry === 'function' ? item.webkitGetAsEntry() : null)
+          const entry =
+            typeof item.getAsEntry === 'function'
+              ? item.getAsEntry()
+              : typeof item.webkitGetAsEntry === 'function'
+              ? item.webkitGetAsEntry()
+              : null
 
           if (entry && entry.isDirectory) {
             showTerminalAlert('Folders are not supported! Please drop a file.')
@@ -433,9 +439,9 @@ export const cryptoProcessors = () => {
           if (files.length > 0) {
             try {
               await ingestFilePayload(files[0], maxSize)
-              inputEl.value = `📎 [FILE ATTACHED]\nName: ${files[0].name}\nSize: ${(
-                files[0].size / 1024
-              ).toFixed(1)} KB`
+              inputEl.value = `📎 [FILE ATTACHED]\nName: ${
+                files[0].name
+              }\nSize: ${(files[0].size / 1024).toFixed(1)} KB`
               inputEl.readOnly = true
               sfx.click.play()
             } catch (err) {
@@ -451,57 +457,55 @@ export const cryptoProcessors = () => {
   setupDropListeners(encryptInput, MAX_ENCRYPT_FILE_SIZE)
   setupDropListeners(decryptInput, MAX_DECRYPT_FILE_SIZE)
 
-
   if (encryptBtn) encryptBtn.addEventListener('click', handleEncrypt)
   if (decryptBtn) decryptBtn.addEventListener('click', handleDecrypt)
 }
 
-
 export const cryptoDiagnostics = async () => {
-  const results = [];
+  const results = []
 
   const addResult = (name, status, reason = '') => {
     results.push({
       name,
       status,
       ...(reason && { reason })
-    });
-  };
+    })
+  }
 
   if (!window.crypto) {
-    addResult('Crypto API', 'FAIL', 'window.crypto unavailable');
+    addResult('Crypto API', 'FAIL', 'window.crypto unavailable')
   } else {
-    addResult('Crypto API', 'OK');
+    addResult('Crypto API', 'OK')
   }
 
   if (!window.crypto?.subtle) {
-    addResult('SubtleCrypto', 'FAIL', 'crypto.subtle unavailable');
+    addResult('SubtleCrypto', 'FAIL', 'crypto.subtle unavailable')
   } else {
-    addResult('SubtleCrypto', 'OK');
+    addResult('SubtleCrypto', 'OK')
   }
 
   if (typeof window.crypto?.getRandomValues === 'function') {
-    addResult('Random Values', 'OK');
+    addResult('Random Values', 'OK')
   } else {
-    addResult('Random Values', 'FAIL');
+    addResult('Random Values', 'FAIL')
   }
 
   if (typeof TextEncoder !== 'undefined') {
-    addResult('TextEncoder', 'OK');
+    addResult('TextEncoder', 'OK')
   } else {
-    addResult('TextEncoder', 'FAIL');
+    addResult('TextEncoder', 'FAIL')
   }
 
   if (typeof TextDecoder !== 'undefined') {
-    addResult('TextDecoder', 'OK');
+    addResult('TextDecoder', 'OK')
   } else {
-    addResult('TextDecoder', 'FAIL');
+    addResult('TextDecoder', 'FAIL')
   }
 
   if (typeof btoa === 'function' && typeof atob === 'function') {
-    addResult('Base64', 'OK');
+    addResult('Base64', 'OK')
   } else {
-    addResult('Base64', 'FAIL');
+    addResult('Base64', 'FAIL')
   }
 
   // Test the actual cryptographic primitives that engine uses.
@@ -513,7 +517,7 @@ export const cryptoDiagnostics = async () => {
         'PBKDF2',
         false,
         ['deriveKey']
-      );
+      )
 
       await window.crypto.subtle.deriveKey(
         {
@@ -529,27 +533,23 @@ export const cryptoDiagnostics = async () => {
         },
         false,
         ['encrypt', 'decrypt']
-      );
+      )
 
-      addResult('PBKDF2 + AES-GCM', 'OK');
+      addResult('PBKDF2 + AES-GCM', 'OK')
     } catch (error) {
-      addResult(
-        'PBKDF2 + AES-GCM',
-        'FAIL',
-        error.message
-      );
+      addResult('PBKDF2 + AES-GCM', 'FAIL', error.message)
     }
   }
 
-  console.table(results);
+  console.table(results)
 
-  const failures = results.filter(x => x.status === 'FAIL');
+  const failures = results.filter(x => x.status === 'FAIL')
 
   if (failures.length) {
     throw new Error(
       `[CRYPTO] ${failures.length}/${results.length} diagnostics failed`
-    );
+    )
   }
 
-  return results;
-};
+  return results
+}
