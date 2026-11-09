@@ -39,25 +39,17 @@ const createSidebarUnlocker = translator => {
 //each module waits for the previous dynamic import to finish
 const initializeApplication = async () => {
   try {
-    // // 0. Boot Sequence
+    // Boot Sequence
     const bootModule = await import('./Modules/bootSequence.js')
     bootModule.startBootSequence()
     updateIntroLine(0)
 
-    // 1. Cursor & Utils Base
+    // Cursor & Utils Base
     const utilsModule = await import('./Modules/utils.js')
     utilsModule.initCursor()
     updateIntroLine(1)
 
-    // 2. Sidebar & Theme Controllers
-    const sidebarModule = await import('./Modules/sidebarControllers.js')
-    sidebarModule.initTheme()
-    updateIntroLine(2)
-
-    sidebarModule.initSidebarVisibility()
-    updateIntroLine(3)
-
-    // 3. Sound Control
+        // Sound Control
     const soundModule = await import('./Modules/soundControl.js')
     soundModule.initStealthMode()
     //separate try/catch so it doesn't crash the whole app
@@ -69,12 +61,20 @@ const initializeApplication = async () => {
       updateIntroLine(4, 'FAIL')
     }
 
-    // 4. Reboot Sequence
+    // Sidebar & Theme Controllers
+    const sidebarModule = await import('./Modules/sidebarControllers.js')
+    sidebarModule.initTheme()
+    updateIntroLine(2)
+
+    sidebarModule.initSidebarVisibility()
+    updateIntroLine(3)
+
+    // Reboot Sequence
     sidebarModule.initRebootSequence()
     updateIntroLine(5)
     createSidebarUnlocker(sidebarModule.translator)
 
-    // 5. Password Strength UI
+    // Password Strength UI
     document.querySelectorAll('.toggle-visibility').forEach(btn => {
       btn.addEventListener('click', event => {
         event.stopPropagation()
@@ -90,12 +90,12 @@ const initializeApplication = async () => {
     })
     updateIntroLine(7)
 
-    // 6. Cube Listeners
+    // Cube Listeners
     const cubeModule = await import('./Modules/cubeControllers.js')
     cubeModule.initCubeListeners()
     updateIntroLine(8)
 
-    // 7. QR Dropzone
+    // QR Dropzone
     const qrModule = await import('./Modules/QRActions.js')
     try {
       qrModule.qrDiagnostics()
@@ -106,23 +106,23 @@ const initializeApplication = async () => {
       updateIntroLine(9, 'WARN')
     }
 
-    // 8. Decrypter Scanner
+    // Decrypter Scanner
     qrModule.initDecrypterScanner()
     updateIntroLine(10)
 
-    // 9. Arrow Key Navigation
+    // Arrow Key Navigation
     utilsModule.arrowKeyNavigator()
     updateIntroLine(11)
 
-    // 10. QR Controller
+    //  QR Controller
     qrModule.initQRController()
     updateIntroLine(12)
 
-    // 11. Terminal Actions
+    // Terminal Actions
     utilsModule.terminalActions()
     updateIntroLine(13)
 
-    // 12. Crypto Engine
+    // Crypto Engine
     const cryptoModule = await import('./Modules/cryptoEngine.js')
     cryptoModule.cryptoProcessors()
     updateIntroLine(14)
