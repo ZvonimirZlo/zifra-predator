@@ -243,13 +243,6 @@ export function terminalPurge (selector) {
     }
   }
 
-  const lab = face.querySelector('#lab')
-  lab.style.backgroundColor = ''
-  lab.style.borderColor = '#003366'
-  lab.style.cursor = 'default'
-  lab.style.boxShadow = ''
-  alertShown = false
-
   // 4. Visual Feedback (The "Wipe" effect)
   window.anime({
     targets: face.querySelectorAll('.panel-content > *'), // Shake everything
@@ -258,6 +251,14 @@ export function terminalPurge (selector) {
     duration: 400,
     easing: 'easeInOutQuad'
   })
+
+  //Lab button styles reset
+  const lab = face.querySelector('#lab')
+  lab.style.backgroundColor = ''
+  lab.style.borderColor = '#003366'
+  lab.style.cursor = 'default'
+  lab.style.boxShadow = ''
+  alertShown = false
 }
 
 //Copy function
