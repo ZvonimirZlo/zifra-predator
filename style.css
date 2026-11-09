@@ -924,18 +924,15 @@ body.green-theme #theme-overlay {
     width: var(--cube-size);
     height: var(--cube-size);
     padding: 10px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    background-color: rgba(0, 0, 0, 0.8);
+background-color: rgba(0, 0, 0, 0.8);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-
-    background-image:
+background-image:
         radial-gradient(circle,
             rgba(0, 0, 0, 0) 60%,
             rgba(0, 0, 0, 0.7) 100%),
@@ -964,7 +961,7 @@ body.green-theme #theme-overlay {
     grid-template-columns: 1fr 1fr;
     gap: 5px;
     width: 100%;
-    margin-top: 10px;
+    /* margin-top: 10px; */
 }
 
 .control-btn {
@@ -1132,7 +1129,7 @@ input {
     background: #000;
     color: var(--neon);
     border: 1px solid var(--borderColor);
-    padding: 12px;
+    padding: 8px;
 }
 
 textarea {
@@ -1144,14 +1141,13 @@ textarea {
 
 .output-box {
     margin-top: 20px;
-    padding: 15px;
     border: 1px solid var(--neon);
     background: #030303;
     color: red;
     font-family: 'yautja', monospace;
     text-shadow: 0 0 5px red;
     overflow-y: auto;
-    height: 160px;
+    /* height: 160px;*/
     font-size: 19px;
 }
 
@@ -1177,13 +1173,13 @@ textarea {
 }
 
 
-#encrypted_output,
-#decrypter_input {
+/* #encrypted_output
+{
     font-family: 'yautja', monospace;
-}
+} */
 
 
-#decrypter_output {
+#decrypter_output, #decrypter_input {
     font-family: 'IBM Plex Mono', Courier, monospace;
     font-size: 13px;
 }
