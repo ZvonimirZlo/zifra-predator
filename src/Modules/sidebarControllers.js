@@ -94,7 +94,7 @@ export const translator = () => {
     back: 'About',
     left: 'Manual',
     top: 'Legend',
-    bottom: 'Credits'
+    bottom: 'Info'
   }
   allBtns.forEach((btn, index) => {
     const side = btn.dataset.side
