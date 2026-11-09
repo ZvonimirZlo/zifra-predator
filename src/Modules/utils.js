@@ -65,6 +65,50 @@ export function togglePassword(btn) {
 }
 
 
+//Password lab link(will be updated when finished)
+const password = document.getElementById('passOne');
+const lab = document.getElementById('lab');
+
+let alertShown = false; // Track if the alert has already popped up
+
+if (password && lab) {
+    password.addEventListener('input', () => {
+        if (password.value.length > 0) {
+            lab.href = `https://zifr.netlify.app/`;//Temp link
+            lab.target = '_blank';
+            lab.style.backgroundColor = 'rgba(0, 255, 65, 0.15)'; 
+            lab.style.borderColor = '#00ff41';
+            lab.style.color = '#00ff41';
+            lab.style.boxShadow = '0 0 12px rgba(0, 255, 65, 0.6), inset 0 0 4px rgba(0, 255, 65, 0.4)';
+            lab.style.cursor = 'pointer';
+            
+            // Only trigger the alert the FIRST time they start typing
+            if (!alertShown) {
+                showTerminalAlert("You can use Zyfr@Lab for deep password analysis!");
+                alertShown = true; // Mark it as shown
+            }
+        } else {
+            lab.href = '#'
+            lab.style.backgroundColor = ''; 
+            lab.style.borderColor = '#003366'
+            lab.style.cursor = 'default';
+            lab.style.boxShadow = ''
+            alertShown = false; // Reset so the alert can show again if they clear and re-type
+        }
+    });
+
+    lab.addEventListener('click', () => {
+        if (password.value.length > 0) {
+            sfx.click.play();
+            // window.location.href = '/pass-lab?key=' + encodeURIComponent(password.value);
+        } else {
+            sfx.alert.play();
+            showTerminalAlert("Zyf@Lab locked: Input is empty.");
+        }
+    });
+}
+
+
 //Update pass strength
 export function updateStrength(inputEl) {
     const pass = inputEl.value;

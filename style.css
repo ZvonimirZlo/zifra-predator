@@ -1069,6 +1069,12 @@ background-image:
     height: 35px;
 }
 
+.lab{
+    width: 45px;
+    color: grey !important;
+    text-decoration: none;
+}
+
 /* ------Password entropy styles------ */
 
 .strength-container {
