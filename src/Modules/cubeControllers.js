@@ -41,7 +41,7 @@ export const clickOnSide = side => {
         .add(
           {
             targets: targetFace.querySelectorAll(
-              'label, input, textarea, button'
+              'label, input, textarea, button, a'
             ),
             opacity: [0.5, 1],
             translateY: [10, 0],
