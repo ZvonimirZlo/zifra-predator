@@ -64,8 +64,7 @@ export function togglePassword(btn) {
     }
 }
 
-
-//Password lab link(will be updated when finished)
+//Link to the lab, will be updated!
 const password = document.getElementById('passOne');
 const lab = document.getElementById('lab');
 
@@ -74,7 +73,7 @@ let alertShown = false; // Track if the alert has already popped up
 if (password && lab) {
     password.addEventListener('input', () => {
         if (password.value.length > 0) {
-            lab.href = `https://zifr.netlify.app/`;//Temp link
+            lab.href = `https://zifr.netlify.app/`; // Temp link
             lab.target = '_blank';
             lab.style.backgroundColor = 'rgba(0, 255, 65, 0.15)'; 
             lab.style.borderColor = '#00ff41';
@@ -88,22 +87,23 @@ if (password && lab) {
                 alertShown = true; // Mark it as shown
             }
         } else {
-            lab.href = '#'
+            lab.href = '#';
             lab.style.backgroundColor = ''; 
-            lab.style.borderColor = '#003366'
+            lab.style.borderColor = '#003366';
             lab.style.cursor = 'default';
-            lab.style.boxShadow = ''
+            lab.style.boxShadow = '';
             alertShown = false; // Reset so the alert can show again if they clear and re-type
         }
     });
 
-    lab.addEventListener('click', () => {
+    lab.addEventListener('click', (e) => {
         if (password.value.length > 0) {
             sfx.click.play();
             // window.location.href = '/pass-lab?key=' + encodeURIComponent(password.value);
         } else {
+            e.preventDefault(); // Stop the browser from navigating/reloading on href="#"
             sfx.alert.play();
-            showTerminalAlert("Zyf@Lab locked: Input is empty.");
+            showTerminalAlert("Zyfr@Lab locked: Input is empty.");
         }
     });
 }
